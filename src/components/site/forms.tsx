@@ -106,7 +106,7 @@ export function FormShell({
   );
 }
 
-function Wrap({ id, label, required, error, children, hint }: { id: string; label: string; required?: boolean; error?: string; children: ReactNode; hint?: string }) {
+function Wrap({ id, label, required, error, children, hint }: { id: string; label: string; required?: boolean | undefined; error?: string | undefined; children: ReactNode; hint?: string }) {
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block font-medium">

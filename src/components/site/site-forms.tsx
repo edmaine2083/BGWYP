@@ -33,7 +33,7 @@ export function InterestForm() {
     self_signup: z.boolean(), heard_from: optional,
   });
   const f = useForm(schema, { guardian_name: "", email: "", phone: "", zip: "", age_range: "", self_signup: false, heard_from: "" });
-  const self = !!f.values.self_signup;
+  const self = !!f.values["self_signup"];
   return (
     <FormShell table="interest_list" title="Interest List" onValid={f.validate} submitLabel="Join the interest list"
       success="You're on the interest list. We'll share updates as enrollment opens.">
@@ -63,9 +63,9 @@ export function PartnerForm() {
       success="Thank you. We'll follow up about partnering together."
       extraAboveSubmit={
         <button type="button" className="btn btn-outline-deep mr-3"
-          aria-pressed={!!f.values.wants_template}
-          onClick={() => f.set("wants_template", !f.values.wants_template)}>
-          {f.values.wants_template ? "✓ Letter of commitment template requested" : "Request a letter of commitment template"}
+          aria-pressed={!!f.values["wants_template"]}
+          onClick={() => f.set("wants_template", !f.values["wants_template"])}>
+          {f.values["wants_template"] ? "✓ Letter of commitment template requested" : "Request a letter of commitment template"}
         </button>
       }>
       <div className="grid gap-5 sm:grid-cols-2">
@@ -89,7 +89,7 @@ export function ContactForm() {
   return (
     <FormShell table="contact_messages" title="Send us a message" onValid={f.validate} submitLabel="Send message"
       success="Thank you for reaching out. We'll reply soon."
-      extraAboveSubmit={f.values.topic === "Safety concern" ? (
+      extraAboveSubmit={f.values["topic"] === "Safety concern" ? (
         <p role="alert" className="rounded-lg border-2 border-destructive p-4 font-semibold text-destructive">If a young person is in danger, call 911.</p>
       ) : null}>
       <div className="grid gap-5 sm:grid-cols-2">

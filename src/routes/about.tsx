@@ -23,7 +23,7 @@ const PEOPLE = [
   ["Ja-Mel Johnson", "Board Member; Chair, Governance Committee"],
   ["Daniel M. Wilkins", "Board Member; Chair, Risk & Safeguarding Committee"],
 ];
-const initials = (n: string) => n.replace(/^Dr\.\s/, "").split(/\s+/).filter((w) => /^[A-Z]/.test(w) && !w.endsWith(".") && w !== "MBA").map((w) => w[0]).slice(0, 2).join("");
+const initials = (n: string) => n.replace(/^Dr\.\s/, "").split(/\s+/).filter((w) => /^[A-Z]/.test(w) && !w.endsWith(".") && w !== "MBA").map((w) => w.charAt(0)).slice(0, 2).join("");
 
 function About() {
   return (
