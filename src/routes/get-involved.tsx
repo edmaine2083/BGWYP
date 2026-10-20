@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Gift, Armchair, Briefcase, HeartHandshake, Share2, Handshake } from "lucide-react";
-import { SUPPORT_HREF } from "@/config";
 import { seo } from "@/lib/seo";
 import { Card, H2, PageHero, Section } from "@/components/site/ui";
 import { InterestForm, VolunteerForm } from "@/components/site/site-forms";
@@ -12,7 +11,7 @@ export const Route = createFileRoute("/get-involved")({
 
 function GetInvolved() {
   const cards = [
-    { i: Gift, t: "Give", d: "Support the first cohort. See the Donate page.", href: SUPPORT_HREF === "/donate" ? "/donate" : "/donate", label: "Donate page" },
+    { i: Gift, t: "Give", d: "Support the first cohort. See the Donate page.", href: "/donate", label: "Donate page" },
     { i: Armchair, t: "Sponsor a seat or a facilitator", d: "$6,630 funds a young person's full year; $3,600 funds a summer facilitator." },
     { i: Briefcase, t: "Host a sector shadow", d: "Welcome small groups to see your work. We train and accompany our young people, and you will never be alone with one." },
     { i: HeartHandshake, t: "Mentor or volunteer", d: "Open after screening and training. Apply with the form below.", href: "#volunteer", label: "Apply below" },

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ShieldCheck, FileText } from "lucide-react";
-import { SAFEGUARDING_EMAIL, SAFEGUARDING_PHONE, isPlaceholder, telHref } from "@/config";
+import { SAFEGUARDING_EMAIL, SAFEGUARDING_PHONE } from "@/config";
+import { Contactish } from "@/components/site/Contactish";
 import { seo } from "@/lib/seo";
 import { Card, H2, PageHero, Reveal, Section, T } from "@/components/site/ui";
 
@@ -20,11 +21,6 @@ const ITEMS = [
   "Insurance and a signed site agreement before we open. No young person is on site until both are in place.",
   "Independent oversight. A Board committee reviews safety, screening, incidents, and insurance.",
 ];
-
-export function Contactish({ value, kind }: { value: string; kind: "tel" | "mail" }) {
-  if (isPlaceholder(value)) return <T>{value}</T>;
-  return <a className="font-semibold text-gold-deep underline" href={kind === "tel" ? telHref(value) : `mailto:${value}`}>{value}</a>;
-}
 
 function Safety() {
   return (

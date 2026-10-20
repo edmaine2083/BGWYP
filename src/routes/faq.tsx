@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { SAFEGUARDING_PHONE } from "@/config";
 import { seo } from "@/lib/seo";
 import { PageHero, Section, T } from "@/components/site/ui";
-import { Contactish } from "./safety";
+import { Contactish } from "@/components/site/Contactish";
 import type { ReactNode } from "react";
 
 export const Route = createFileRoute("/faq")({
