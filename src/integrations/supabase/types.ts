@@ -14,7 +14,171 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          topic: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          topic: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          topic?: string
+        }
+        Relationships: []
+      }
+      donation_notify_list: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      interest_list: {
+        Row: {
+          age_range: string
+          created_at: string
+          email: string
+          guardian_name: string
+          heard_from: string | null
+          id: string
+          phone: string | null
+          self_signup: boolean
+          zip: string
+        }
+        Insert: {
+          age_range: string
+          created_at?: string
+          email: string
+          guardian_name: string
+          heard_from?: string | null
+          id?: string
+          phone?: string | null
+          self_signup?: boolean
+          zip: string
+        }
+        Update: {
+          age_range?: string
+          created_at?: string
+          email?: string
+          guardian_name?: string
+          heard_from?: string | null
+          id?: string
+          phone?: string | null
+          self_signup?: boolean
+          zip?: string
+        }
+        Relationships: []
+      }
+      partner_inquiries: {
+        Row: {
+          contact_name: string
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          offers: string[]
+          organization: string
+          partner_type: string
+          phone: string | null
+          title: string | null
+          wants_template: boolean
+        }
+        Insert: {
+          contact_name: string
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          offers?: string[]
+          organization: string
+          partner_type: string
+          phone?: string | null
+          title?: string | null
+          wants_template?: boolean
+        }
+        Update: {
+          contact_name?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          offers?: string[]
+          organization?: string
+          partner_type?: string
+          phone?: string | null
+          title?: string | null
+          wants_template?: boolean
+        }
+        Relationships: []
+      }
+      volunteer_applications: {
+        Row: {
+          acknowledged: boolean
+          availability: string
+          created_at: string
+          email: string
+          full_name: string
+          help_type: string
+          id: string
+          motivation: string
+          phone: string
+          zip: string
+        }
+        Insert: {
+          acknowledged: boolean
+          availability: string
+          created_at?: string
+          email: string
+          full_name: string
+          help_type: string
+          id?: string
+          motivation: string
+          phone: string
+          zip: string
+        }
+        Update: {
+          acknowledged?: boolean
+          availability?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          help_type?: string
+          id?: string
+          motivation?: string
+          phone?: string
+          zip?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
