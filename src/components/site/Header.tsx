@@ -32,7 +32,7 @@ export function Header() {
             alt="BGWYP logo: a gold tree growing from an open book above youth silhouettes"
             width={56}
             height={56}
-            className="h-14 w-14 shrink-0"
+            className="h-14 w-14 shrink-0 rounded-full"
           />
           <span className="truncate font-display text-sm font-semibold leading-tight text-gold sm:text-base">
             BGWYP

@@ -45,7 +45,7 @@ function Home() {
             </div>
           </div>
           <img src={logo.url} alt="BGWYP emblem: a gold tree growing from an open book above youth silhouettes, inside a gold circle"
-            width={400} height={400} fetchPriority="high" className="mx-auto w-64 md:w-full md:max-w-sm" />
+            width={400} height={400} fetchPriority="high" className="mx-auto w-64 rounded-full md:w-full md:max-w-sm" />
         </div>
         <Skyline className="relative mx-auto mt-12 block w-full max-w-6xl text-gold/50" />
       </section>
