@@ -1,8 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logo from "@/assets/bgwyp-logo.webp.asset.json";
-import { SUPPORT_HREF } from "@/config";
+import { LOGO_SRC, SUPPORT_HREF } from "@/config";
 
 export const NAV = [
   { to: "/", label: "Home" },
@@ -28,11 +27,11 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3">
         <Link to="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
           <img
-            src={logo.url}
-            alt="BGWYP logo: a gold tree growing from an open book above youth silhouettes"
-            width={56}
-            height={56}
-            className="h-14 w-14 shrink-0 rounded-full"
+            src={LOGO_SRC}
+            alt="BGWYP logo: gold tree and open book above youth silhouettes, Building Generational Wealth Youth Program"
+            width={80}
+            height={80}
+            className="h-20 w-20 shrink-0"
           />
           <span className="truncate font-display text-sm font-semibold leading-tight text-gold sm:text-base">
             BGWYP
@@ -53,7 +52,7 @@ export function Header() {
               {n.label}
             </Link>
           ))}
-          <a href={SUPPORT_HREF} className="btn btn-gold ml-2 text-sm">
+          <a href={SUPPORT_HREF} className="btn btn-gold ml-2 whitespace-nowrap text-sm">
             Support the First Cohort
           </a>
         </nav>

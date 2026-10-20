@@ -6,7 +6,7 @@ import { Card, PageHero, Section } from "@/components/site/ui";
 import { ContactForm } from "@/components/site/site-forms";
 
 export const Route = createFileRoute("/contact")({
-  head: () => seo("/contact", "Contact", "Contact Building Generational Wealth Youth Program, Inc. in Baltimore, Maryland: (443) 592-0494, bgwypinfo@gmail.com."),
+  head: () => seo("/contact", "Contact", `Contact Building Generational Wealth Youth Program, Inc. in Baltimore, Maryland: (443) 592-0494, ${CONTACT_EMAIL}.`),
   component: Contact,
 });
 

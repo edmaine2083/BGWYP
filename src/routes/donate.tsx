@@ -3,7 +3,7 @@ import { useState } from "react";
 import { DONATIONS_ENABLED, DONATION_URL, isPlaceholder } from "@/config";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
-import { Card, GoldNotice, PageHero, Section, T } from "@/components/site/ui";
+import { Card, GoldNotice, PageHero, Section } from "@/components/site/ui";
 import { NotifyForm } from "@/components/site/site-forms";
 
 export const Route = createFileRoute("/donate")({
@@ -50,13 +50,14 @@ function Donate() {
             </fieldset>
             <Card className="mt-10">
               <h2 className="text-xl text-gold-deep">How to give</h2>
-              <div className="mt-4">
-                {isPlaceholder(DONATION_URL) ? <T>{DONATION_URL}</T> :
-                  <a href={DONATION_URL} className="btn btn-gold" rel="noopener">Give {pick !== "Other" ? pick : "now"}</a>}
-              </div>
-              <p className="mt-4"><T>{"Gifts are received by [Building Generational Wealth Youth Program, Inc. / our fiscal sponsor, NAME]."}</T></p>
+              {!isPlaceholder(DONATION_URL) && DONATION_URL && (
+                <div className="mt-4">
+                  <a href={DONATION_URL} className="btn btn-gold" rel="noopener">Give {pick !== "Other" ? pick : "now"}</a>
+                </div>
+              )}
+              <p className="mt-4">Gifts are received by Building Generational Wealth Youth Program, Inc.</p>
               <GoldNotice className="mt-6 text-sm">
-                <T>{"Building Generational Wealth Youth Program, Inc. is a Maryland nonprofit corporation. Its application for federal 501(c)(3) tax-exempt status is pending. Deductibility of gifts depends on IRS approval; please consult your tax advisor. [Add Maryland solicitation registration statement if required.] You will receive a written acknowledgment of your gift."}</T>
+                Building Generational Wealth Youth Program, Inc. is a Maryland nonprofit corporation. Its application for federal 501(c)(3) tax-exempt status is pending. Deductibility of gifts depends on IRS approval; please consult your tax advisor. You will receive a written acknowledgment of your gift.
               </GoldNotice>
             </Card>
           </div>

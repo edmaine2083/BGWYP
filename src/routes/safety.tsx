@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ShieldCheck, FileText } from "lucide-react";
-import { SAFEGUARDING_EMAIL, SAFEGUARDING_PHONE } from "@/config";
+import { ShieldCheck } from "lucide-react";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/config";
 import { Contactish } from "@/components/site/Contactish";
 import { seo } from "@/lib/seo";
-import { Card, H2, PageHero, Reveal, Section, T } from "@/components/site/ui";
+import { Card, H2, PageHero, Reveal, Section } from "@/components/site/ui";
 
 export const Route = createFileRoute("/safety")({
   head: () => seo("/safety", "How We Protect Young People", "Screening, training, ratios, reporting, safe pickup, online safety, and independent oversight at BGWYP."),
@@ -37,12 +37,8 @@ function Safety() {
       <Section tone="paper" labelledBy="concerns">
         <div className="rounded-xl border-2 border-gold bg-card p-8">
           <H2 id="concerns">Questions or concerns?</H2>
-          <p className="mt-4 text-lg">Contact our Safeguarding Officer at <Contactish value={SAFEGUARDING_PHONE} kind="tel" /> or <Contactish value={SAFEGUARDING_EMAIL} kind="mail" />.</p>
+          <p className="mt-4 text-lg">Contact us at <Contactish value={CONTACT_PHONE} kind="tel" /> or <Contactish value={CONTACT_EMAIL} kind="mail" />.</p>
           <p className="mt-2 text-lg font-semibold">If a young person is in danger, call 911.</p>
-          <p className="mt-6 flex flex-wrap items-center gap-3">
-            <span className="btn btn-outline-deep"><FileText aria-hidden /> Read our Youth Safeguarding Manual summary (PDF)</span>
-            <T>{"→ [LINK TO PDF]"}</T>
-          </p>
         </div>
       </Section>
     </>

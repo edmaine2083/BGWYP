@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CONTACT_EMAIL } from "@/config";
 import { seo } from "@/lib/seo";
-import { GoldNotice, PageHero, Section, T } from "@/components/site/ui";
+import { PageHero, Section } from "@/components/site/ui";
 
 export const Route = createFileRoute("/privacy")({
   head: () => seo("/privacy", "Privacy Policy", "How Building Generational Wealth Youth Program collects, uses, and protects information submitted through this site."),
@@ -14,7 +14,6 @@ function Privacy() {
       <PageHero title="Privacy Policy" intro="Building Generational Wealth Youth Program, Inc." />
       <Section>
         <div className="mx-auto max-w-3xl space-y-6">
-          <GoldNotice><T>{"[DRAFT — to be reviewed by counsel before launch.]"}</T></GoldNotice>
           <h2 className="text-xl text-gold-deep">What we collect</h2>
           <p>Our forms collect contact information from adults and young adults only, such as name, email, phone, ZIP code, and the details you choose to share in a message.</p>
           <h2 className="text-xl text-gold-deep">How we use it</h2>

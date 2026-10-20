@@ -9,8 +9,10 @@ export function seo(path: string, title: string, description: string) {
       { property: "og:type", content: "website" },
       { property: "og:url", content: path },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "/bgwyp-logo.jpg" },
       { name: "twitter:title", content: full },
       { name: "twitter:description", content: description },
+      { name: "twitter:image", content: "/bgwyp-logo.jpg" },
     ],
     links: [{ rel: "canonical", href: path }],
   };

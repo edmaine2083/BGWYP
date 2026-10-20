@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, Award } from "lucide-react";
 import { ENROLLMENT_OPEN } from "@/config";
 import { seo } from "@/lib/seo";
-import { Card, H2, PageHero, Reveal, Section, T } from "@/components/site/ui";
+import { Card, H2, PageHero, Reveal, Section } from "@/components/site/ui";
 import { InterestForm } from "@/components/site/site-forms";
 
 export const Route = createFileRoute("/programs")({
@@ -66,7 +66,7 @@ function Programs() {
           <div>
             <H2 id="enroll">{ENROLLMENT_OPEN ? "Enrollment is open" : "Join the interest list"}</H2>
             {ENROLLMENT_OPEN ? (
-              <p className="mt-4 text-lg"><T>{"Enrollment is open for the [SEASON YEAR] cohort. Space is limited to 60 and based on funded capacity. Join the interest list."}</T></p>
+              <p className="mt-4 text-lg">Enrollment is open. Space is limited to 60 and based on funded capacity. Join the interest list.</p>
             ) : (
               <p className="mt-4 text-lg">Space is limited to 60 and based on funded capacity. Join the interest list.</p>
             )}

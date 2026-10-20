@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BookOpen, Hammer, Users } from "lucide-react";
-import logo from "@/assets/bgwyp-logo.webp.asset.json";
-import { SUPPORT_HREF } from "@/config";
+import { LOGO_SRC, SUPPORT_HREF } from "@/config";
 import { seo } from "@/lib/seo";
 import { Card, H2, Reveal, Section } from "@/components/site/ui";
 import { Skyline } from "@/components/site/Skyline";
@@ -44,8 +43,8 @@ function Home() {
               <a href={SUPPORT_HREF} className="btn btn-outline-gold">Support the first cohort</a>
             </div>
           </div>
-          <img src={logo.url} alt="BGWYP emblem: a gold tree growing from an open book above youth silhouettes, inside a gold circle"
-            width={400} height={400} fetchPriority="high" className="mx-auto w-64 rounded-full md:w-full md:max-w-sm" />
+          <img src={LOGO_SRC} alt="BGWYP emblem: a gold tree growing from an open book above youth silhouettes, with the program name and motto"
+            width={400} height={400} fetchPriority="high" className="mx-auto w-72 md:w-full md:max-w-md" />
         </div>
         <Skyline className="relative mx-auto mt-12 block w-full max-w-6xl text-gold/50" />
       </section>
