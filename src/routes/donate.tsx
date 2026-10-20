@@ -17,7 +17,7 @@ const GIFTS = [
   ["$3,600", "A seasonal facilitator for a cohort"],
   ["$6,630", "A young person's full year"],
   ["Other", "Any amount helps"],
-];
+] as [string, string, ...string[]][];
 
 function Donate() {
   const [pick, setPick] = useState("$6,630");

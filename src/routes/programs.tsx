@@ -15,7 +15,7 @@ const STAGES = [
   ["Exploration", "Grades 9 to 10", "A resume, a mentor connection, career pathway comparisons, and an understanding of a paystub"],
   ["Mastery", "Grades 11 to 12", "A scholarship or job packet, benefits analysis, postsecondary return on investment, and a 5- or 10-year roadmap"],
   ["Transition-Age", "Ages 18 to 24", "An independent living budget, 30-60-90 day check-ins, and leadership as a near-peer mentor"],
-];
+] as [string, string, ...string[]][];
 const WEEKS = ["The Baltimore Legacy", "Wealth Fundamentals", "Creative Entrepreneurship", "Social Capital & Power", "Personal Generational Plan", "Showcase"];
 
 function Programs() {

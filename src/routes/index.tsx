@@ -23,7 +23,7 @@ const PROOF = [
   ["6-week", "Summer Accelerator"],
   ["Monthly", "sessions all school year"],
   ["Screened", "and trained adults only"],
-];
+] as [string, string, ...string[]][];
 
 function Home() {
   return (
