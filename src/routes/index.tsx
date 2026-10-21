@@ -77,12 +77,15 @@ function Home() {
 
       <Section tone="paper" labelledBy="why">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <H2 id="why">Why it matters</H2>
+          <H2 id="why">The cost of waiting is too high.</H2>
           <div className="gold-rule mx-auto my-6 w-32" />
-          <p className="text-xl">
-            Nearly 3 in 10 Baltimore children ages 6 to 17 live in poverty. Wealth starts with early decisions and trusted guides. We help young people make those decisions on purpose.
+          <p className="text-lg">
+            Nearly 3 in 10 Baltimore children grow up facing systemic poverty. Financial survival isn’t taught in standard classrooms, leaving talented youth to navigate credit, debt, and career decisions blindfolded.
           </p>
-          <p className="mt-4 text-sm text-muted-foreground">Source: Annie E. Casey Foundation, 2023 data.</p>
+          <p className="mt-4 text-lg">
+            We don’t just hand out advice—we build permanent economic infrastructure. By pairing early financial literacy with hands-on career pipelines and trusted community guides, we ensure our young people stop just surviving and start building legacies on purpose.
+          </p>
+          <p className="mt-6 text-sm text-muted-foreground">Source: Annie E. Casey Foundation, 2023 data.</p>
         </Reveal>
       </Section>
 
