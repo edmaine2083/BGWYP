@@ -15,16 +15,19 @@ const VALUES = [
   { i: Home, t: "Community reinvestment" },
   { i: Sprout, t: "Generational vision" },
 ];
-const PEOPLE = [
+const PEOPLE: { name: string; role: string; bio: string; photo?: string; focus?: string }[] = [
   {
     name: "Edward J. Shepard, MBA",
     role: "Founder, President & Executive Director",
+    photo: "/edward-shepard.jpg",
+    focus: "object-[center_20%]",
     bio: "Edward J. Shepard, MBA, is the founder, President, and Executive Director of BGWYP and a strategist with more than 20 years of leadership across government, entertainment, and corporate business. As Founder and Principal Consultant of EJS Consulting Agency, he has advised more than 100 organizations on strategy, operations, finance, and workforce development, and he now brings that discipline to building generational wealth for Baltimore's young people.",
   },
   {
     name: "Dr. Stacy Shepard",
     role: "Secretary and Education Chair",
-    bio: "Dr. Stacy Shepard is an award-winning educational leader with nearly two decades of experience in schools and community leadership. She serves as Executive Director-Superintendent of Evergreen Community Charter School and is the founder and CEO of AriseNOW. She holds a Ph.D. in Educational Leadership and Administration from Capella University. As Education Chair, she guides BGWYP's curriculum and education strategy.",
+    photo: "/stacy-shepard.jpg",
+    bio: "Dr. Stacy Shepard is an award-winning educational leader, Executive Director-Superintendent, speaker, author, pastor, and founder of AriseNOW, LLC. With nearly two decades of experience in education, she is passionate about developing leaders, empowering others, and creating learning environments where every child and adult can thrive. Outside of work, Stacy enjoys writing, traveling, trying new experiences, and spending quality time with family and friends. She believes that faith, service, and lifelong learning are the foundation of a meaningful life.",
   },
   {
     name: "Tamara Robinson",
@@ -80,11 +83,15 @@ function About() {
       <Section labelledBy="leaders">
         <H2 id="leaders">Our leadership</H2>
         <ul className="mt-8 grid gap-6 lg:grid-cols-2">
-          {PEOPLE.map(({ name, role, bio }) => (
+          {PEOPLE.map(({ name, role, bio, photo, focus }) => (
             <li key={name}>
               <Card className="h-full">
                 <div className="flex items-center gap-4">
-                  <span aria-hidden className="grid h-16 w-16 shrink-0 place-items-center rounded-full border-2 border-gold bg-ink font-display text-xl text-gold">{initials(name)}</span>
+                  {photo ? (
+                    <img src={photo} alt="" width={80} height={80} className={`h-20 w-20 shrink-0 rounded-full border-2 border-gold object-cover ${focus ?? "object-[center_18%]"}`} />
+                  ) : (
+                    <span aria-hidden className="grid h-16 w-16 shrink-0 place-items-center rounded-full border-2 border-gold bg-ink font-display text-xl text-gold">{initials(name)}</span>
+                  )}
                   <div>
                     <p className="font-display text-lg font-semibold">{name}</p>
                     <p className="text-muted-foreground">{role}</p>
