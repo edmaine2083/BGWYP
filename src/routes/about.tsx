@@ -15,13 +15,16 @@ const VALUES = [
   { i: Home, t: "Community reinvestment" },
   { i: Sprout, t: "Generational vision" },
 ];
-const PEOPLE: { name: string; role: string; bio: string; photo?: string; focus?: string }[] = [
+const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: string; focus?: string }[] = [
   {
     name: "Edward J. Shepard, MBA",
-    role: "Founder, President & Executive Director",
+    role: "Founder & Executive Director",
     photo: "/edward-shepard.jpg",
     focus: "object-[center_20%]",
-    bio: "Edward J. Shepard, MBA, is the founder, President, and Executive Director of BGWYP and a strategist with more than 20 years of leadership across government, entertainment, and corporate business. As Founder and Principal Consultant of EJS Consulting Agency, he has advised more than 100 organizations on strategy, operations, finance, and workforce development, and he now brings that discipline to building generational wealth for Baltimore's young people.",
+    bio: [
+      "Edward J. Shepard, MBA, is a strategist and community leader with over two decades of experience spanning municipal government, corporate enterprise, and the entertainment industry. Throughout his career—which includes directing local government strategy and advising national brands—he has specialized in building sustainable infrastructure, driving operational compliance, and expanding economic opportunity.",
+      "As the owner of EJS Consultation Agency LLC, he guides organizations across executive operations, human resources, sales, and marketing. He also serves on the Board of Directors for the Community Law Center. Through BGWYP, Edward channels his expertise into equipping Baltimore’s youth with the financial knowledge, career strategy, and mentorship needed to build lasting economic legacies.",
+    ],
   },
   {
     name: "Dr. Stacy Shepard",
@@ -105,7 +108,11 @@ function About() {
                     <p className="text-muted-foreground">{role}</p>
                   </div>
                 </div>
-                <p className="mt-4">{bio}</p>
+                <div className="mt-4 space-y-4">
+                  {(Array.isArray(bio) ? bio : [bio]).map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
               </Card>
             </li>
           ))}
