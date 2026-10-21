@@ -63,12 +63,20 @@ function About() {
         </Reveal>
         <Reveal className="mt-14 max-w-3xl">
           <H2>Our story</H2>
-          <div className="mt-4 space-y-4">
-            <p>Every young person in Baltimore has been told to do better. Save more. Plan ahead. Stay out of debt.</p>
-            <p>Very few have been shown how.</p>
-            <p>Building Generational Wealth Youth Program was founded in 2026 by Edward J. Shepard, MBA, on a simple belief: it’s irresponsible to pressure young people to be better without helping them become better.</p>
-            <p>So we help. Young people ages 11 to 24 build real budgets, resumes, and plans for their future. They meet mentors, see real workplaces, and learn how money, work, and ownership truly work, with adults who stay with them for years, not weeks.</p>
-            <p className="pt-2 text-lg text-gold-deep">Because talent is everywhere in Baltimore. Opportunity should be too.</p>
+          <blockquote className="mt-6 border-l-2 border-gold pl-5">
+            <p className="text-lg text-gold-deep md:text-xl">We believe it is irresponsible to pressure young people to be better without helping them become better.</p>
+          </blockquote>
+          <div className="mt-6 space-y-4">
+            <p>Edward J. Shepard, MBA, founded Building Generational Wealth Youth Program in 2026 on that belief.</p>
+            <p>In Baltimore, nearly 3 in 10 children grow up in poverty, almost three times the rate across Maryland. One in six young adults is out of school, out of work, and without education beyond high school. And nationwide, Gen Z answers only 38% of basic personal finance questions correctly, lower than any other generation.</p>
+            <p>We tell young people to save, to stay out of debt, and to plan for the future. But Maryland does not require a standalone personal finance course to graduate high school, and a 2026 effort to change that stalled in committee. Too few young people are ever shown how.</p>
+            <p>Over 20 years in government, entertainment, and corporate business, Edward learned that success is built on three things: knowledge, discipline, and the right people around you. He founded BGWYP to give Baltimore’s young people all three.</p>
+            <p>BGWYP teaches young people ages 11 to 24 how money, work, and ownership really function. They build real budgets, resumes, and plans for their future, guided by mentors who stay with them every step of the way.</p>
+            <p>We don’t just expect more from our young people. We invest in them.</p>
+            <p className="pt-2 font-display text-gold-deep">
+              <span className="block sm:inline">Educate. Empower. Elevate.</span>{" "}
+              <span className="block sm:inline">Build Legacies.</span>
+            </p>
           </div>
         </Reveal>
       </Section>
