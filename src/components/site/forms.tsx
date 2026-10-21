@@ -1,6 +1,7 @@
 import { useId, useState, type ReactNode } from "react";
 import { z } from "zod";
 import { CheckCircle2 } from "lucide-react";
+import { WEB3FORMS_ACCESS_KEY } from "@/config";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,16 @@ export const email = z.string().trim().email("Enter a valid email address.").max
 export const optional = z.string().trim().max(1000).optional().or(z.literal(""));
 export const zip = z.string().trim().regex(/^\d{5}(-\d{4})?$/, "Enter a 5-digit ZIP code.");
 export const phoneReq = z.string().trim().regex(/^[\d\s()+.-]{7,20}$/, "Enter a valid phone number.");
+
+function emailFields(row: Record<string, unknown>) {
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(row)) {
+    if (Array.isArray(value)) out[key] = value.join(", ");
+    else if (typeof value === "boolean") out[key] = value ? "Yes" : "No";
+    else if (value != null && value !== "") out[key] = String(value);
+  }
+  return out;
+}
 
 export function useForm<S extends z.ZodTypeAny>(schema: S, initial: Values) {
   const [values, setValues] = useState<Values>(initial);
@@ -73,9 +84,38 @@ export function FormShell({
       return;
     }
     setStatus("sending");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await supabase.from(table).insert(row as any);
-    setStatus(error ? "error" : "done");
+    const label = title ?? table.replaceAll("_", " ");
+    const fields = emailFields(row);
+    const fromName = fields.full_name || fields.guardian_name || fields.contact_name || fields.name || "BGWYP website";
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New BGWYP Form Submission! (${label})`,
+          from_name: fromName,
+          botcheck: "",
+          form: label,
+          ...fields,
+        }),
+      });
+      const data = (await res.json()) as { success?: boolean };
+      if (!res.ok || !data.success) {
+        setStatus("error");
+        return;
+      }
+    } catch {
+      setStatus("error");
+      return;
+    }
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await supabase.from(table).insert(row as any);
+    } catch {
+      // The email already went out. A database miss should not block the visitor.
+    }
+    window.location.assign("/thank-you");
   }
 
   if (status === "done")
