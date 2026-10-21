@@ -6,7 +6,7 @@ export const LOGO_SRC = "/bgwyp-logo.jpg";
 export const CONTACT_EMAIL = "info@bgwyp.org";
 /** Public Web3Forms access key. Submissions are emailed to the inbox tied to this key. */
 export const WEB3FORMS_ACCESS_KEY = "91eb5252-5ae9-41eb-98c3-d87d642c86c9";
-export const CONTACT_PHONE = "(443) 592-0494";
+export const CONTACT_PHONE = "443-592-0494";
 
 /** Where "Support the first cohort" buttons point, following the donate flag. */
 export const SUPPORT_HREF = DONATIONS_ENABLED ? "/donate" : "/get-involved";
