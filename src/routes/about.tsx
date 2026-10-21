@@ -67,7 +67,8 @@ function About() {
         <Reveal className="mt-14 max-w-3xl">
           <H2>Our story</H2>
           <blockquote className="mt-6 border-l-2 border-gold pl-5">
-            <p className="text-lg text-gold-deep md:text-xl">We believe it is irresponsible to pressure young people to be better without helping them become better.</p>
+            <p className="text-lg text-gold-deep md:text-xl">“We believe it is irresponsible to pressure young people to be better without helping them become better.”</p>
+            <footer className="mt-3 text-base not-italic text-foreground">— <cite className="not-italic">Edward J. Shepard</cite></footer>
           </blockquote>
           <div className="mt-6 space-y-4">
             <p>Edward J. Shepard, MBA, founded Building Generational Wealth Youth Program in 2026 on that belief.</p>
