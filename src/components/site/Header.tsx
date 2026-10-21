@@ -9,6 +9,7 @@ export const NAV = [
   { to: "/programs", label: "Programs" },
   { to: "/safety", label: "Safety" },
   { to: "/get-involved", label: "Get Involved" },
+  { to: "/surveys", label: "Surveys" },
   { to: "/partner", label: "Partner" },
   { to: "/faq", label: "FAQ" },
   { to: "/contact", label: "Contact" },
@@ -45,7 +46,7 @@ export function Header() {
             <Link
               key={n.to}
               to={n.to}
-              className="rounded-md px-3 py-2 text-sm text-ink-foreground hover:text-gold-light"
+              className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm text-ink-foreground hover:text-gold-light"
               activeProps={{ className: "text-gold" }}
               activeOptions={{ exact: true }}
             >
