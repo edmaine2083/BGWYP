@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CHAT_ERROR_REPLY, handleChatPost } from "@/lib/chat-api";
+import { CHAT_EMPTY_REPLY, CHAT_ERROR_REPLY, handleChatPost } from "@/lib/chat-api";
 
 function post(body: unknown, method = "POST") {
   return handleChatPost(
@@ -51,17 +51,21 @@ describe("POST /api/chat", () => {
     );
     expect(new Headers(init.headers).get("Content-Type")).toBe("application/json");
     expect(String(init.body)).toContain("Who can join?");
-    expect(String(init.body)).toContain("6-week Summer Accelerator");
+    expect(String(init.body)).toContain("helpful website assistant");
   });
 
-  it("uses the friendly line when Gemini returns no text", async () => {
+  it("reports an empty Gemini response instead of inventing a reply", async () => {
     vi.stubEnv("GEMINI_API_KEY", "test-key");
     vi.stubGlobal("fetch", vi.fn(async () => Response.json({ error: { message: "bad" } }, { status: 400 })));
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const response = await post({ message: "Hello" });
 
-    expect(response.status).toBe(200);
-    expect(await response.json()).toEqual({ reply: "I am here to help with BGWYP programs!" });
+    expect(response.status).toBe(500);
+    expect(await response.json()).toEqual({ reply: CHAT_EMPTY_REPLY });
+    expect(errorSpy.mock.calls.some((call) => String(call[0]).includes("Gemini API Full Response"))).toBe(true);
+    expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("test-key");
+    errorSpy.mockRestore();
   });
 
   it("returns the contact fallback when Gemini is unavailable", async () => {
