@@ -29,7 +29,7 @@ describe("POST /api/chat", () => {
     expect(await response.json()).toEqual({ error: "Message is required" });
   });
 
-  it("asks Gemini without putting the API key in the reply or the request URL", async () => {
+  it("asks Gemini with the key only on the server request", async () => {
     vi.stubEnv("GEMINI_API_KEY", "test-key");
     const fetchMock = vi.fn(async () =>
       Response.json({
@@ -46,11 +46,22 @@ describe("POST /api/chat", () => {
     expect(JSON.stringify(data)).not.toContain("test-key");
 
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    expect(url).toContain("gemini-2.5-flash");
-    expect(url).not.toContain("test-key");
-    expect(new Headers(init.headers).get("x-goog-api-key")).toBe("test-key");
+    expect(url).toBe(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=test-key",
+    );
+    expect(new Headers(init.headers).get("Content-Type")).toBe("application/json");
     expect(String(init.body)).toContain("Who can join?");
-    expect(String(init.body)).toContain("Summer Accelerator");
+    expect(String(init.body)).toContain("6-week Summer Accelerator");
+  });
+
+  it("uses the friendly line when Gemini returns no text", async () => {
+    vi.stubEnv("GEMINI_API_KEY", "test-key");
+    vi.stubGlobal("fetch", vi.fn(async () => Response.json({ error: { message: "bad" } }, { status: 400 })));
+
+    const response = await post({ message: "Hello" });
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ reply: "I am here to help with BGWYP programs!" });
   });
 
   it("returns the contact fallback when Gemini is unavailable", async () => {

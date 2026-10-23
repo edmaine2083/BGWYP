@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { CHAT_ENABLED } from "@/config";
-import { CHAT_ERROR_REPLY } from "@/lib/chat-api";
+import { CHAT_ENABLED, CONTACT_EMAIL } from "@/config";
 import { cn } from "@/lib/utils";
+
+const CHAT_ERROR_REPLY = `Sorry, I am having trouble connecting right now. Please email ${CONTACT_EMAIL} for immediate assistance.`;
 
 const WELCOME =
   "Hi there! Welcome to BGWYP. How can I help you with our programs or the Summer Accelerator today?";
