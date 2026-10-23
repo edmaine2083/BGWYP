@@ -3,7 +3,7 @@ import { CONTACT_EMAIL } from "@/config";
 export const CHAT_ERROR_REPLY = `Sorry, I am having trouble connecting right now. Please email ${CONTACT_EMAIL} for immediate assistance.`;
 const CHAT_FALLBACK_REPLY = "I am here to help with BGWYP programs!";
 
-const MODEL_NAME = "gemini-1.5-flash";
+const MODEL_NAME = "gemini-3.5-flash-lite";
 const SYSTEM_CONTEXT =
   "System Context: You are a helpful website assistant for Building Generational Wealth Youth Program (BGWYP). Help youth (ages 11-24), parents, and partners learn about the 6-week Summer Accelerator, application guidelines, and community resources.";
 
@@ -52,9 +52,20 @@ export async function handleChatPost(request: Request): Promise<Response> {
     const data = (await response.json()) as {
       candidates?: { content?: { parts?: { text?: string }[] } }[];
       promptFeedback?: { blockReason?: string };
+      error?: { message?: string; status?: string };
     };
-    const reply =
-      data.candidates?.[0]?.content?.parts?.[0]?.text || data.promptFeedback?.blockReason || CHAT_FALLBACK_REPLY;
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+    if (text) return Response.json({ reply: text });
+
+    if (data.error || !response.ok) {
+      console.error(
+        "Gemini API Error:",
+        redact(data.error?.message || data.error?.status || `HTTP ${response.status}`, apiKey),
+      );
+      return Response.json({ reply: CHAT_ERROR_REPLY }, { status: 500 });
+    }
+
+    const reply = data.promptFeedback?.blockReason || CHAT_FALLBACK_REPLY;
     return Response.json({ reply });
   } catch (error) {
     const detail = error instanceof Error ? error.message : "request failed";

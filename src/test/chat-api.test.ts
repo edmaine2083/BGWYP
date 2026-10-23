@@ -47,7 +47,7 @@ describe("POST /api/chat", () => {
 
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=test-key",
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=test-key",
     );
     expect(new Headers(init.headers).get("Content-Type")).toBe("application/json");
     const payload = JSON.parse(String(init.body)) as {
@@ -61,21 +61,22 @@ describe("POST /api/chat", () => {
     ]);
   });
 
-  it("uses a block reason, then a friendly line, when Gemini returns no text", async () => {
+  it("does not turn a Gemini model error into the same canned reply", async () => {
     vi.stubEnv("GEMINI_API_KEY", "test-key");
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(Response.json({ promptFeedback: { blockReason: "SAFETY" } }))
-      .mockResolvedValueOnce(Response.json({}));
-    vi.stubGlobal("fetch", fetchMock);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        Response.json({ error: { message: "models/gemini-1.5-flash is not found", status: "NOT_FOUND" } }, { status: 404 }),
+      ),
+    );
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-    const blocked = await post({ message: "Hello" });
-    expect(blocked.status).toBe(200);
-    expect(await blocked.json()).toEqual({ reply: "SAFETY" });
+    const response = await post({ message: "Who can join?" });
 
-    const empty = await post({ message: "Hello again" });
-    expect(empty.status).toBe(200);
-    expect(await empty.json()).toEqual({ reply: "I am here to help with BGWYP programs!" });
+    expect(response.status).toBe(500);
+    expect(await response.json()).toEqual({ reply: CHAT_ERROR_REPLY });
+    expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("test-key");
+    errorSpy.mockRestore();
   });
 
   it("returns the contact fallback when Gemini is unavailable", async () => {
