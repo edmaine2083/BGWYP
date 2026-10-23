@@ -1,6 +1,8 @@
 // All editable site settings live here.
 export const DONATIONS_ENABLED = false;
 export const ENROLLMENT_OPEN = false;
+/** Floating site assistant. Replies are generated on the server. */
+export const CHAT_ENABLED = true;
 export const DONATION_URL = "";
 export const LOGO_SRC = "/bgwyp-logo.jpg";
 export const CONTACT_EMAIL = "info@bgwyp.org";
