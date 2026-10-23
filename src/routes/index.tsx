@@ -17,6 +17,24 @@ const STATEMENTS = [
   { icon: Hammer, t: "Build.", d: "Real work: a budget, a resume, a college or job packet, a plan." },
   { icon: Users, t: "Lead.", d: "Mentors, shadows, and a community that stays." },
 ];
+const WAITING_STATS: [string, string, string][] = [
+  ["Fewer than half", "of Baltimore City graduates enroll in college the fall after high school.", "1"],
+  [
+    "16 out of about 4,300",
+    "Baltimore City Schools graduates about 4,300 students a year, but only 16 started a youth apprenticeship in 2023–24.",
+    "2",
+  ],
+  [
+    "1 in 3",
+    "Baltimore businesses with employees is minority-owned, in a city that is majority Black.",
+    "3",
+  ],
+  [
+    "27 points",
+    "the credit score gain young adults saw when Georgia required personal finance education in high school.",
+    "4",
+  ],
+];
 const PROOF = [
   ["60", "young people in our first cohort"],
   ["6-week", "Summer Accelerator"],
@@ -79,38 +97,19 @@ function Home() {
         <Reveal className="mx-auto max-w-5xl text-center">
           <H2 id="why">The cost of waiting is too high.</H2>
           <div className="gold-rule mx-auto my-6 w-32" />
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <p className="font-display text-3xl text-gold-deep md:text-4xl">Fewer than half</p>
-              <p className="mt-2 text-base">
-                of Baltimore City graduates enroll in college the fall after high school.
-                <sup>1</sup>
-              </p>
-            </div>
-            <div>
-              <p className="font-display text-3xl text-gold-deep md:text-4xl">
-                16 out of about 4,300
-              </p>
-              <p className="mt-2 text-base">
-                Baltimore City Schools graduates about 4,300 students a year, but only 16 started a
-                youth apprenticeship in 2023–24.<sup>2</sup>
-              </p>
-            </div>
-            <div>
-              <p className="font-display text-3xl text-gold-deep md:text-4xl">1 in 3</p>
-              <p className="mt-2 text-base">
-                Baltimore businesses with employees is minority-owned, in a city that is majority
-                Black.<sup>3</sup>
-              </p>
-            </div>
-            <div>
-              <p className="font-display text-3xl text-gold-deep md:text-4xl">27 points</p>
-              <p className="mt-2 text-base">
-                the credit score gain young adults saw when Georgia required personal finance
-                education in high school.<sup>4</sup>
-              </p>
-            </div>
-          </div>
+          <ul className="grid gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
+            {WAITING_STATS.map(([title, body, note]) => (
+              <li key={note}>
+                <Card className="h-full">
+                  <h3 className="font-display text-2xl uppercase tracking-wide text-gold-deep md:text-3xl">{title}</h3>
+                  <p className="mt-3 text-base">
+                    {body}
+                    <sup>{note}</sup>
+                  </p>
+                </Card>
+              </li>
+            ))}
+          </ul>
           <div className="mx-auto max-w-3xl">
             <p className="mt-10 text-lg">
               College, the skilled trades, and business ownership are all paths to building wealth,
