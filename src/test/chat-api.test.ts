@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CHAT_EMPTY_REPLY, CHAT_ERROR_REPLY, handleChatPost } from "@/lib/chat-api";
+import { CHAT_ERROR_REPLY, handleChatPost } from "@/lib/chat-api";
 
 function post(body: unknown, method = "POST") {
   return handleChatPost(
@@ -47,25 +47,35 @@ describe("POST /api/chat", () => {
 
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=test-key",
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=test-key",
     );
     expect(new Headers(init.headers).get("Content-Type")).toBe("application/json");
-    expect(String(init.body)).toContain("Who can join?");
-    expect(String(init.body)).toContain("helpful website assistant");
+    const payload = JSON.parse(String(init.body)) as {
+      system_instruction?: unknown;
+      contents: { parts: { text: string }[] }[];
+    };
+    expect(payload.system_instruction).toBeUndefined();
+    expect(payload.contents[0].parts.map((part) => part.text)).toEqual([
+      expect.stringContaining("System Context: You are a helpful website assistant"),
+      "Who can join?",
+    ]);
   });
 
-  it("reports an empty Gemini response instead of inventing a reply", async () => {
+  it("uses a block reason, then a friendly line, when Gemini returns no text", async () => {
     vi.stubEnv("GEMINI_API_KEY", "test-key");
-    vi.stubGlobal("fetch", vi.fn(async () => Response.json({ error: { message: "bad" } }, { status: 400 })));
-    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(Response.json({ promptFeedback: { blockReason: "SAFETY" } }))
+      .mockResolvedValueOnce(Response.json({}));
+    vi.stubGlobal("fetch", fetchMock);
 
-    const response = await post({ message: "Hello" });
+    const blocked = await post({ message: "Hello" });
+    expect(blocked.status).toBe(200);
+    expect(await blocked.json()).toEqual({ reply: "SAFETY" });
 
-    expect(response.status).toBe(500);
-    expect(await response.json()).toEqual({ reply: CHAT_EMPTY_REPLY });
-    expect(errorSpy.mock.calls.some((call) => String(call[0]).includes("Gemini API Full Response"))).toBe(true);
-    expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("test-key");
-    errorSpy.mockRestore();
+    const empty = await post({ message: "Hello again" });
+    expect(empty.status).toBe(200);
+    expect(await empty.json()).toEqual({ reply: "I am here to help with BGWYP programs!" });
   });
 
   it("returns the contact fallback when Gemini is unavailable", async () => {

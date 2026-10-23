@@ -1,11 +1,11 @@
 import { CONTACT_EMAIL } from "@/config";
 
 export const CHAT_ERROR_REPLY = `Sorry, I am having trouble connecting right now. Please email ${CONTACT_EMAIL} for immediate assistance.`;
-export const CHAT_EMPTY_REPLY = `Sorry, I received an empty response. Please email ${CONTACT_EMAIL} for assistance.`;
+const CHAT_FALLBACK_REPLY = "I am here to help with BGWYP programs!";
 
-const MODEL_NAME = "gemini-2.5-flash";
-const SYSTEM_INSTRUCTION =
-  "You are a helpful website assistant for Building Generational Wealth Youth Program (BGWYP). Help youth (ages 11-24), parents, and partners learn about the 6-week Summer Accelerator, application guidelines, and community resources.";
+const MODEL_NAME = "gemini-1.5-flash";
+const SYSTEM_CONTEXT =
+  "System Context: You are a helpful website assistant for Building Generational Wealth Youth Program (BGWYP). Help youth (ages 11-24), parents, and partners learn about the 6-week Summer Accelerator, application guidelines, and community resources.";
 
 function redact(value: string, apiKey: string) {
   return value.split(apiKey).join("[redacted]");
@@ -39,13 +39,10 @@ export async function handleChatPost(request: Request): Promise<Response> {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: SYSTEM_INSTRUCTION }],
-          },
           contents: [
             {
               role: "user",
-              parts: [{ text: message }],
+              parts: [{ text: SYSTEM_CONTEXT }, { text: message }],
             },
           ],
         }),
@@ -54,12 +51,10 @@ export async function handleChatPost(request: Request): Promise<Response> {
 
     const data = (await response.json()) as {
       candidates?: { content?: { parts?: { text?: string }[] } }[];
+      promptFeedback?: { blockReason?: string };
     };
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-    if (!reply) {
-      console.error("Gemini API Full Response:", redact(JSON.stringify(data), apiKey));
-      return Response.json({ reply: CHAT_EMPTY_REPLY }, { status: 500 });
-    }
+    const reply =
+      data.candidates?.[0]?.content?.parts?.[0]?.text || data.promptFeedback?.blockReason || CHAT_FALLBACK_REPLY;
     return Response.json({ reply });
   } catch (error) {
     const detail = error instanceof Error ? error.message : "request failed";
