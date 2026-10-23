@@ -55,6 +55,9 @@ describe("POST /api/chat", () => {
       contents: { role: string; parts: { text: string }[] }[];
     };
     expect(payload.system_instruction?.parts?.[0]?.text).toContain("Never greet");
+    expect(payload.system_instruction?.parts?.[0]?.text).toContain("operates throughout the year");
+    expect(payload.system_instruction?.parts?.[0]?.text).toContain("6-week");
+    expect(payload.system_instruction?.parts?.[0]?.text).toContain("school year with a curriculum and deliverables");
     expect(payload.contents).toEqual([{ role: "user", parts: [{ text: "Who can join?" }] }]);
   });
 
