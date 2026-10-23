@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { CHAT_ENABLED, CONTACT_EMAIL } from "@/config";
+import { CHAT_ENABLED, CONTACT_EMAIL, LOGO_SRC } from "@/config";
 import { cn } from "@/lib/utils";
 
 const CHAT_ERROR_REPLY = `Sorry, I am having trouble connecting right now. Please email ${CONTACT_EMAIL} for immediate assistance.`;
@@ -159,9 +159,12 @@ export function ChatWidget() {
             <h3 id={titleId}>BGWYP Assistant</h3>
             <p className="chat-source">Answers from this website</p>
           </div>
-          <button id="chat-close-btn" type="button" onClick={close} aria-label="Close chat">
-            &times;
-          </button>
+          <div className="chat-header-end">
+            <button id="chat-close-btn" type="button" onClick={close} aria-label="Close chat">
+              &times;
+            </button>
+            <img className="chat-header-logo" src={LOGO_SRC} alt="" width={52} height={52} />
+          </div>
         </div>
         <div
           id="chat-messages"
