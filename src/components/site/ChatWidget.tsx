@@ -107,7 +107,19 @@ export function ChatWidget() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({
+          message: text,
+          history: messages
+            .filter(
+              (message) =>
+                message.text !== WELCOME && message.text !== "Thinking..." && message.text !== CHAT_ERROR_REPLY,
+            )
+            .slice(-8)
+            .map((message) => ({
+              role: message.role === "user" ? "user" : "model",
+              text: message.text,
+            })),
+        }),
       });
       const data = (await response.json()) as { reply?: unknown };
       if (typeof data.reply !== "string" || !data.reply.trim()) throw new Error("Chat failed");

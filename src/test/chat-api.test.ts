@@ -51,14 +51,50 @@ describe("POST /api/chat", () => {
     );
     expect(new Headers(init.headers).get("Content-Type")).toBe("application/json");
     const payload = JSON.parse(String(init.body)) as {
-      system_instruction?: unknown;
-      contents: { parts: { text: string }[] }[];
+      system_instruction?: { parts?: { text?: string }[] };
+      contents: { role: string; parts: { text: string }[] }[];
     };
-    expect(payload.system_instruction).toBeUndefined();
-    expect(payload.contents[0].parts.map((part) => part.text)).toEqual([
-      expect.stringContaining("System Context: You are a helpful website assistant"),
-      "Who can join?",
+    expect(payload.system_instruction?.parts?.[0]?.text).toContain("Never greet");
+    expect(payload.contents).toEqual([{ role: "user", parts: [{ text: "Who can join?" }] }]);
+  });
+
+  it("continues an existing conversation without asking the model to introduce itself", async () => {
+    vi.stubEnv("GEMINI_API_KEY", "test-key");
+    const fetchMock = vi.fn(async () =>
+      Response.json({
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: "Hello! Welcome to the **Building Generational Wealth Youth Program (BGWYP)** website assistant. I'm here to help youth (ages 11-24), parents, and partners navigate our programs and resources.\n\nApplications are reviewed in the spring.",
+                },
+              ],
+            },
+          },
+        ],
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await post({
+      message: "When are applications reviewed?",
+      history: [
+        { role: "user", text: "Who can join?" },
+        { role: "model", text: "Youth ages 11 to 24." },
+      ],
+    });
+
+    expect(await response.json()).toEqual({ reply: "Applications are reviewed in the spring." });
+    const payload = JSON.parse(String((fetchMock.mock.calls[0] as [string, RequestInit])[1].body)) as {
+      contents: { role: string; parts: { text: string }[] }[];
+    };
+    expect(payload.contents.map((turn) => `${turn.role}:${turn.parts[0].text}`)).toEqual([
+      "user:Who can join?",
+      "model:Youth ages 11 to 24.",
+      "user:When are applications reviewed?",
     ]);
+    expect(JSON.stringify(payload.contents)).not.toContain("System Context");
   });
 
   it("does not turn a Gemini model error into the same canned reply", async () => {
