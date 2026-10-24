@@ -20,7 +20,7 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
     name: "Edward J. Shepard, MBA",
     role: "Founder & Executive Director",
     photo: "/edward-shepard.jpg",
-    focus: "object-[center_20%]",
+    focus: "object-[center_8%]",
     bio: [
       "Edward J. Shepard, MBA, is a strategist and community leader with over two decades of experience spanning municipal government, corporate enterprise, and the entertainment industry. Throughout his career—which includes directing local government strategy and advising national brands—he has specialized in building sustainable infrastructure, driving operational compliance, and expanding economic opportunity.",
       "As the owner of EJS Consultation Agency LLC, he guides organizations across executive operations, human resources, sales, and marketing. He also serves on the Board of Directors for the Community Law Center. Through BGWYP, Edward channels his expertise into equipping Baltimore’s youth with the financial knowledge, career strategy, and mentorship needed to build lasting economic legacies.",
