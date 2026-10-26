@@ -8,16 +8,14 @@ export const NAV = [
   { to: "/about", label: "About" },
   { to: "/programs", label: "Programs" },
   { to: "/get-involved", label: "Get Involved" },
+  { to: "/surveys", label: "Surveys" },
   { to: "/safety", label: "Safety" },
   { to: "/faq", label: "FAQ" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
-/** Kept in the footer. Partner and Surveys are linked from Get Involved. */
-export const MORE_LINKS = [
-  { to: "/partner", label: "Partner" },
-  { to: "/surveys", label: "Surveys" },
-] as const;
+/** Kept in the footer. Partner is also linked from Get Involved. */
+export const MORE_LINKS = [{ to: "/partner", label: "Partner" }] as const;
 
 export function Header() {
   const [open, setOpen] = useState(false);
