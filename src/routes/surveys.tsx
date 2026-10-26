@@ -62,6 +62,7 @@ function Surveys() {
             <a href={survey.href} target="_blank" rel="noopener noreferrer" className="btn btn-gold mt-6">
               {survey.cta}
             </a>
+            <p className="mt-3 text-sm text-muted-foreground">(opens an external form)</p>
           </div>
         </Section>
       ))}

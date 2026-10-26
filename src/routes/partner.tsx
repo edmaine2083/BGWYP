@@ -32,7 +32,17 @@ function Partner() {
         </p>
         <h2 className="mt-14 text-center text-2xl text-gold-deep">What we offer partners</h2>
         <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {OFFER.map(({ i: I, t }) => <li key={t}><Card className="h-full text-center"><span className="icon-ring"><I aria-hidden /></span><p className="mt-3 font-semibold">{t}</p></Card></li>)}
+          {OFFER.map(({ i: I, t }) => (
+            <li key={t}>
+              <Card className="h-full text-center">
+                <span className="icon-ring"><I aria-hidden /></span>
+                <p className="mt-3 font-semibold">{t}</p>
+                {t === "Results you can share" ? (
+                  <>{/* TODO(BGWYP): list 2–3 specific outcomes to be tracked */}</>
+                ) : null}
+              </Card>
+            </li>
+          ))}
         </ul>
       </Section>
       <section className="band-dark px-5 py-12" aria-label="Partner types">

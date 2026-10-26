@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { CONTACT_EMAIL, CONTACT_PHONE, LOGO_SRC, telHref } from "@/config";
-import { NAV } from "./Header";
+import { MORE_LINKS, NAV } from "./Header";
 import { T } from "./ui";
 
 export function Footer() {
@@ -10,11 +10,12 @@ export function Footer() {
         <div>
           <img src={LOGO_SRC} alt="BGWYP logo" width={160} height={160} loading="lazy" className="h-40 w-40" />
           <p className="mt-4 font-display text-gold">Educate. Empower. Elevate. Build Legacies.</p>
+          {/* TODO(BGWYP): social media links */}
         </div>
         <nav aria-label="Footer">
           <h2 className="text-base text-gold">Quick links</h2>
           <ul className="mt-4 grid grid-cols-2 gap-2 text-ink-muted">
-            {NAV.map((n) => (
+            {[...NAV, ...MORE_LINKS].map((n) => (
               <li key={n.to}>
                 <Link to={n.to} className="hover:text-gold-light">{n.label}</Link>
               </li>
@@ -26,6 +27,7 @@ export function Footer() {
           <p className="mt-4"><a href={telHref(CONTACT_PHONE)} className="hover:text-gold-light">{CONTACT_PHONE}</a></p>
           <p><a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-gold-light">{CONTACT_EMAIL}</a></p>
           <p>Baltimore, Maryland</p>
+          {/* TODO(BGWYP): mailing address */}
         </address>
       </div>
       <div className="gold-rule mx-auto my-8 max-w-6xl" />

@@ -23,13 +23,24 @@ function Donate() {
   const [pick, setPick] = useState("$6,630");
   return (
     <>
-      <PageHero title="Help us launch."
-        intro="We are raising $437,608 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve." />
+      <PageHero
+        title="Help us launch."
+        intro={
+          DONATIONS_ENABLED
+            ? "We are raising $437,608 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve."
+            : "Giving is not open yet. No payment is collected on this page."
+        }
+      />
       <Section>
+        <p className="mx-auto max-w-xl text-lg">
+          We are raising $437,608 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve.
+          {/* TODO(BGWYP): confirm fundraising total; math gives $437,580 */}
+        </p>
         {!DONATIONS_ENABLED ? (
-          <div className="mx-auto max-w-xl">
+          <div id="notify" className="mx-auto mt-8 max-w-xl scroll-mt-32">
             <GoldNotice>
-              <p className="font-display text-xl text-gold-deep">Giving opens soon. Join our list to be notified.</p>
+              <p className="font-display text-xl text-gold-deep">Giving is not open yet. Join the list and we will email you when it opens.</p>
+              <p className="mt-2">No payment is collected on this page.</p>
               <div className="mt-5"><NotifyForm /></div>
             </GoldNotice>
           </div>

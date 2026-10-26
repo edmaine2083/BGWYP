@@ -105,6 +105,48 @@ function Programs() {
   return (
     <>
       <PageHero title="Programs" intro="What young people do and when." />
+      <Section labelledBy="glance">
+        <H2 id="glance">At a glance</H2>
+        <dl className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-xl border bg-card p-6 shadow-card">
+            <dt className="font-display text-gold-deep">Who</dt>
+            <dd className="mt-2">Baltimore youth ages 11–24</dd>
+          </div>
+          <div className="rounded-xl border bg-card p-6 shadow-card">
+            <dt className="font-display text-gold-deep">Cohort size</dt>
+            <dd className="mt-2">60 seats (first cohort)</dd>
+          </div>
+          <div className="rounded-xl border bg-card p-6 shadow-card">
+            <dt className="font-display text-gold-deep">Summer Accelerator</dt>
+            <dd className="mt-2">6 weeks — dates to be announced</dd>
+          </div>
+          <div className="rounded-xl border bg-card p-6 shadow-card">
+            <dt className="font-display text-gold-deep">School year</dt>
+            <dd className="mt-2">Monthly sessions, September–May — start year to be announced</dd>
+          </div>
+          <div className="rounded-xl border bg-card p-6 shadow-card">
+            <dt className="font-display text-gold-deep">Location</dt>
+            <dd className="mt-2">To be announced</dd>
+          </div>
+          <div className="rounded-xl border bg-card p-6 shadow-card">
+            <dt className="font-display text-gold-deep">Cost to families</dt>
+            <dd className="mt-2">
+              To be announced
+              {/* TODO(BGWYP): confirm (free?) */}
+            </dd>
+          </div>
+          <div className="rounded-xl border bg-card p-6 shadow-card">
+            <dt className="font-display text-gold-deep">How spots are filled</dt>
+            <dd className="mt-2">
+              To be announced
+              {/* TODO(BGWYP): selection process */}
+            </dd>
+          </div>
+        </dl>
+        <p className="mt-6 max-w-3xl text-lg">
+          Join the <a href="#enroll" className="font-semibold text-gold-deep underline">interest list</a> and we'll contact you when dates and location are set.
+        </p>
+      </Section>
       <Section labelledBy="stages">
         <H2 id="stages">Four stages. One path to ownership.</H2>
         <p className="mt-4 max-w-3xl text-lg">Every young person enters at the stage that fits their grade or age and grows with us from there.</p>
@@ -172,7 +214,7 @@ function Programs() {
       <Section tone="paper">
         <div className="grid gap-6 md:grid-cols-2">
           <Card><span className="icon-ring"><CalendarDays aria-hidden /></span><h2 className="mt-4 text-xl text-gold-deep">School-Year Continuation</h2>
-            <p className="mt-2">Three touchpoints a month, September through May: a First Saturday workshop, a Second Saturday lab or exposure visit, and a monthly virtual checkpoint.</p></Card>
+            <p className="mt-2">Monthly sessions from September through May. The start year is to be announced.</p></Card>
           <Card><span className="icon-ring"><Award aria-hidden /></span><h2 className="mt-4 text-xl text-gold-deep">Level-Up Mentors</h2>
             <p className="mt-2">Older youth and alumni can earn Level-Up Mentor Certification and mentor younger participants, always with an adult present.</p></Card>
         </div>
@@ -187,7 +229,10 @@ function Programs() {
               <p className="mt-4 text-lg">Space is limited to 60 and based on funded capacity. Join the interest list.</p>
             )}
           </div>
-          <InterestForm />
+          <div>
+            <InterestForm />
+            <p className="mt-4 text-muted-foreground">We'll email you when enrollment details are announced.</p>
+          </div>
         </div>
       </Section>
     </>

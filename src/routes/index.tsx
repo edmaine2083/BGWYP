@@ -36,7 +36,7 @@ const WAITING_STATS: [string, string, string][] = [
   ],
 ];
 const PROOF = [
-  ["60", "young people in our first cohort"],
+  ["60", "seats in our first cohort"],
   ["6-week", "Summer Accelerator"],
   ["Monthly", "sessions all school year"],
   ["Screened", "and trained adults only"],
@@ -56,9 +56,10 @@ function Home() {
             <p className="mt-6 max-w-xl text-lg text-ink-muted">
               Building Generational Wealth Youth Program teaches young people ages 11 to 24 how money, work, and ownership really work, and stays with them for years.
             </p>
+            <p className="mt-4 max-w-xl text-gold">Now forming our first cohort — dates and location coming soon.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/programs" className="btn btn-gold">See our programs</Link>
-              <a href={SUPPORT_HREF} className="btn btn-outline-gold">Support the first cohort</a>
+              <a href={SUPPORT_HREF} className="btn btn-outline-gold">Get Notified</a>
             </div>
           </div>
           <img src={LOGO_SRC} alt="BGWYP emblem: a gold tree growing from an open book above youth silhouettes, with the program name and motto"
@@ -138,7 +139,7 @@ function Home() {
       <Section labelledBy="cta">
         <div className="rounded-xl border-2 border-gold p-8 text-center md:p-12">
           <H2 id="cta">Help us launch our first cohort.</H2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg">Give, sponsor a seat, host a shadow, or introduce us to a partner.</p>
+          <p className="mx-auto mt-4 max-w-2xl text-lg">Join the launch list, host a shadow, or introduce us to a partner.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link to="/get-involved" className="btn btn-gold">Get involved</Link>
             <Link to="/partner" className="btn btn-outline-deep">Partner with us</Link>

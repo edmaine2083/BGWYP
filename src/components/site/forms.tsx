@@ -115,18 +115,21 @@ export function FormShell({
     } catch {
       // The email already went out. A database miss should not block the visitor.
     }
-    window.location.assign("/thank-you");
+    setStatus("done");
   }
 
-  if (status === "done")
-    return (
-      <div role="status" className="flex items-start gap-3 rounded-xl border-2 border-gold bg-paper p-6">
-        <CheckCircle2 className="mt-1 shrink-0 text-gold-deep" aria-hidden />
-        <p className="font-medium">{success}</p>
-      </div>
-    );
-
   return (
+    <div aria-live="polite">
+      {status === "done" ? (
+        <div role="status" className="flex items-start gap-3 rounded-xl border-2 border-gold bg-paper p-6">
+          <CheckCircle2 className="mt-1 shrink-0 text-gold-deep" aria-hidden />
+          <div>
+            <p className="font-medium">Thanks — we'll be in touch.</p>
+            {success ? <p className="mt-2">{success}</p> : null}
+            {/* TODO(BGWYP): expected response time */}
+          </div>
+        </div>
+      ) : (
     <form onSubmit={submit} noValidate className="space-y-5" aria-label={title}>
       {title && <h3 className="text-xl text-gold-deep">{title}</h3>}
       <p className="text-sm text-muted-foreground">Fields marked * are required.</p>
@@ -137,12 +140,14 @@ export function FormShell({
       </div>
       {extraAboveSubmit}
       {status === "error" && (
-        <p role="alert" className="text-destructive">Something went wrong. Please try again in a moment.</p>
+        <p role="alert" aria-live="assertive" className="text-destructive">Something went wrong. Please try again in a moment.</p>
       )}
       <button type="submit" className="btn btn-gold" disabled={status === "sending"}>
         {status === "sending" ? "Sending…" : submitLabel}
       </button>
     </form>
+      )}
+    </div>
   );
 }
 
@@ -155,7 +160,7 @@ function Wrap({ id, label, required, error, children, hint }: { id: string; labe
       </label>
       {hint && <p className="mb-1 text-sm text-muted-foreground">{hint}</p>}
       {children}
-      {error && <p id={`${id}-err`} className="mt-1 text-sm text-destructive">{error}</p>}
+      {error && <p id={`${id}-err`} role="alert" className="mt-1 text-sm text-destructive">{error}</p>}
     </div>
   );
 }
@@ -251,7 +256,7 @@ export function CheckField({ name, label, form, required }: Omit<FieldProps, "ty
           {required && <span className="text-destructive" aria-hidden> *</span>}
         </label>
       </div>
-      {err && <p id={`${id}-err`} className="mt-1 text-sm text-destructive">{err}</p>}
+      {err && <p id={`${id}-err`} role="alert" className="mt-1 text-sm text-destructive">{err}</p>}
     </div>
   );
 }
