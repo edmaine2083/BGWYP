@@ -27,14 +27,13 @@ function Donate() {
         title="Help us launch."
         intro={
           DONATIONS_ENABLED
-            ? "We are raising $437,608 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve."
+            ? "We are raising $437,580 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve."
             : "Giving is not open yet. No payment is collected on this page."
         }
       />
       <Section>
         <p className="mx-auto max-w-xl text-lg">
-          We are raising $437,608 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve.
-          {/* TODO(BGWYP): confirm fundraising total; math gives $437,580 */}
+          We are raising $437,580 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve.
         </p>
         {!DONATIONS_ENABLED ? (
           <div id="notify" className="mx-auto mt-8 max-w-xl scroll-mt-32">
