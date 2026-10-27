@@ -1,0 +1,242 @@
+@property --bgl-r {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 160%;
+}
+
+.bgl-stage {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1;
+  background: #000;
+  overflow: hidden;
+  isolation: isolate;
+}
+.bgl-layer {
+  position: absolute;
+  inset: 0;
+  background: url("/bgwyp-logo-hero.webp") center / 100% 100% no-repeat;
+}
+
+/* 1. Sunrise reveal: light spreads out from behind the youth */
+.bgl-logo {
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 35%,
+    #000 var(--bgl-r),
+    transparent calc(var(--bgl-r) + 14%)
+  );
+  mask-image: radial-gradient(
+    circle at 50% 35%,
+    #000 var(--bgl-r),
+    transparent calc(var(--bgl-r) + 14%)
+  );
+  animation: bgl-dawn 2.2s cubic-bezier(0.3, 0.5, 0.2, 1) both;
+}
+@keyframes bgl-dawn {
+  from {
+    --bgl-r: 0%;
+    filter: brightness(1.6);
+  }
+  to {
+    --bgl-r: 160%;
+    filter: none;
+  }
+}
+
+/* 2. Slow turning rays and breathing glow (above the youth's heads only) */
+.bgl-rays-clip {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(12% 22% 64.5% 22%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.bgl-rays {
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  width: 90%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  opacity: 0;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 226, 160, 0.85) 0 3deg,
+    transparent 3deg 12deg
+  );
+  -webkit-mask-image: radial-gradient(circle, #000 0 18%, transparent 52%);
+  mask-image: radial-gradient(circle, #000 0 18%, transparent 52%);
+  animation:
+    bgl-rays-in 2s 1s both,
+    bgl-spin 48s 1s linear infinite;
+}
+@keyframes bgl-rays-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+@keyframes bgl-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+.bgl-breath {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 64.5% 0);
+  mix-blend-mode: overlay;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 214, 120, 0.8), transparent 22%);
+  animation: bgl-breath 4s 1.6s ease-in-out infinite;
+}
+@keyframes bgl-breath {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* 3. Rising sparks and twinkling leaves */
+.bgl-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.bgl-spark {
+  position: absolute;
+  width: 0.9%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(circle, #fff2c8 0 30%, rgba(243, 214, 138, 0.6) 55%, transparent 72%);
+  animation: bgl-rise var(--d) var(--delay) ease-in infinite;
+}
+@keyframes bgl-rise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  15% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), -1400%) scale(1);
+  }
+}
+.bgl-glint {
+  position: absolute;
+  width: 3.2%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, transparent 46%, #fff6dc 50%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, #fff6dc 50%, transparent 54%),
+    radial-gradient(circle, #fff6dc 0 10%, transparent 34%);
+  animation: bgl-twinkle var(--d) var(--delay) ease-in-out infinite;
+}
+@keyframes bgl-twinkle {
+  0%,
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0);
+  }
+  82% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+/* 4. Golden Shine: light sweep every 6s + outer ring glow */
+.bgl-shine {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: color-dodge;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+      110deg,
+      transparent 42%,
+      rgba(255, 236, 190, 0.9) 50%,
+      transparent 58%
+    )
+    no-repeat;
+  background-size: 300% 100%;
+  background-position: 150% 0;
+  animation: bgl-shine 6s 2.4s ease-in-out infinite;
+}
+@keyframes bgl-shine {
+  0% {
+    opacity: 1;
+    background-position: 150% 0;
+  }
+  38% {
+    opacity: 1;
+    background-position: -50% 0;
+  }
+  39%,
+  100% {
+    opacity: 0;
+    background-position: -50% 0;
+  }
+}
+.bgl-halo {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 47% 49% at 50% 50.5%,
+    transparent 86%,
+    rgba(217, 169, 60, 0.45) 91%,
+    transparent 100%
+  );
+  animation: bgl-halo 6s 2.4s ease-in-out infinite;
+}
+@keyframes bgl-halo {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.25;
+  }
+}
+
+/* Pause when off-screen or tab hidden (class toggled by the component) */
+.bgl-stage.bgl-paused * {
+  animation-play-state: paused !important;
+}
+
+/* Accessibility: show the still logo with no motion */
+@media (prefers-reduced-motion: reduce) {
+  .bgl-stage * {
+    animation: none !important;
+  }
+  .bgl-rays-clip,
+  .bgl-breath,
+  .bgl-fx,
+  .bgl-shine,
+  .bgl-halo {
+    display: none;
+  }
+}

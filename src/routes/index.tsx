@@ -1,14 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BookOpen, Hammer, Users } from "lucide-react";
-import { LOGO_SRC, SUPPORT_HREF } from "@/config";
+import { SUPPORT_HREF } from "@/config";
 import { seo } from "@/lib/seo";
+import { AnimatedLogo } from "@/components/site/AnimatedLogo";
 import { Card, H2, Reveal, Section } from "@/components/site/ui";
 import { Skyline } from "@/components/site/Skyline";
 
 export const Route = createFileRoute("/")({
-  head: () =>
-    seo("/", "BGWYP | Money Skills & Career Paths for Baltimore Youth",
-      "Building Generational Wealth Youth Program teaches Baltimore young people ages 11 to 24 how money, work, and ownership really work."),
+  head: () => {
+    const head = seo(
+      "/",
+      "BGWYP | Money Skills & Career Paths for Baltimore Youth",
+      "Building Generational Wealth Youth Program teaches Baltimore young people ages 11 to 24 how money, work, and ownership really work.",
+    );
+    return {
+      ...head,
+      links: [
+        ...(head.links ?? []),
+        { rel: "preload", as: "image", href: "/bgwyp-logo-hero.webp" },
+      ],
+    };
+  },
   component: Home,
 });
 
@@ -62,8 +74,9 @@ function Home() {
               <a href={SUPPORT_HREF} className="btn btn-outline-gold">Get Notified</a>
             </div>
           </div>
-          <img src={LOGO_SRC} alt="BGWYP emblem: a gold tree growing from an open book above youth silhouettes, with the program name and motto"
-            width={400} height={400} fetchPriority="high" className="mx-auto w-72 md:w-full md:max-w-md" />
+          <div className="mx-auto w-72 md:w-full md:max-w-md">
+            <AnimatedLogo />
+          </div>
         </div>
         <Skyline className="relative mx-auto mt-12 block w-full max-w-6xl text-gold/50" />
       </section>
