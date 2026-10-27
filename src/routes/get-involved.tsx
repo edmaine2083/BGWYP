@@ -4,7 +4,18 @@ import { CONTACT_EMAIL, DONATIONS_ENABLED } from "@/config";
 import { sponsorshipFunds, sponsorshipIntro, sponsorshipLevels } from "@/content/sponsorshipLevels";
 import { seo } from "@/lib/seo";
 import { Card, GoldNotice, H2, PageHero, Section } from "@/components/site/ui";
-import { InterestForm, VolunteerForm } from "@/components/site/site-forms";
+import { InterestForm, InvolvementForm, VolunteerForm } from "@/components/site/site-forms";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+const actionBtn =
+  "btn btn-gold mt-4 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold-deep";
 
 export const Route = createFileRoute("/get-involved")({
   head: () => seo("/get-involved", "Get Involved", "Give, sponsor a seat, host a sector shadow, mentor, refer a family, or partner with BGWYP in Baltimore."),
@@ -12,7 +23,7 @@ export const Route = createFileRoute("/get-involved")({
 });
 
 function GetInvolved() {
-  const cards: { i: LucideIcon; t: string; d: string; href?: string; hash?: string; label?: string }[] = [
+  const cards: { i: LucideIcon; t: string; d: string; label: string; interest?: string; href?: "/donate" }[] = [
     DONATIONS_ENABLED
       ? {
           i: Gift,
@@ -25,22 +36,45 @@ function GetInvolved() {
           i: Gift,
           t: "Give",
           d: "Giving isn't open yet. Join the list and we'll let you know when it opens.",
-          href: "/donate",
-          hash: "notify",
+          interest: "Give",
           label: "Notify me when giving opens",
         },
-    { i: Armchair, t: "Sponsor a seat or a facilitator", d: "$6,630 funds a young person's full year; $3,600 funds a summer facilitator." },
-    { i: Briefcase, t: "Host a sector shadow", d: "Welcome small groups to see your work. We train and accompany our young people, and you will never be alone with one." },
-    { i: HeartHandshake, t: "Mentor or volunteer", d: "Open after screening and training. Apply with the form below.", href: "#volunteer", label: "Apply below" },
-    { i: Share2, t: "Refer a family", d: "Share the interest list with families of young people ages 11 to 24.", href: "#interest", label: "Interest list" },
+    {
+      i: Armchair,
+      t: "Sponsor a seat or a facilitator",
+      d: "$6,630 funds a young person's full year; $3,600 funds a summer facilitator.",
+      interest: "Sponsor a seat or a facilitator",
+      label: "Get started",
+    },
+    {
+      i: Briefcase,
+      t: "Host a sector shadow",
+      d: "Welcome small groups to see your work. We train and accompany our young people, and you will never be alone with one.",
+      interest: "Host a sector shadow",
+      label: "Offer a shadow",
+    },
+    {
+      i: HeartHandshake,
+      t: "Mentor or volunteer",
+      d: "Open after screening and training.",
+      interest: "Mentor or volunteer",
+      label: "Apply to mentor or volunteer",
+    },
+    {
+      i: Share2,
+      t: "Refer a family",
+      d: "Share the interest list with families of young people ages 11 to 24.",
+      interest: "Refer a family",
+      label: "Refer a family",
+    },
     {
       i: Handshake,
       t: "Join as a partner",
       d: DONATIONS_ENABLED
         ? "See the partnership levels below, or start with schools, employers, banks, colleges, and community groups."
         : "Schools, employers, banks, colleges, and community groups. See the Partner page.",
-      href: "/partner",
-      label: "Partner page",
+      interest: "Join as a partner",
+      label: "Partner with us",
     },
   ];
   return (
@@ -52,24 +86,21 @@ function GetInvolved() {
           <Link to="/surveys" className="font-semibold text-gold-deep underline">Surveys</Link>
         </p>
         <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {cards.map(({ i: I, t, d, href, hash, label }) => (
+          {cards.map(({ i: I, t, d, href, interest, label }) => (
             <li key={t}>
-              <Card className="h-full">
+              <Card className="flex h-full flex-col">
                 <span className="icon-ring"><I aria-hidden /></span>
                 <h2 className="mt-4 text-xl normal-case tracking-normal text-gold-deep">{t}</h2>
                 <p className="mt-2">{d}</p>
-                {href?.startsWith("#") && (
-                  <a href={href} className="mt-4 inline-block font-semibold text-gold-deep underline">{label} →</a>
-                )}
-                {href === "/donate" && hash && (
-                  <Link to="/donate" hash={hash} className="mt-4 inline-block font-semibold text-gold-deep underline">{label} →</Link>
-                )}
-                {href === "/donate" && !hash && (
-                  <Link to="/donate" className="mt-4 inline-block font-semibold text-gold-deep underline">{label} →</Link>
-                )}
-                {href === "/partner" && (
-                  <Link to="/partner" className="mt-4 inline-block font-semibold text-gold-deep underline">{label} →</Link>
-                )}
+                <div className="mt-auto">
+                  {href === "/donate" ? (
+                    <Link to="/donate" className={actionBtn} aria-label={`${label}: ${t}`}>
+                      {label}
+                    </Link>
+                  ) : (
+                    <InquireButton interest={interest ?? t} label={label} />
+                  )}
+                </div>
               </Card>
             </li>
           ))}
@@ -91,6 +122,29 @@ function GetInvolved() {
         </div>
       </Section>
     </>
+  );
+}
+
+function InquireButton({ interest, label }: { interest: string; label: string }) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <button type="button" className={actionBtn} aria-label={`${label}: ${interest}`}>
+          {label}
+        </button>
+      </DialogTrigger>
+      <DialogContent className="max-h-[90vh] overflow-y-auto bg-paper">
+        <DialogHeader>
+          <DialogTitle className="pr-8 text-left text-xl normal-case tracking-normal text-gold-deep">
+            {interest}
+          </DialogTitle>
+          <DialogDescription className="text-left">
+            Share your name, email, phone, and organization. The type of interest is filled in from the option you chose.
+          </DialogDescription>
+        </DialogHeader>
+        <InvolvementForm interest={interest} />
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -122,6 +176,7 @@ function SponsorshipLevels() {
                   </li>
                 ))}
               </ul>
+              <InquireButton interest={`Partnership level: ${level.name}`} label="Inquire about this level" />
             </Card>
           </li>
         ))}

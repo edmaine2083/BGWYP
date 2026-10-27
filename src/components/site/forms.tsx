@@ -59,6 +59,7 @@ export function FormShell({
   submitLabel,
   success,
   extraAboveSubmit,
+  heading = true,
 }: {
   table: Table;
   title?: string;
@@ -67,6 +68,7 @@ export function FormShell({
   submitLabel: string;
   success: string;
   extraAboveSubmit?: ReactNode;
+  heading?: boolean;
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [hp, setHp] = useState("");
@@ -131,7 +133,7 @@ export function FormShell({
         </div>
       ) : (
     <form onSubmit={submit} noValidate className="space-y-5" aria-label={title}>
-      {title && <h3 className="text-xl text-gold-deep">{title}</h3>}
+      {title && heading ? <h3 className="text-xl text-gold-deep">{title}</h3> : null}
       <p className="text-sm text-muted-foreground">Fields marked * are required.</p>
       {children}
       <div aria-hidden className="absolute -left-[9999px]" >
@@ -142,7 +144,7 @@ export function FormShell({
       {status === "error" && (
         <p role="alert" aria-live="assertive" className="text-destructive">Something went wrong. Please try again in a moment.</p>
       )}
-      <button type="submit" className="btn btn-gold" disabled={status === "sending"}>
+      <button type="submit" className="btn btn-gold focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold-deep" disabled={status === "sending"}>
         {status === "sending" ? "Sending…" : submitLabel}
       </button>
     </form>

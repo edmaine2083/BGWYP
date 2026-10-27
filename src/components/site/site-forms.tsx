@@ -113,3 +113,77 @@ export function NotifyForm() {
     </FormShell>
   );
 }
+
+export function InvolvementForm({ interest }: { interest: string }) {
+  const requireAck = interest === "Mentor or volunteer";
+  const schema = z
+    .object({
+      full_name: req("Full name"),
+      email,
+      phone: phoneReq,
+      organization: optional,
+      acknowledged: z.boolean(),
+    })
+    .superRefine((value, ctx) => {
+      if (requireAck && !value.acknowledged) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["acknowledged"],
+          message: "Please confirm to continue.",
+        });
+      }
+    });
+  const f = useForm(schema, {
+    full_name: "",
+    email: "",
+    phone: "",
+    organization: "",
+    acknowledged: false,
+  });
+  return (
+    <FormShell
+      table="contact_messages"
+      title={`Get involved: ${interest}`}
+      heading={false}
+      onValid={() => {
+        const data = f.validate();
+        if (!data) return null;
+        const organization = data.organization?.trim();
+        return {
+          name: data.full_name,
+          email: data.email,
+          phone: data.phone,
+          topic: interest,
+          message: organization
+            ? `Organization / affiliation: ${organization}`
+            : "Organization / affiliation: not provided",
+        };
+      }}
+      submitLabel="Send my details"
+      success="Thank you! Our team will reach out shortly."
+    >
+      <p className="text-sm">
+        Type of interest: <span className="font-semibold text-gold-deep">{interest}</span>
+      </p>
+      {interest === "Refer a family" ? (
+        <p className="text-sm text-muted-foreground">
+          We do not collect a young person&apos;s name or personal details on this form.
+        </p>
+      ) : null}
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field form={f} name="full_name" label="Full name" required autoComplete="name" />
+        <Field form={f} name="email" label="Email address" type="email" required autoComplete="email" />
+        <Field form={f} name="phone" label="Phone number" type="tel" required autoComplete="tel" />
+        <Field form={f} name="organization" label="Organization / affiliation" autoComplete="organization" />
+      </div>
+      {requireAck ? (
+        <CheckField
+          form={f}
+          name="acknowledged"
+          required
+          label="I understand I must complete a background check and safeguarding training and sign the Code of Conduct."
+        />
+      ) : null}
+    </FormShell>
+  );
+}
