@@ -29,7 +29,7 @@ const STATEMENTS = [
   { icon: Hammer, t: "Build.", d: "Real work: a budget, a resume, a college or job packet, a plan." },
   { icon: Users, t: "Lead.", d: "Mentors, shadows, and a community that stays." },
 ];
-const WAITING_STATS: [string, string, string][] = [
+const WAITING_STATS: [string, string, string, string?][] = [
   ["Fewer than half", "of Baltimore City graduates enroll in college the fall after high school.", "1"],
   [
     "16 out of about 4,300",
@@ -37,9 +37,10 @@ const WAITING_STATS: [string, string, string][] = [
     "2",
   ],
   [
-    "1 in 3",
-    "Baltimore businesses with employees is minority-owned, in a city that is majority Black.",
+    "1 in 3 vs. 3 in 4",
+    "Nearly 3 in 4 Baltimoreans are people of color, but only about 1 in 3 of the city’s businesses with employees is minority-owned. Ownership is a path to wealth that too few young people are ever shown.",
     "3",
+    "Ownership gap",
   ],
   [
     "27 points",
@@ -112,10 +113,11 @@ function Home() {
           <H2 id="why">The cost of waiting is too high.</H2>
           <div className="gold-rule mx-auto my-6 w-32" />
           <ul className="grid gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
-            {WAITING_STATS.map(([title, body, note]) => (
+            {WAITING_STATS.map(([title, body, note, label]) => (
               <li key={note}>
                 <Card className="h-full">
-                  <h3 className="font-display text-2xl uppercase tracking-wide text-gold-deep md:text-3xl">{title}</h3>
+                  {label ? <p className="text-sm font-semibold tracking-wide text-gold-deep">{label}</p> : null}
+                  <h3 className={`font-display text-2xl uppercase tracking-wide text-gold-deep md:text-3xl${label ? " mt-2" : ""}`}>{title}</h3>
                   <p className="mt-3 text-base">
                     {body}
                     <sup>{note}</sup>
@@ -142,7 +144,9 @@ function Home() {
             </p>
             <p className="mt-6 text-sm text-muted-foreground">
               Sources: <sup>1</sup> Baltimore Education Research Consortium, 2023. <sup>2</sup>{" "}
-              Abell Foundation, 2024. <sup>3</sup> U.S. Census Bureau, 2023. <sup>4</sup> Urban et
+              Abell Foundation, 2024. <sup>3</sup> U.S. Census Bureau, Annual Business Survey (2023 data) and Population Estimates (Vintage 2025), via{" "}
+              <a href="https://www.census.gov/quickfacts/fact/table/baltimorecitycountymaryland/HSG445223" className="underline">QuickFacts.</a>{" "}
+              <sup>4</sup> Urban et
               al., Economics of Education Review (2018).
             </p>
           </div>
