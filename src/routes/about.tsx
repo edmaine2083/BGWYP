@@ -35,6 +35,7 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
   {
     name: "Tamara Robinson",
     role: "Treasurer and Finance Chair",
+    photo: "/tamara-robinson.jpg",
     bio: "Tamara Robinson serves as BGWYP's Treasurer and Finance Chair, leading the Board's financial stewardship and fiscal oversight.",
   },
   {
@@ -45,6 +46,7 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
   {
     name: "Ja-Mel Johnson",
     role: "Chair, Governance Committee",
+    photo: "/ja-mel-johnson.jpg",
     bio: "Ja-Mel Johnson is Chief Operating Officer of the Baltimore Office of Promotion & The Arts, where he has also led human resources since 2021. He brings more than a decade of experience building strong systems and strong teams across Baltimore and New York. As Chair of the Governance Committee, he helps keep BGWYP's policies and Board practices strong.",
   },
   {
