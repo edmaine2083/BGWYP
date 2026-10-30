@@ -34,9 +34,9 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
   },
   {
     name: "Tamara Robinson",
-    role: "Treasurer and Finance Chair",
+    role: "Interim Board Chair and Treasurer",
     photo: "/tamara-robinson.jpg",
-    bio: "Tamara Robinson serves as BGWYP's Treasurer and Finance Chair, leading the Board's financial stewardship and fiscal oversight.",
+    bio: "Tamara Robinson serves as Interim Board Chair and Treasurer of Building Generational Wealth Youth Program, Inc. A nonprofit finance leader, she brings experience in financial oversight, governance, compliance, and administration. She is committed to helping BGWYP build a strong foundation while giving young people the tools to make informed financial decisions and build generational wealth.",
   },
   {
     name: "Gerald Green",
