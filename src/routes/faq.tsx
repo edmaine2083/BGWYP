@@ -56,16 +56,8 @@ const GROUPS: Group[] = [
       },
       {
         q: "What does it cost a family?",
-        text: "Family pricing has not been announced. Join the interest list and we will email you when enrollment details are set.",
-        answer: (
-          <>
-            Family pricing has not been announced. Join the{" "}
-            <Link to="/programs" hash="enroll" className={linkCls}>
-              interest list
-            </Link>{" "}
-            and we will email you when enrollment details are set.
-          </>
-        ),
+        text: "The program is free for families.",
+        answer: "The program is free for families.",
       },
       {
         q: "How many seats are in the first cohort?",

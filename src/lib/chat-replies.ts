@@ -98,7 +98,7 @@ export function answerChat(raw: string): string {
   }
 
   if (/how much|cost|tuition|fee|free|price|meals|transport/.test(q)) {
-    return `${summerAccelerator.included.text} The site does not list a family tuition. Sponsoring a young person's full year is $6,630, and a summer facilitator is $3,600. Questions about cost can go to ${CONTACT_EMAIL}, or see ${PROGRAMS} and ${INVOLVED}.`;
+    return `${summerAccelerator.included.text} The program is free for families. Sponsoring a young person's full year is $6,630, and a summer facilitator is $3,600. Questions about cost can go to ${CONTACT_EMAIL}, or see ${PROGRAMS} and ${INVOLVED}.`;
   }
 
   if (/enroll|sign ?up|register|\bapply\b|interest list|how do i (get in|start|join)|join the|cohort|\b60\b/.test(q)) {

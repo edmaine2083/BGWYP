@@ -130,10 +130,7 @@ function Programs() {
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-card">
             <dt className="font-display text-gold-deep">Cost to families</dt>
-            <dd className="mt-2">
-              To be announced
-              {/* TODO(BGWYP): confirm (free?) */}
-            </dd>
+            <dd className="mt-2">Free</dd>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-card">
             <dt className="font-display text-gold-deep">How spots are filled</dt>
