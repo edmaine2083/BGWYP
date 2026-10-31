@@ -27,16 +27,16 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
     ],
   },
   {
+    name: "Tamara Robinson",
+    role: "Interim Chair of the Board",
+    photo: "/tamara-robinson.jpg",
+    bio: "Tamara Robinson serves as Interim Chair of the Board of Building Generational Wealth Youth Program, Inc. A nonprofit finance leader, she brings experience in financial oversight, governance, compliance, and administration. She is committed to helping BGWYP build a strong foundation while giving young people the tools to make informed financial decisions and build generational wealth.",
+  },
+  {
     name: "Dr. Stacy Shepard",
     role: "Secretary and Education Chair",
     photo: "/stacy-shepard.jpg",
     bio: "Dr. Stacy Shepard is an award-winning educational leader, Executive Director-Superintendent, speaker, author, pastor, and founder of AriseNOW, LLC. With nearly two decades of experience in education, she is passionate about developing leaders, empowering others, and creating learning environments where every child and adult can thrive. Outside of work, Stacy enjoys writing, traveling, trying new experiences, and spending quality time with family and friends. She believes that faith, service, and lifelong learning are the foundation of a meaningful life.",
-  },
-  {
-    name: "Tamara Robinson",
-    role: "Interim Board Chair and Treasurer",
-    photo: "/tamara-robinson.jpg",
-    bio: "Tamara Robinson serves as Interim Board Chair and Treasurer of Building Generational Wealth Youth Program, Inc. A nonprofit finance leader, she brings experience in financial oversight, governance, compliance, and administration. She is committed to helping BGWYP build a strong foundation while giving young people the tools to make informed financial decisions and build generational wealth.",
   },
   {
     name: "Gerald Green",
