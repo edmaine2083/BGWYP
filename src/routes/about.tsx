@@ -41,6 +41,8 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
   {
     name: "Gerald Green",
     role: "Procurement & Grants Chair",
+    photo: "/gerald-green.jpg",
+    focus: "object-[center_22%]",
     bio: "Gerald Green is Deputy Director at Events DC, where he has led contracts and procurement work since 2022. He rose from Senior Contracts and Procurement Analyst to Manager of Contracts and Procurement before stepping into his current role. Earlier in his career he worked at Doctors Community Hospital and Prince George's Community College, building expertise in purchasing, supply chain and materials management, budgets, and contract negotiation. He holds a Bachelor of Business Administration from Strayer University and an associate degree from Prince George's Community College. As Procurement & Grants Chair, he guides BGWYP's grant strategy and makes sure every dollar is spent responsibly.",
   },
   {
