@@ -30,7 +30,11 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
     name: "Tamara Robinson",
     role: "Interim Chair of the Board",
     photo: "/tamara-robinson.jpg",
-    bio: "Tamara Robinson serves as Interim Chair of the Board of Building Generational Wealth Youth Program, Inc. A nonprofit finance leader, she brings experience in financial oversight, governance, compliance, and administration. She is committed to helping BGWYP build a strong foundation while giving young people the tools to make informed financial decisions and build generational wealth.",
+    bio: [
+      "Tamara Robinson serves as Interim Chair of the Board of Building Generational Wealth Youth Program, Inc., where she leads the Board through the organization’s founding stage. A nonprofit finance leader, she brings hands-on experience in financial oversight, governance, compliance, and administration, the disciplines that keep a young organization accountable to the families, partners, and funders who trust it.",
+      "As Interim Chair, Tamara guides the Board’s work to put strong systems in place before BGWYP welcomes its first cohort. That work includes sound financial controls, clear policies, and careful stewardship of every dollar. She believes that the habits BGWYP teaches young people, such as budgeting with intention, planning ahead, and making informed financial decisions, should also guide how the organization itself is run.",
+      "Tamara is committed to helping BGWYP build a lasting foundation and to giving Baltimore’s young people the knowledge and confidence to manage money wisely, create opportunity, and build generational wealth for their families and communities.",
+    ],
   },
   {
     name: "Dr. Stacy Shepard",
