@@ -42,8 +42,8 @@
 
 :root {
   --radius: 0.75rem;
-  --gold: oklch(0.73 0.14 87);
-  --gold-light: oklch(0.83 0.13 92);
+  --gold: #E3AC3D;
+  --gold-light: #F4C958;
   --gold-deep: oklch(0.56 0.12 82);
   --ink: oklch(0 0 0);
   --ink-foreground: oklch(1 0 0);
@@ -69,7 +69,7 @@
   --input: oklch(0.8 0.03 85);
   --ring: var(--gold-deep);
   --shadow-card: 0 10px 30px -14px oklch(0.3 0.05 80 / 0.35);
-  --glow-hero: radial-gradient(ellipse 60% 55% at 50% 38%, oklch(0.73 0.14 87 / 0.35), oklch(0.73 0.14 87 / 0.08) 45%, transparent 70%);
+  --glow-hero: radial-gradient(ellipse 60% 55% at 50% 38%, color-mix(in srgb, var(--gold) 35%, transparent), color-mix(in srgb, var(--gold) 8%, transparent) 45%, transparent 70%);
 }
 
 @layer base {
