@@ -15,7 +15,7 @@ const VALUES = [
   { i: Home, t: "Community reinvestment" },
   { i: Sprout, t: "Generational vision" },
 ];
-const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: string; focus?: string }[] = [
+const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: string; focus?: string; frame?: { transform: string; transformOrigin: string } }[] = [
   {
     name: "Edward J. Shepard, MBA",
     role: "Founder & Executive Director",
@@ -41,6 +41,19 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
     role: "Secretary and Education Chair",
     photo: "/stacy-shepard.jpg",
     bio: "Dr. Stacy Shepard is an award-winning educational leader, Executive Director-Superintendent, speaker, author, pastor, and founder of AriseNOW, LLC. With nearly two decades of experience in education, she is passionate about developing leaders, empowering others, and creating learning environments where every child and adult can thrive. Outside of work, Stacy enjoys writing, traveling, trying new experiences, and spending quality time with family and friends. She believes that faith, service, and lifelong learning are the foundation of a meaningful life.",
+  },
+  {
+    name: "Dr. Frederick V. Engram Jr., Ed.D.",
+    role: "Director, Education Committee",
+    photo: "/frederick-engram.jpg",
+    focus: "object-[center_18%]",
+    frame: { transform: "scale(1.28)", transformOrigin: "center 34%" },
+    bio: [
+      "Dr. Frederick V. Engram Jr. is an Assistant Professor of Higher Education at Fairleigh Dickinson University, a critical scholar, an author, and an advocate for legal education. His research and teaching examine how race and racism shape higher education systems and the law. His work focuses on how structural racism operates within institutions, and on how African Americans navigate and make sense of anti-Black racism in academic settings and in society at large.",
+      "Dr. Engram is the author of Black Liberation Through Action and Resistance: MOVE (Rowman & Littlefield). His commentary has appeared in Forbes, Blavity, and Diverse Issues in Higher Education (now EDU Ledger). A sought-after speaker on equity and the future of higher education, he delivered the opening keynote at the 57th annual conference of the Northeastern Educational Research Association.",
+      "He earned his Doctor of Education from Northeastern University’s College of Professional Studies, where he received the Innovative Academic Excellence Award. He also holds a B.A. from Johnson C. Smith University and a master’s degree from the University of Phoenix, and has pursued further study in sports law and higher education governance at Seton Hall University School of Law. He was inducted into the Martin Luther King Jr. International Chapel Collegium of Scholars at Morehouse College by Founding Dean Rev. Dr. Lawrence Edward Carter Sr.",
+      "On BGWYP’s Education Committee, Dr. Engram helps ensure that the program prepares Baltimore’s young people to navigate the institutions that shape their futures, from the classroom to college to their careers.",
+    ],
   },
   {
     name: "Gerald Green",
@@ -103,12 +116,14 @@ function About() {
       <Section labelledBy="leaders">
         <H2 id="leaders">Our leadership</H2>
         <ul className="mt-8 grid gap-6 lg:grid-cols-2">
-          {PEOPLE.map(({ name, role, bio, photo, focus }) => (
+          {PEOPLE.map(({ name, role, bio, photo, focus, frame }) => (
             <li key={name}>
               <Card className="h-full">
                 <div className="flex items-center gap-4">
                   {photo ? (
-                    <img src={photo} alt="" width={80} height={80} className={`h-20 w-20 shrink-0 rounded-full border-2 border-gold object-cover ${focus ?? "object-[center_18%]"}`} />
+                    <span className="grid h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-gold">
+                      <img src={photo} alt="" width={80} height={80} style={frame} className={`h-full w-full object-cover ${focus ?? "object-[center_18%]"}`} />
+                    </span>
                   ) : (
                     <span aria-hidden className="grid h-16 w-16 shrink-0 place-items-center rounded-full border-2 border-gold bg-ink font-display text-xl text-gold">{initials(name)}</span>
                   )}
