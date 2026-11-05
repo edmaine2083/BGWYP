@@ -7,10 +7,10 @@ export const PHOTOS = {
     height: 280,
   },
   practice: {
-    src: "/photos/hands-on-learning.jpg",
-    alt: "An adult helps two students work together on a tablet.",
-    width: 678,
-    height: 452,
+    src: "/photos/classroom-laptops.jpg",
+    alt: "A teacher talks with students working on laptops in a classroom.",
+    width: 499,
+    height: 400,
   },
   highFive: {
     src: "/photos/mentor-high-five.jpg",
