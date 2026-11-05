@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Scale, TrendingUp, ShieldCheck, Home, Sprout, Landmark } from "lucide-react";
 import { seo } from "@/lib/seo";
-import { Card, H2, PageHero, Reveal, Section } from "@/components/site/ui";
+import { Card, H2, PageHero, Photo, Reveal, Section } from "@/components/site/ui";
+import { PHOTOS } from "@/content/photos";
 
 export const Route = createFileRoute("/about")({
   head: () => seo("/about", "About Us", "Our mission, story, values, and leadership at Building Generational Wealth Youth Program in Baltimore."),
@@ -85,8 +86,9 @@ function About() {
           <H2 id="mission">Our mission</H2>
           <p className="mt-4">To equip Baltimore youth and young adults ages 11 through 24 with financial knowledge, career strategy, mentorship, professional exposure, negotiation skills, and asset-building discipline to increase economic mobility in historically underserved communities.</p>
         </Reveal>
-        <Reveal className="mt-14 max-w-3xl">
-          <H2>Our story</H2>
+        <div className="mt-14 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_18rem]">
+          <Reveal>
+            <H2>Our story</H2>
           <blockquote className="mt-6 border-l-2 border-gold pl-5">
             <p className="text-lg text-gold-deep md:text-xl">“We believe it is irresponsible to pressure young people to be better without providing the tools and infrastructure to become better.”</p>
             <footer className="mt-3 text-base not-italic text-foreground">— <cite className="not-italic">Edward J. Shepard</cite></footer>
@@ -103,7 +105,9 @@ function About() {
               <span className="block sm:inline">Build Legacies.</span>
             </p>
           </div>
-        </Reveal>
+          </Reveal>
+          <Photo src={PHOTOS.conversation.src} alt={PHOTOS.conversation.alt} className="h-80 rounded-xl object-[center_20%] lg:sticky lg:top-28 lg:h-[32rem]" />
+        </div>
       </Section>
       <Section tone="paper" labelledBy="values">
         <H2 id="values">Our values</H2>

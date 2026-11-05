@@ -3,8 +3,9 @@ import { Gift, Armchair, Briefcase, HeartHandshake, Share2, Handshake, type Luci
 import { CONTACT_EMAIL, DONATIONS_ENABLED } from "@/config";
 import { sponsorshipFunds, sponsorshipIntro, sponsorshipLevels } from "@/content/sponsorshipLevels";
 import { seo } from "@/lib/seo";
-import { Card, GoldNotice, H2, PageHero, Section } from "@/components/site/ui";
+import { Card, GoldNotice, H2, PageHero, Photo, Section } from "@/components/site/ui";
 import { InterestForm, InvolvementForm, VolunteerForm } from "@/components/site/site-forms";
+import { PHOTOS } from "@/content/photos";
 import {
   Dialog,
   DialogContent,
@@ -108,10 +109,13 @@ function GetInvolved() {
       </Section>
       {DONATIONS_ENABLED && <SponsorshipLevels />}
       <Section tone="paper" id="volunteer" labelledBy="vol-h">
-        <div className="mx-auto max-w-3xl">
-          <H2 id="vol-h">Mentor or volunteer</H2>
-          <Card className="mt-6"><VolunteerForm /></Card>
-          <p className="mt-4 text-muted-foreground">Everyone who works with young people completes a background check, safeguarding training, and signs our Code of Conduct. Applying does not guarantee a role.</p>
+        <div className="grid items-start gap-10 lg:grid-cols-2">
+          <Photo src={PHOTOS.conversation.src} alt={PHOTOS.conversation.alt} className="h-80 rounded-xl object-[center_20%] lg:h-full" />
+          <div>
+            <H2 id="vol-h">Mentor or volunteer</H2>
+            <Card className="mt-6"><VolunteerForm /></Card>
+            <p className="mt-4 text-muted-foreground">Everyone who works with young people completes a background check, safeguarding training, and signs our Code of Conduct. Applying does not guarantee a role.</p>
+          </div>
         </div>
       </Section>
       <Section id="interest" labelledBy="int-h">

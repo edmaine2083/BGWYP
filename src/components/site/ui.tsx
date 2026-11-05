@@ -96,6 +96,10 @@ export function H2({ children, id, onDark }: { children: ReactNode; id?: string;
   );
 }
 
+export function Photo({ src, alt, className }: { src: string; alt: string; className?: string }) {
+  return <img src={src} alt={alt} loading="lazy" className={cn("w-full object-cover", className)} />;
+}
+
 export function Card({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <div className={cn("rounded-xl border bg-card p-6 text-card-foreground shadow-card", className)}>

@@ -3,7 +3,8 @@ import { BookOpen, Hammer, Users } from "lucide-react";
 import { SUPPORT_HREF } from "@/config";
 import { seo } from "@/lib/seo";
 import { AnimatedLogo } from "@/components/site/AnimatedLogo";
-import { Card, H2, Reveal, Section } from "@/components/site/ui";
+import { Card, H2, Photo, Reveal, Section } from "@/components/site/ui";
+import { PHOTOS } from "@/content/photos";
 import { Skyline } from "@/components/site/Skyline";
 
 export const Route = createFileRoute("/")({
@@ -25,9 +26,9 @@ export const Route = createFileRoute("/")({
 });
 
 const STATEMENTS = [
-  { icon: BookOpen, t: "Learn.", d: "Age-matched financial education in four stages." },
-  { icon: Hammer, t: "Build.", d: "Real work: a budget, a resume, a college or job packet, a plan." },
-  { icon: Users, t: "Lead.", d: "Mentors, shadows, and a community that stays." },
+  { icon: BookOpen, t: "Learn.", d: "Age-matched financial education in four stages.", photo: PHOTOS.group },
+  { icon: Hammer, t: "Build.", d: "Real work: a budget, a resume, a college or job packet, a plan.", photo: PHOTOS.practice },
+  { icon: Users, t: "Lead.", d: "Mentors, shadows, and a community that stays.", photo: PHOTOS.highFive },
 ];
 const WAITING_STATS: [string, string, string, string?][] = [
   ["Fewer than half", "of Baltimore City graduates enroll in college the fall after high school.", "1"],
@@ -85,12 +86,15 @@ function Home() {
       <Section labelledBy="pillars">
         <h2 id="pillars" className="sr-only">What young people do</h2>
         <div className="grid gap-6 md:grid-cols-3">
-          {STATEMENTS.map(({ icon: Icon, t, d }) => (
+          {STATEMENTS.map(({ icon: Icon, t, d, photo }) => (
             <Reveal key={t}>
-              <Card className="h-full text-center">
-                <span className="icon-ring"><Icon aria-hidden /></span>
-                <h3 className="mt-4 text-2xl text-gold-deep">{t}</h3>
-                <p className="mt-2">{d}</p>
+              <Card className="h-full overflow-hidden p-0 text-center">
+                <Photo src={photo.src} alt={photo.alt} className="h-52 object-[center_30%]" />
+                <div className="p-6">
+                  <span className="icon-ring"><Icon aria-hidden /></span>
+                  <h3 className="mt-4 text-2xl text-gold-deep">{t}</h3>
+                  <p className="mt-2">{d}</p>
+                </div>
               </Card>
             </Reveal>
           ))}

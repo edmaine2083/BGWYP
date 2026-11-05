@@ -3,9 +3,10 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { CalendarDays, Award, ChevronDown } from "lucide-react";
 import { ENROLLMENT_OPEN } from "@/config";
 import { seo } from "@/lib/seo";
-import { Card, H2, PageHero, Section } from "@/components/site/ui";
+import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
 import { InterestForm } from "@/components/site/site-forms";
 import { SummerAccelerator } from "@/components/programs/SummerAccelerator";
+import { PHOTOS } from "@/content/photos";
 
 export const Route = createFileRoute("/programs")({
   head: () => seo("/programs", "Programs", "Four age-matched stages, a six-week Summer Accelerator, monthly school-year sessions, and Level-Up Mentors for Baltimore youth ages 11 to 24."),
@@ -145,8 +146,13 @@ function Programs() {
         </p>
       </Section>
       <Section labelledBy="stages">
-        <H2 id="stages">Four stages. One path to ownership.</H2>
-        <p className="mt-4 max-w-3xl text-lg">Every young person enters at the stage that fits their grade or age and grows with us from there.</p>
+        <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <H2 id="stages">Four stages. One path to ownership.</H2>
+            <p className="mt-4 text-lg">Every young person enters at the stage that fits their grade or age and grows with us from there.</p>
+          </div>
+          <Photo src={PHOTOS.group.src} alt={PHOTOS.group.alt} className="h-72 rounded-xl object-[center_30%]" />
+        </div>
         <Accordion.Root type="single" collapsible className="mt-10 space-y-8">
           {STAGES.map((stage, index) => (
             <Accordion.Item key={stage.name} value={stage.name} className="relative md:pl-20">
@@ -210,10 +216,22 @@ function Programs() {
       <SummerAccelerator />
       <Section tone="paper">
         <div className="grid gap-6 md:grid-cols-2">
-          <Card><span className="icon-ring"><CalendarDays aria-hidden /></span><h2 className="mt-4 text-xl text-gold-deep">School-Year Continuation</h2>
-            <p className="mt-2">Monthly sessions from September through May. The start year is to be announced.</p></Card>
-          <Card><span className="icon-ring"><Award aria-hidden /></span><h2 className="mt-4 text-xl text-gold-deep">Level-Up Mentors</h2>
-            <p className="mt-2">Older youth and alumni can earn Level-Up Mentor Certification and mentor younger participants, always with an adult present.</p></Card>
+          <Card className="overflow-hidden p-0">
+            <Photo src={PHOTOS.practice.src} alt={PHOTOS.practice.alt} className="h-56" />
+            <div className="p-6">
+              <span className="icon-ring"><CalendarDays aria-hidden /></span>
+              <h2 className="mt-4 text-xl text-gold-deep">School-Year Continuation</h2>
+              <p className="mt-2">Monthly sessions from September through May. The start year is to be announced.</p>
+            </div>
+          </Card>
+          <Card className="overflow-hidden p-0">
+            <Photo src={PHOTOS.highFive.src} alt={PHOTOS.highFive.alt} className="h-56 object-[center_40%]" />
+            <div className="p-6">
+              <span className="icon-ring"><Award aria-hidden /></span>
+              <h2 className="mt-4 text-xl text-gold-deep">Level-Up Mentors</h2>
+              <p className="mt-2">Older youth and alumni can earn Level-Up Mentor Certification and mentor younger participants, always with an adult present.</p>
+            </div>
+          </Card>
         </div>
       </Section>
       <Section labelledBy="enroll">

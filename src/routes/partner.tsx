@@ -2,8 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ClipboardList, ShieldCheck, Mail, BarChart3, School, Building2, Landmark, GraduationCap, Users } from "lucide-react";
 import { CONTACT_EMAIL } from "@/config";
 import { seo } from "@/lib/seo";
-import { Card, H2, PageHero, Section } from "@/components/site/ui";
+import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
 import { PartnerForm } from "@/components/site/site-forms";
+import { PHOTOS } from "@/content/photos";
 
 export const Route = createFileRoute("/partner")({
   head: () => seo("/partner", "Partner With Us", "Schools, employers, banks, colleges, and community groups: host a sector shadow, share space, or lead a guest session with BGWYP."),
@@ -26,10 +27,13 @@ function Partner() {
     <>
       <PageHero title="Partner With Us" intro="We build with schools, employers, banks, colleges, and community groups." />
       <Section>
-        <p className="mx-auto max-w-3xl text-center text-lg">
-          A specific commitment, like six sector shadows, a meeting room, or a guest session, helps most. If you can offer one, write to{" "}
-          <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-gold-deep underline">{CONTACT_EMAIL}</a>. We can send a template letter of commitment.
-        </p>
+        <div className="grid items-center gap-8 lg:grid-cols-2">
+          <p className="text-lg">
+            A specific commitment, like six sector shadows, a meeting room, or a guest session, helps most. If you can offer one, write to{" "}
+            <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-gold-deep underline">{CONTACT_EMAIL}</a>. We can send a template letter of commitment.
+          </p>
+          <Photo src={PHOTOS.practice.src} alt={PHOTOS.practice.alt} className="h-72 rounded-xl" />
+        </div>
         <h2 className="mt-14 text-center text-2xl text-gold-deep">What we offer partners</h2>
         <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {OFFER.map(({ i: I, t }) => (
