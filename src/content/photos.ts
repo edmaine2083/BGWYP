@@ -72,4 +72,10 @@ export const PHOTOS = {
     width: 389,
     height: 280,
   },
+  contact: {
+    src: "/photos/contact-us.jpg",
+    alt: "A person touches a screen that reads Contact Us.",
+    width: 622,
+    height: 350,
+  },
 } as const;
