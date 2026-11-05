@@ -146,7 +146,7 @@ function Home() {
               participants don’t just get by. They build plans, build wealth, and build legacies on
               purpose.
             </p>
-            <p className="mt-6 text-sm text-muted-foreground">
+            <p className="mt-6 text-[10px] leading-snug text-muted-foreground">
               Sources: <sup>1</sup> Baltimore Education Research Consortium, 2023. <sup>2</sup>{" "}
               Abell Foundation, 2024. <sup>3</sup> U.S. Census Bureau, Annual Business Survey (2023 data) and Population Estimates (Vintage 2025), via{" "}
               <a href="https://www.census.gov/quickfacts/fact/table/baltimorecitycountymaryland/HSG445223" className="underline">QuickFacts.</a>{" "}
