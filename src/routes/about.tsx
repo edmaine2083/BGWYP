@@ -106,7 +106,7 @@ function About() {
             </p>
           </div>
           </Reveal>
-          <Photo src={PHOTOS.conversation.src} alt={PHOTOS.conversation.alt} className="h-80 rounded-xl object-[center_20%] lg:sticky lg:top-28 lg:h-[32rem]" />
+          <Photo src={PHOTOS.conversation.src} alt={PHOTOS.conversation.alt} width={PHOTOS.conversation.width} height={PHOTOS.conversation.height} className="rounded-xl" />
         </div>
       </Section>
       <Section tone="paper" labelledBy="values">

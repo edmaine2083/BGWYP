@@ -22,6 +22,7 @@ const STAGES: {
   build: string[];
   readyLabel: string;
   ready: string;
+  photo: (typeof PHOTOS)[keyof typeof PHOTOS];
 }[] = [
   {
     name: "Foundations",
@@ -41,6 +42,7 @@ const STAGES: {
     ],
     readyLabel: "Ready for next:",
     ready: "Confident with the basics, and connected to adults who have their back.",
+    photo: PHOTOS.foundations,
   },
   {
     name: "Exploration",
@@ -61,6 +63,7 @@ const STAGES: {
     ],
     readyLabel: "Ready for next:",
     ready: "A resume in hand, a mentor in their corner, and a direction to explore.",
+    photo: PHOTOS.exploration,
   },
   {
     name: "Mastery",
@@ -81,6 +84,7 @@ const STAGES: {
     ],
     readyLabel: "Ready for next:",
     ready: "Graduating with a plan, not just a diploma.",
+    photo: PHOTOS.mastery,
   },
   {
     name: "Transition-Age",
@@ -100,6 +104,7 @@ const STAGES: {
     ],
     readyLabel: "The goal:",
     ready: "Financial independence, and a legacy to pass on.",
+    photo: PHOTOS.transition,
   },
 ];
 function Programs() {
@@ -146,13 +151,8 @@ function Programs() {
         </p>
       </Section>
       <Section labelledBy="stages">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <H2 id="stages">Four stages. One path to ownership.</H2>
-            <p className="mt-4 text-lg">Every young person enters at the stage that fits their grade or age and grows with us from there.</p>
-          </div>
-          <Photo src={PHOTOS.group.src} alt={PHOTOS.group.alt} className="h-72 rounded-xl object-[center_30%]" />
-        </div>
+        <H2 id="stages">Four stages. One path to ownership.</H2>
+        <p className="mt-4 max-w-3xl text-lg">Every young person enters at the stage that fits their grade or age and grows with us from there.</p>
         <Accordion.Root type="single" collapsible className="mt-10 space-y-8">
           {STAGES.map((stage, index) => (
             <Accordion.Item key={stage.name} value={stage.name} className="relative md:pl-20">
@@ -161,6 +161,7 @@ function Programs() {
               )}
               <span aria-hidden className="absolute top-0 left-0 z-10 hidden h-14 w-14 place-items-center rounded-full border-2 border-gold bg-gold font-display text-xl text-ink md:grid">{index + 1}</span>
               <Card>
+                <Photo src={stage.photo.src} alt={stage.photo.alt} width={stage.photo.width} height={stage.photo.height} className="mb-5" />
                 <div className="flex flex-wrap items-center gap-3">
                   <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-gold bg-gold font-display text-lg text-ink md:hidden">{index + 1}</span>
                   <h3 className="text-xl text-gold-deep">
@@ -217,7 +218,7 @@ function Programs() {
       <Section tone="paper">
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="overflow-hidden p-0">
-            <Photo src={PHOTOS.practice.src} alt={PHOTOS.practice.alt} className="h-56" />
+            <Photo src={PHOTOS.schoolYear.src} alt={PHOTOS.schoolYear.alt} width={PHOTOS.schoolYear.width} height={PHOTOS.schoolYear.height} />
             <div className="p-6">
               <span className="icon-ring"><CalendarDays aria-hidden /></span>
               <h2 className="mt-4 text-xl text-gold-deep">School-Year Continuation</h2>
@@ -225,7 +226,7 @@ function Programs() {
             </div>
           </Card>
           <Card className="overflow-hidden p-0">
-            <Photo src={PHOTOS.highFive.src} alt={PHOTOS.highFive.alt} className="h-56 object-[center_40%]" />
+            <Photo src={PHOTOS.mentors.src} alt={PHOTOS.mentors.alt} width={PHOTOS.mentors.width} height={PHOTOS.mentors.height} />
             <div className="p-6">
               <span className="icon-ring"><Award aria-hidden /></span>
               <h2 className="mt-4 text-xl text-gold-deep">Level-Up Mentors</h2>

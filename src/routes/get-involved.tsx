@@ -110,7 +110,7 @@ function GetInvolved() {
       {DONATIONS_ENABLED && <SponsorshipLevels />}
       <Section tone="paper" id="volunteer" labelledBy="vol-h">
         <div className="grid items-start gap-10 lg:grid-cols-2">
-          <Photo src={PHOTOS.conversation.src} alt={PHOTOS.conversation.alt} className="h-80 rounded-xl object-[center_20%] lg:h-full" />
+          <Photo src={PHOTOS.writing.src} alt={PHOTOS.writing.alt} width={PHOTOS.writing.width} height={PHOTOS.writing.height} className="rounded-xl" />
           <div>
             <H2 id="vol-h">Mentor or volunteer</H2>
             <Card className="mt-6"><VolunteerForm /></Card>

@@ -3,8 +3,7 @@ import { ShieldCheck } from "lucide-react";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/config";
 import { Contactish } from "@/components/site/Contactish";
 import { seo } from "@/lib/seo";
-import { Card, H2, PageHero, Photo, Reveal, Section } from "@/components/site/ui";
-import { PHOTOS } from "@/content/photos";
+import { Card, H2, PageHero, Reveal, Section } from "@/components/site/ui";
 
 export const Route = createFileRoute("/safety")({
   head: () => seo("/safety", "How We Protect Young People", "Screening, training, ratios, reporting, safe pickup, online safety, and independent oversight at BGWYP."),
@@ -29,7 +28,6 @@ function Safety() {
       <PageHero title="How We Protect Young People" intro="Plain language for parents, funders, and partners."
         lead="Young people's safety comes before everything else. Here is what we do." />
       <Section>
-        <Photo src={PHOTOS.group.src} alt={PHOTOS.group.alt} className="mb-10 h-72 rounded-xl object-[center_30%] md:h-96" />
         <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {ITEMS.map((t) => (
             <li key={t}><Reveal className="h-full"><Card className="flex h-full gap-4"><span className="icon-ring"><ShieldCheck aria-hidden /></span><p>{t}</p></Card></Reveal></li>

@@ -89,7 +89,7 @@ function Home() {
           {STATEMENTS.map(({ icon: Icon, t, d, photo }) => (
             <Reveal key={t}>
               <Card className="h-full overflow-hidden p-0 text-center">
-                <Photo src={photo.src} alt={photo.alt} className="h-52 object-[center_30%]" />
+                <Photo src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} />
                 <div className="p-6">
                   <span className="icon-ring"><Icon aria-hidden /></span>
                   <h3 className="mt-4 text-2xl text-gold-deep">{t}</h3>

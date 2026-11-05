@@ -96,8 +96,30 @@ export function H2({ children, id, onDark }: { children: ReactNode; id?: string;
   );
 }
 
-export function Photo({ src, alt, className }: { src: string; alt: string; className?: string }) {
-  return <img src={src} alt={alt} loading="lazy" className={cn("w-full object-cover", className)} />;
+export function Photo({
+  src,
+  alt,
+  width,
+  height,
+  className,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className?: string;
+}) {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      className={cn("mx-auto block h-auto max-w-full", className)}
+    />
+  );
 }
 
 export function Card({ children, className }: { children: ReactNode; className?: string }) {
