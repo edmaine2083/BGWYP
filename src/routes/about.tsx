@@ -146,6 +146,29 @@ function About() {
           ))}
         </ul>
       </Section>
+      <Section labelledBy="where">
+        <H2 id="where">Where we are</H2>
+        {/* TODO(BGWYP): date */}
+        <ol className="mx-auto mt-8 max-w-2xl border-l-2 border-gold">
+          {[
+            ["Incorporated as a Maryland nonprofit", "Done", "Date to be announced."],
+            ["Board of Directors seated", "Done", ""],
+            ["Community surveys open", "Done", ""],
+            ["Federal 501(c)(3) application submitted", "In progress", ""],
+            ["Partners and sites confirmed", "In progress", ""],
+            ["First cohort of 60 announced", "Coming", ""],
+          ].map(([label, state, note]) => (
+            <li key={label} className="relative py-4 pl-8">
+              <span aria-hidden className="absolute top-6 -left-[7px] h-3 w-3 rounded-full border-2 border-gold bg-background" />
+              <p className="font-semibold">{label}</p>
+              <p className="text-sm font-semibold text-gold-deep">
+                {state}
+                {note ? <span className="font-normal text-foreground">. {note}</span> : null}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </Section>
       <Section tone="dark" labelledBy="run">
         <div className="flex flex-col gap-6 md:flex-row md:items-start">
           <span className="icon-ring text-gold"><Landmark aria-hidden /></span>

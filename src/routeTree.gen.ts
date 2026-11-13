@@ -24,6 +24,7 @@ import { Route as SurveysRouteImport } from './routes/surveys'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiFormsRouteImport } from './routes/api/forms'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -100,6 +101,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiFormsRoute = ApiFormsRouteImport.update({
+  id: '/api/forms',
+  path: '/api/forms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/forms': typeof ApiFormsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/forms': typeof ApiFormsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,6 +160,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/forms': typeof ApiFormsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/thank-you'
     | '/api/chat'
+    | '/api/forms'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/thank-you'
     | '/api/chat'
+    | '/api/forms'
   id:
     | '__root__'
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/thank-you'
     | '/api/chat'
+    | '/api/forms'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -223,6 +235,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ThankYouRoute: typeof ThankYouRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiFormsRoute: typeof ApiFormsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -332,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/forms': {
+      id: '/api/forms'
+      path: '/api/forms'
+      fullPath: '/api/forms'
+      preLoaderRoute: typeof ApiFormsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -351,6 +371,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ThankYouRoute: ThankYouRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiFormsRoute: ApiFormsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

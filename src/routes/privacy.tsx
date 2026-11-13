@@ -23,7 +23,9 @@ function Privacy() {
       <PageHero title="Privacy Policy" intro="Building Generational Wealth Youth Program, Inc." />
       <Section>
         <div className="mx-auto max-w-3xl space-y-6">
-          <p className="text-sm text-muted-foreground">Effective date: October 21, 2026</p>
+          <p className="text-sm text-muted-foreground">
+            Effective date: October 21, 2026. Last updated: November 13, 2026.
+          </p>
           <p>
             Building Generational Wealth Youth Program, Inc. (“BGWYP,” “we,” “us”) is a Maryland
             nonprofit corporation that provides financial education, career readiness, and mentoring
@@ -67,8 +69,28 @@ function Privacy() {
             <span className="font-semibold">Information collected automatically.</span> Like most
             websites, our hosting and technology providers may automatically receive basic technical
             information, such as your IP address, browser type, and the pages you visit, to deliver
-            and secure the Site. The Site loads fonts from Google Fonts, which receives your IP
-            address when fonts load. We do not use advertising or tracking cookies.
+            and secure the Site. The fonts on this Site are served from bgwyp.org. We do not use
+            advertising or tracking cookies.
+          </p>
+
+          {/* TODO(BGWYP): legal review */}
+          {/* TODO(BGWYP): confirm provider and retention */}
+          <h2 className={heading}>Chat assistant</h2>
+          <p>
+            The Site includes a chat assistant that answers questions using the information
+            published on bgwyp.org. A message you type is sent to our server so a reply can be
+            generated. We do not save chat transcripts in BGWYP’s database. Do not enter sensitive
+            personal information, including a young person’s name, health details, or a safety
+            report. Use the Contact form for a safety concern.
+          </p>
+
+          {/* TODO(BGWYP): legal review */}
+          {/* TODO(BGWYP): confirm */}
+          <h2 className={heading}>Analytics</h2>
+          <p>
+            We do not use a separate analytics product on this Site. Our hosting provider may still
+            keep basic technical logs, such as IP address and pages requested, to deliver and secure
+            the Site.
           </p>
 
           <h2 className={heading}>How we use information</h2>
@@ -140,12 +162,50 @@ function Privacy() {
             who need it to do their work for BGWYP. No method of transmitting or storing information
             online is completely secure, so we cannot guarantee absolute security.
           </p>
+          {/* TODO(BGWYP): legal review */}
+          <p>
+            If a breach of personal information requires notice under Maryland law, we will notify
+            the people affected as the law requires.
+          </p>
 
           <h2 className={heading}>How long we keep information</h2>
           <p>
             We keep information only as long as needed for the purposes described here, or as
             required by law. You can ask us to delete your information at any time.
           </p>
+          {/* TODO(BGWYP): legal review */}
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-left text-sm">
+              <caption className="mb-2 text-left font-semibold">
+                How long each kind of information is kept
+              </caption>
+              <thead>
+                <tr>
+                  <th className="border-b py-2 pr-4">Information</th>
+                  <th className="border-b py-2">Kept for</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  "Contact messages",
+                  "Safety concern reports",
+                  "Interest list",
+                  "Volunteer applications",
+                  "Partner inquiries",
+                  "Giving notification list",
+                  "Survey responses",
+                  "Chat messages",
+                  "Technical logs",
+                ].map((kind) => (
+                  <tr key={kind}>
+                    <td className="border-b py-2 pr-4">{kind}</td>
+                    {/* TODO(BGWYP): retention period */}
+                    <td className="border-b py-2">To be announced.</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           <h2 className={heading}>Your choices</h2>
           <p>You may:</p>
@@ -173,9 +233,10 @@ function Privacy() {
           </p>
 
           <h2 className={heading}>Changes to this policy</h2>
+          {/* TODO(BGWYP): legal review */}
           <p>
-            We may update this Privacy Policy from time to time. When we do, we will update the
-            effective date above.
+            We may update this Privacy Policy from time to time. When we do, we post the update date
+            on this page and announce material changes by email to people on our lists.
           </p>
 
           <h2 className={heading}>Contact us</h2>

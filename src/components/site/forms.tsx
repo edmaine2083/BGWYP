@@ -1,8 +1,6 @@
-import { useId, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { z } from "zod";
 import { CheckCircle2 } from "lucide-react";
-import { WEB3FORMS_ACCESS_KEY } from "@/config";
-import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
 type Table =
@@ -10,7 +8,8 @@ type Table =
   | "interest_list"
   | "partner_inquiries"
   | "contact_messages"
-  | "donation_notify_list";
+  | "donation_notify_list"
+  | "safety_reports";
 
 type Values = Record<string, string | boolean | string[]>;
 
@@ -20,23 +19,22 @@ const inputCls =
 export const req = (label: string) => z.string().trim().min(1, `${label} is required.`).max(1000);
 export const email = z.string().trim().email("Enter a valid email address.").max(255);
 export const optional = z.string().trim().max(1000).optional().or(z.literal(""));
-export const zip = z.string().trim().regex(/^\d{5}(-\d{4})?$/, "Enter a 5-digit ZIP code.");
-export const phoneReq = z.string().trim().regex(/^[\d\s()+.-]{7,20}$/, "Enter a valid phone number.");
-
-function emailFields(row: Record<string, unknown>) {
-  const out: Record<string, string> = {};
-  for (const [key, value] of Object.entries(row)) {
-    if (Array.isArray(value)) out[key] = value.join(", ");
-    else if (typeof value === "boolean") out[key] = value ? "Yes" : "No";
-    else if (value != null && value !== "") out[key] = String(value);
-  }
-  return out;
-}
+export const zip = z
+  .string()
+  .trim()
+  .regex(/^\d{5}(-\d{4})?$/, "Enter a 5-digit ZIP code.");
+export const phoneReq = z
+  .string()
+  .trim()
+  .regex(/^[\d\s()+.-]{7,20}$/, "Enter a valid phone number.");
 
 export function useForm<S extends z.ZodTypeAny>(schema: S, initial: Values) {
   const [values, setValues] = useState<Values>(initial);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const set = (k: string, v: Values[string]) => setValues((s) => ({ ...s, [k]: v }));
+  const set = useCallback(
+    (k: string, v: Values[string]) => setValues((s) => ({ ...s, [k]: v })),
+    [],
+  );
   const validate = () => {
     const r = schema.safeParse(values);
     if (r.success) {
@@ -51,6 +49,39 @@ export function useForm<S extends z.ZodTypeAny>(schema: S, initial: Values) {
   return { values, errors, set, validate };
 }
 
+function HCaptchaField({ onToken }: { onToken: (token: string) => void }) {
+  // TODO(BGWYP): hCaptcha site key — set VITE_HCAPTCHA_SITE_KEY and HCAPTCHA_SECRET
+  const siteKey = import.meta.env.VITE_HCAPTCHA_SITE_KEY as string | undefined;
+  const box = useRef<HTMLDivElement>(null);
+  const onTokenRef = useRef(onToken);
+  onTokenRef.current = onToken;
+
+  useEffect(() => {
+    if (!siteKey || !box.current) return;
+    const node = box.current;
+    const script = document.createElement("script");
+    script.src = "https://js.hcaptcha.com/1/api.js?render=explicit";
+    script.async = true;
+    script.onload = () => {
+      const widget = (
+        window as Window & { hcaptcha?: { render: (el: HTMLElement, opts: object) => void } }
+      ).hcaptcha;
+      widget?.render(node, {
+        sitekey: siteKey,
+        callback: (token: string) => onTokenRef.current(token),
+        "expired-callback": () => onTokenRef.current(""),
+      });
+    };
+    document.head.appendChild(script);
+    return () => {
+      script.remove();
+    };
+  }, [siteKey]);
+
+  if (!siteKey) return null;
+  return <div ref={box} />;
+}
+
 export function FormShell({
   table,
   title,
@@ -58,6 +89,7 @@ export function FormShell({
   children,
   submitLabel,
   success,
+  doneTitle = "Thanks — we'll be in touch.",
   extraAboveSubmit,
   heading = true,
 }: {
@@ -67,18 +99,25 @@ export function FormShell({
   children: ReactNode;
   submitLabel: string;
   success: string;
+  doneTitle?: string;
   extraAboveSubmit?: ReactNode;
   heading?: boolean;
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState(
+    "Something went wrong. Please try again in a moment.",
+  );
   const [hp, setHp] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
   const hpId = useId();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const row = onValid();
     if (!row) {
-      (e.currentTarget as HTMLFormElement).querySelector<HTMLElement>("[aria-invalid=true]")?.focus();
+      (e.currentTarget as HTMLFormElement)
+        .querySelector<HTMLElement>("[aria-invalid=true]")
+        ?.focus();
       return;
     }
     if (hp) {
@@ -86,36 +125,28 @@ export function FormShell({
       return;
     }
     setStatus("sending");
-    const label = title ?? table.replaceAll("_", " ");
-    const fields = emailFields(row);
-    const fromName = fields.full_name || fields.guardian_name || fields.contact_name || fields.name || "BGWYP website";
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/forms", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `New BGWYP Form Submission! (${label})`,
-          from_name: fromName,
-          botcheck: "",
-          form: label,
-          ...fields,
+          table,
+          title: title ?? table.replaceAll("_", " "),
+          row,
+          honeypot: hp,
+          captchaToken,
         }),
       });
-      const data = (await res.json()) as { success?: boolean };
-      if (!res.ok || !data.success) {
+      const data = (await res.json()) as { ok?: boolean; error?: string };
+      if (!res.ok || !data.ok) {
+        setErrorMessage(data.error || "Something went wrong. Please try again in a moment.");
         setStatus("error");
         return;
       }
     } catch {
+      setErrorMessage("Something went wrong. Please try again in a moment.");
       setStatus("error");
       return;
-    }
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await supabase.from(table).insert(row as any);
-    } catch {
-      // The email already went out. A database miss should not block the visitor.
     }
     setStatus("done");
   }
@@ -123,46 +154,85 @@ export function FormShell({
   return (
     <div aria-live="polite">
       {status === "done" ? (
-        <div role="status" className="flex items-start gap-3 rounded-xl border-2 border-gold bg-paper p-6">
+        <div
+          role="status"
+          className="flex items-start gap-3 rounded-xl border-2 border-gold bg-paper p-6"
+        >
           <CheckCircle2 className="mt-1 shrink-0 text-gold-deep" aria-hidden />
           <div>
-            <p className="font-medium">Thanks — we'll be in touch.</p>
+            <p className="font-medium">{doneTitle}</p>
             {success ? <p className="mt-2">{success}</p> : null}
             {/* TODO(BGWYP): expected response time */}
           </div>
         </div>
       ) : (
-    <form onSubmit={submit} noValidate className="space-y-5" aria-label={title}>
-      {title && heading ? <h3 className="text-xl text-gold-deep">{title}</h3> : null}
-      <p className="text-sm text-muted-foreground">Fields marked * are required.</p>
-      {children}
-      <div aria-hidden className="absolute -left-[9999px]" >
-        <label htmlFor={hpId}>Leave this field empty</label>
-        <input id={hpId} tabIndex={-1} autoComplete="off" value={hp} onChange={(e) => setHp(e.target.value)} />
-      </div>
-      {extraAboveSubmit}
-      {status === "error" && (
-        <p role="alert" aria-live="assertive" className="text-destructive">Something went wrong. Please try again in a moment.</p>
-      )}
-      <button type="submit" className="btn btn-gold focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold-deep" disabled={status === "sending"}>
-        {status === "sending" ? "Sending…" : submitLabel}
-      </button>
-    </form>
+        <form onSubmit={submit} noValidate className="space-y-5" aria-label={title}>
+          {title && heading ? <h3 className="text-xl text-gold-deep">{title}</h3> : null}
+          <p className="text-sm text-muted-foreground">Fields marked * are required.</p>
+          {children}
+          <div aria-hidden className="absolute -left-[9999px]">
+            <label htmlFor={hpId}>Leave this field empty</label>
+            <input
+              id={hpId}
+              tabIndex={-1}
+              autoComplete="off"
+              value={hp}
+              onChange={(e) => setHp(e.target.value)}
+            />
+          </div>
+          <HCaptchaField onToken={setCaptchaToken} />
+          {extraAboveSubmit}
+          {status === "error" && (
+            <p role="alert" aria-live="assertive" className="text-destructive">
+              {errorMessage}
+            </p>
+          )}
+          <button
+            type="submit"
+            className="btn btn-gold focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold-deep"
+            disabled={status === "sending"}
+          >
+            {status === "sending" ? "Sending…" : submitLabel}
+          </button>
+        </form>
       )}
     </div>
   );
 }
 
-function Wrap({ id, label, required, error, children, hint }: { id: string; label: string; required?: boolean | undefined; error?: string | undefined; children: ReactNode; hint?: string }) {
+function Wrap({
+  id,
+  label,
+  required,
+  error,
+  children,
+  hint,
+}: {
+  id: string;
+  label: string;
+  required?: boolean | undefined;
+  error?: string | undefined;
+  children: ReactNode;
+  hint?: string;
+}) {
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block font-medium">
         {label}
-        {required && <span className="text-destructive" aria-hidden> *</span>}
+        {required && (
+          <span className="text-destructive" aria-hidden>
+            {" "}
+            *
+          </span>
+        )}
       </label>
       {hint && <p className="mb-1 text-sm text-muted-foreground">{hint}</p>}
       {children}
-      {error && <p id={`${id}-err`} role="alert" className="mt-1 text-sm text-destructive">{error}</p>}
+      {error && (
+        <p id={`${id}-err`} role="alert" className="mt-1 text-sm text-destructive">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -215,7 +285,13 @@ export function Area({ name, label, required, form }: FieldProps) {
   );
 }
 
-export function SelectField({ name, label, required, form, options }: FieldProps & { options: string[] }) {
+export function SelectField({
+  name,
+  label,
+  required,
+  form,
+  options,
+}: FieldProps & { options: string[] }) {
   const id = useId();
   const err = form.errors[name];
   return (
@@ -231,7 +307,9 @@ export function SelectField({ name, label, required, form, options }: FieldProps
       >
         <option value="">Choose one…</option>
         {options.map((o) => (
-          <option key={o} value={o}>{o}</option>
+          <option key={o} value={o}>
+            {o}
+          </option>
         ))}
       </select>
     </Wrap>
@@ -255,27 +333,54 @@ export function CheckField({ name, label, form, required }: Omit<FieldProps, "ty
         />
         <label htmlFor={id}>
           {label}
-          {required && <span className="text-destructive" aria-hidden> *</span>}
+          {required && (
+            <span className="text-destructive" aria-hidden>
+              {" "}
+              *
+            </span>
+          )}
         </label>
       </div>
-      {err && <p id={`${id}-err`} role="alert" className="mt-1 text-sm text-destructive">{err}</p>}
+      {err && (
+        <p id={`${id}-err`} role="alert" className="mt-1 text-sm text-destructive">
+          {err}
+        </p>
+      )}
     </div>
   );
 }
 
-export function CheckGroup({ name, legend, options, form }: { name: string; legend: string; options: string[]; form: ReturnType<typeof useForm> }) {
+export function CheckGroup({
+  name,
+  legend,
+  options,
+  form,
+}: {
+  name: string;
+  legend: string;
+  options: string[];
+  form: ReturnType<typeof useForm>;
+}) {
   const vals = (form.values[name] as string[]) ?? [];
   return (
     <fieldset>
       <legend className="mb-2 font-medium">{legend}</legend>
       <div className="grid gap-2 sm:grid-cols-2">
         {options.map((o) => (
-          <label key={o} className={cn("flex items-center gap-3 rounded-lg border px-3 py-2", vals.includes(o) && "border-gold")}>
+          <label
+            key={o}
+            className={cn(
+              "flex items-center gap-3 rounded-lg border px-3 py-2",
+              vals.includes(o) && "border-gold",
+            )}
+          >
             <input
               type="checkbox"
               className="h-5 w-5 accent-gold-deep"
               checked={vals.includes(o)}
-              onChange={(e) => form.set(name, e.target.checked ? [...vals, o] : vals.filter((v) => v !== o))}
+              onChange={(e) =>
+                form.set(name, e.target.checked ? [...vals, o] : vals.filter((v) => v !== o))
+              }
             />
             {o}
           </label>

@@ -54,15 +54,33 @@ function Surveys() {
         title="Surveys"
         intro="Help us build a program that fits Baltimore’s young people. Your answers shape what we teach, when we meet, and how we support families."
       />
+      <Section>
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-xl normal-case tracking-normal text-gold-deep">
+            What happens with your answers
+          </h2>
+          <p className="mt-4 text-lg">
+            Our Board reads every response. Results guide what we teach, when sessions meet, and how
+            we support families. We share results only in summary form.
+          </p>
+        </div>
+      </Section>
       {SURVEYS.map((survey) => (
         <Section key={survey.id} id={survey.id} labelledBy={`${survey.id}-h`} tone={survey.tone}>
           <div className="mx-auto max-w-3xl text-center">
             <H2 id={`${survey.id}-h`}>{survey.title}</H2>
             <p className="mt-4 text-lg">{survey.body}</p>
-            <a href={survey.href} target="_blank" rel="noopener noreferrer" className="btn btn-gold mt-6">
+            {/* TODO(BGWYP): minutes per survey */}
+            <p className="mt-3 text-sm text-muted-foreground">Time: To be announced.</p>
+            <a
+              href={survey.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-gold mt-6"
+            >
               {survey.cta}
             </a>
-            <p className="mt-3 text-sm text-muted-foreground">(opens an external form)</p>
+            <p className="mt-3 text-sm text-muted-foreground">(opens JotForm)</p>
           </div>
         </Section>
       ))}

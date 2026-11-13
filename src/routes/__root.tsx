@@ -21,8 +21,12 @@ function NotFoundComponent() {
     <div className="band-dark flex min-h-[60vh] items-center justify-center px-4">
       <div className="max-w-md text-center">
         <h1 className="text-6xl text-gold">404</h1>
-        <p className="mt-4 text-ink-muted">The page you're looking for doesn't exist or has been moved.</p>
-        <Link to="/" className="btn btn-gold mt-6">Go home</Link>
+        <p className="mt-4 text-ink-muted">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <Link to="/" className="btn btn-gold mt-6">
+          Go home
+        </Link>
       </div>
     </div>
   );
@@ -38,10 +42,22 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
     <div className="flex min-h-[60vh] items-center justify-center px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl text-foreground">This page didn't load</h1>
-        <p className="mt-2 text-muted-foreground">Something went wrong. You can try refreshing or head back home.</p>
+        <p className="mt-2 text-muted-foreground">
+          Something went wrong. You can try refreshing or head back home.
+        </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button onClick={() => { router.invalidate(); reset(); }} className="btn btn-gold">Try again</button>
-          <a href="/" className="btn btn-outline-deep">Go home</a>
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="btn btn-gold"
+          >
+            Try again
+          </button>
+          <a href="/" className="btn btn-outline-deep">
+            Go home
+          </a>
         </div>
       </div>
     </div>
@@ -64,9 +80,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" },
     ],
   }),
   shellComponent: RootShell,

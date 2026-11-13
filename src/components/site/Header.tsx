@@ -29,9 +29,38 @@ export function Header() {
       return;
     }
     opened.current = true;
-    menuRef.current?.querySelector<HTMLElement>("a")?.focus();
+    const menu = menuRef.current;
+    const toggle = toggleRef.current;
+    const items = () =>
+      [toggle, ...(menu ? [...menu.querySelectorAll<HTMLElement>("a, button")] : [])].filter(
+        (item): item is HTMLElement =>
+          item instanceof HTMLElement && !item.hasAttribute("disabled"),
+      );
+    items()[1]?.focus();
     function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = items();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      const index = active ? focusable.indexOf(active) : -1;
+      if (index === -1) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+        return;
+      }
+      if (event.shiftKey && index === 0) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && index === focusable.length - 1) {
+        event.preventDefault();
+        first.focus();
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -89,28 +118,32 @@ export function Header() {
           {open ? <X /> : <Menu />}
         </button>
       </div>
-      {open && (
-        <nav ref={menuRef} id="mobile-nav" aria-label="Mobile" className="border-t border-gold/30 px-5 pb-6 xl:hidden">
-          <ul className="flex flex-col py-2">
-            {NAV.map((n) => (
-              <li key={n.to}>
-                <Link
-                  to={n.to}
-                  onClick={() => setOpen(false)}
-                  className="block py-3 text-lg text-ink-foreground hover:text-gold-light"
-                  activeProps={{ className: "text-gold" }}
-                  activeOptions={{ exact: true }}
-                >
-                  {n.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <a href={SUPPORT_HREF} className="btn btn-gold w-full" onClick={() => setOpen(false)}>
-            Get Notified
-          </a>
-        </nav>
-      )}
+      <nav
+        ref={menuRef}
+        id="mobile-nav"
+        aria-label="Mobile"
+        hidden={!open}
+        className="border-t border-gold/30 px-5 pb-6 xl:hidden"
+      >
+        <ul className="flex flex-col py-2">
+          {NAV.map((n) => (
+            <li key={n.to}>
+              <Link
+                to={n.to}
+                onClick={() => setOpen(false)}
+                className="block py-3 text-lg text-ink-foreground hover:text-gold-light"
+                activeProps={{ className: "text-gold" }}
+                activeOptions={{ exact: true }}
+              >
+                {n.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <a href={SUPPORT_HREF} className="btn btn-gold w-full" onClick={() => setOpen(false)}>
+          Get Notified
+        </a>
+      </nav>
     </header>
   );
 }

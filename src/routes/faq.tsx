@@ -1,42 +1,55 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
-import { CONTACT_EMAIL, CONTACT_PHONE, DONATIONS_ENABLED, ENROLLMENT_OPEN } from "@/config";
+import {
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  DONATIONS_ENABLED,
+  ENROLLMENT_OPEN,
+  telHref,
+} from "@/config";
 import { seo } from "@/lib/seo";
 import { PageHero, Section } from "@/components/site/ui";
 import { Contactish } from "@/components/site/Contactish";
 
-export const Route = createFileRoute("/faq")({
-  head: () =>
-    seo(
-      "/faq",
-      "Frequently Asked Questions",
-      "Answers for families, business partners, and community groups about joining BGWYP, safety, sponsorship, and getting started.",
-    ),
-  component: Faq,
-});
-
 type Item = { q: string; text: string; answer: ReactNode };
 type Group = { id: string; title: string; intro: string; items: Item[] };
 
-const linkCls = "font-semibold text-gold-deep underline";
+const linkCls =
+  "font-semibold text-gold-deep underline focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold";
 
 const GROUPS: Group[] = [
   {
     id: "families",
-    title: "Families and young people",
+    title: "For families and young people",
     intro: "Who the program is for, what it covers, and how we keep young people safe.",
     items: [
       {
         q: "Who can join?",
-        text: "Baltimore City young people ages 11 to 24. Cohorts are matched by grade or age.",
-        answer: "Baltimore City young people ages 11 to 24. Cohorts are matched by grade or age.",
+        text: "Young people ages 11 to 24 in Baltimore. Our first cohort will have 60 seats. Join the interest list on our Programs page to hear first.",
+        answer: (
+          <>
+            Young people ages 11 to 24 in Baltimore. Our first cohort will have 60 seats. Join the
+            interest list on our{" "}
+            <Link to="/programs" hash="enroll" className={linkCls}>
+              Programs
+            </Link>{" "}
+            page to hear first.
+          </>
+        ),
       },
       {
         q: "When and where?",
-        text: "The Summer Accelerator is planned as 6 weeks, and school-year sessions are planned monthly from September to May. Dates and location are not yet set.",
-        answer:
-          "The Summer Accelerator is planned as 6 weeks, and school-year sessions are planned monthly from September to May. Dates and location are not yet set.",
+        text: "Dates and location for our first cohort are not set yet. People on the interest list will hear first.",
+        answer: (
+          <>
+            Dates and location for our first cohort are not set yet. People on the{" "}
+            <Link to="/programs" hash="enroll" className={linkCls}>
+              interest list
+            </Link>{" "}
+            will hear first.
+          </>
+        ),
       },
       {
         q: "What do young people learn?",
@@ -55,11 +68,6 @@ const GROUPS: Group[] = [
         ),
       },
       {
-        q: "What does it cost a family?",
-        text: "The program is free for families.",
-        answer: "The program is free for families.",
-      },
-      {
         q: "How many seats are in the first cohort?",
         text: "The first cohort has 60 seats. Space is based on funded capacity. How spots are filled has not been announced.",
         answer:
@@ -67,46 +75,131 @@ const GROUPS: Group[] = [
       },
       {
         q: "How do you keep young people safe?",
-        text: "See How We Protect Young People. Every adult is screened and trained; no adult is ever alone with a young person.",
+        text: "Every adult is screened (fingerprint, FBI, and sex-offender registry checks) and trained before any contact, and no adult is ever alone with a young person, in person or online. See our Safety page for the full policy.",
         answer: (
           <>
-            See{" "}
+            Every adult is screened (fingerprint, FBI, and sex-offender registry checks) and trained
+            before any contact, and no adult is ever alone with a young person, in person or online.
+            See our{" "}
             <Link to="/safety" className={linkCls}>
-              How We Protect Young People.
+              Safety
             </Link>{" "}
-            Every adult is screened and trained; no adult is ever alone with a young person.
+            page for the full policy.
           </>
         ),
       },
       {
+        q: "How do families join the interest list?",
+        text: ENROLLMENT_OPEN
+          ? "Enrollment is open. Space is limited to 60 and based on funded capacity. Add your name on the Programs page. We email you when enrollment details are announced."
+          : "Enrollment is not open. Add your name on the Programs page. We email you when dates, location, and enrollment details are announced.",
+        answer: ENROLLMENT_OPEN ? (
+          <>
+            Enrollment is open. Space is limited to 60 and based on funded capacity. Add your name
+            on the{" "}
+            <Link to="/programs" hash="enroll" className={linkCls}>
+              Programs
+            </Link>{" "}
+            page. We email you when enrollment details are announced.
+          </>
+        ) : (
+          <>
+            Enrollment is not open. Add your name on the{" "}
+            <Link to="/programs" hash="enroll" className={linkCls}>
+              Programs
+            </Link>{" "}
+            page. We email you when dates, location, and enrollment details are announced.
+          </>
+        ),
+      },
+      {
+        q: "Will sessions be virtual or in person?",
+        text: "The location has not been announced, so the meeting format is not set. We will share it when dates and location are set.",
+        answer:
+          "The location has not been announced, so the meeting format is not set. We will share it when dates and location are set.",
+      },
+      {
         q: "How do I report a concern?",
-        text: `Contact us at ${CONTACT_PHONE} or ${CONTACT_EMAIL}. If a young person is in danger, call 911.`,
+        text: 'If a young person is in immediate danger, call 911. To report suspected child abuse or neglect in Maryland, call 1-800-91-PREVENT (1-800-917-7383). To raise any concern with BGWYP, call (443) 592-0494 or use the Contact form and choose "Safety concern."',
         answer: (
           <>
-            Contact us at <Contactish value={CONTACT_PHONE} kind="tel" /> or{" "}
-            <Contactish value={CONTACT_EMAIL} kind="mail" />. If a young person is in danger, call
-            911.
+            If a young person is in immediate danger, call{" "}
+            <a href="tel:911" className={linkCls}>
+              911
+            </a>
+            . To report suspected child abuse or neglect in Maryland, call{" "}
+            <a href="tel:+18009177383" className={linkCls}>
+              1-800-91-PREVENT (1-800-917-7383)
+            </a>
+            . To raise any concern with BGWYP, call{" "}
+            <a href={telHref(CONTACT_PHONE)} className={linkCls}>
+              {CONTACT_PHONE}
+            </a>{" "}
+            or use the{" "}
+            <Link to="/contact" className={linkCls}>
+              Contact form
+            </Link>{" "}
+            and choose &quot;Safety concern.&quot;
           </>
         ),
       },
     ],
   },
   {
-    id: "business",
-    title: "Business partners",
-    intro: "How employers, banks, and other businesses can host, teach, or fund a seat.",
+    id: "volunteers",
+    title: "For volunteers and mentors",
+    intro: "How adults can help, and the screening that comes first.",
     items: [
       {
-        q: "How can my business help?",
-        text: "Host a shadow, offer a guest session, sponsor a seat, or become a founding partner. Start on Get Involved.",
+        q: "How can I volunteer or mentor?",
+        text: "Start on our Get Involved page. Every volunteer who works with youth is screened and trained first.",
         answer: (
           <>
-            Host a shadow, offer a guest session, sponsor a seat, or become a founding partner.
-            Start on{" "}
+            Start on our{" "}
             <Link to="/get-involved" className={linkCls}>
               Get Involved
+            </Link>{" "}
+            page. Every volunteer who works with youth is screened and trained first.
+          </>
+        ),
+      },
+    ],
+  },
+  {
+    id: "partners",
+    title: "For partners and supporters",
+    intro: "Schools, businesses, community groups, and people who want to give or collaborate.",
+    items: [
+      {
+        q: "Are you a 501(c)(3)?",
+        text: "BGWYP is a Maryland nonprofit corporation. Our federal 501(c)(3) application is pending.",
+        answer:
+          "BGWYP is a Maryland nonprofit corporation. Our federal 501(c)(3) application is pending.",
+      },
+      {
+        q: "Can I give a tax-deductible gift?",
+        text: "Not yet. We are not accepting donations while our 501(c)(3) application is pending. Leave your email to be notified when giving opens.",
+        answer: (
+          <>
+            Not yet. We are not accepting donations while our 501(c)(3) application is pending.
+            Leave your email to be notified when giving opens on the{" "}
+            <Link to="/donate" hash="notify" className={linkCls}>
+              notify list
             </Link>
             .
+          </>
+        ),
+      },
+      {
+        q: "How can my business or organization help?",
+        text: "Visit our Partner page to talk with us about job shadowing, guest speaking, space, and more.",
+        answer: (
+          <>
+            Visit our{" "}
+            <Link to="/partner" className={linkCls}>
+              Partner
+            </Link>{" "}
+            page to talk with us about job shadowing, guest speaking, space, and more.
           </>
         ),
       },
@@ -141,13 +234,6 @@ const GROUPS: Group[] = [
           </>
         ),
       },
-    ],
-  },
-  {
-    id: "community",
-    title: "Nonprofit and community partners",
-    intro: "Schools, community groups, and supporters who want to collaborate or give.",
-    items: [
       {
         q: "Can a school or community group partner?",
         text: "Yes. Schools and community groups can host, share space, or lead a guest session. You can also take the community survey so we hear what young people in your neighborhood need.",
@@ -178,56 +264,10 @@ const GROUPS: Group[] = [
         ),
       },
       {
-        q: "Are you a 501(c)(3)?",
-        text: "We are a Maryland nonprofit corporation. Our application for federal 501(c)(3) status is pending.",
-        answer:
-          "We are a Maryland nonprofit corporation. Our application for federal 501(c)(3) status is pending.",
-      },
-      {
-        q: "Can I give a tax-deductible gift?",
-        text: DONATIONS_ENABLED
-          ? "We are a Maryland nonprofit corporation, and our application for federal 501(c)(3) status is pending. Deductibility depends on IRS approval. Please consult your tax advisor."
-          : "Giving is not open yet. We are a Maryland nonprofit corporation, and our application for federal 501(c)(3) status is pending. Deductibility depends on IRS approval. Please consult your tax advisor.",
-        answer: DONATIONS_ENABLED
-          ? "We are a Maryland nonprofit corporation, and our application for federal 501(c)(3) status is pending. Deductibility depends on IRS approval. Please consult your tax advisor."
-          : "Giving is not open yet. We are a Maryland nonprofit corporation, and our application for federal 501(c)(3) status is pending. Deductibility depends on IRS approval. Please consult your tax advisor.",
-      },
-      {
         q: "How is BGWYP governed?",
         text: "An independent Board with committees for finance, education, grants, governance, and risk and safeguarding. Written policies on conflicts of interest and related parties. Executive Director pay set by disinterested directors.",
         answer:
           "An independent Board with committees for finance, education, grants, governance, and risk and safeguarding. Written policies on conflicts of interest and related parties. Executive Director pay set by disinterested directors.",
-      },
-    ],
-  },
-  {
-    id: "start",
-    title: "Getting started",
-    intro: "How to reach us, what to have ready, and what is still being scheduled.",
-    items: [
-      {
-        q: "How do families join the interest list?",
-        text: ENROLLMENT_OPEN
-          ? "Enrollment is open. Space is limited to 60 and based on funded capacity. Add your name on the Programs page. We email you when enrollment details are announced."
-          : "Enrollment is not open. Add your name on the Programs page. We email you when dates, location, and enrollment details are announced.",
-        answer: ENROLLMENT_OPEN ? (
-          <>
-            Enrollment is open. Space is limited to 60 and based on funded capacity. Add your name
-            on the{" "}
-            <Link to="/programs" hash="enroll" className={linkCls}>
-              Programs
-            </Link>{" "}
-            page. We email you when enrollment details are announced.
-          </>
-        ) : (
-          <>
-            Enrollment is not open. Add your name on the{" "}
-            <Link to="/programs" hash="enroll" className={linkCls}>
-              Programs
-            </Link>{" "}
-            page. We email you when dates, location, and enrollment details are announced.
-          </>
-        ),
       },
       {
         q: "How do we start a partnership?",
@@ -256,27 +296,37 @@ const GROUPS: Group[] = [
           </>
         ),
       },
-      {
-        q: "Will sessions be virtual or in person?",
-        text: "The location has not been announced, so the meeting format is not set. We will share it when dates and location are set.",
-        answer:
-          "The location has not been announced, so the meeting format is not set. We will share it when dates and location are set.",
-      },
     ],
   },
 ];
 
-const ALL_ITEMS = GROUPS.flatMap((group) => group.items);
+// TODO(BGWYP): confirm cost to families
+// "Does it cost anything to participate?" stays off this page until that answer is confirmed.
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: ALL_ITEMS.map(({ q, text }) => ({
+  mainEntity: GROUPS.flatMap((group) => group.items).map(({ q, text }) => ({
     "@type": "Question",
     name: q,
     acceptedAnswer: { "@type": "Answer", text },
   })),
 };
+
+export const Route = createFileRoute("/faq")({
+  head: () => {
+    const head = seo(
+      "/faq",
+      "Frequently Asked Questions",
+      "Answers for families, volunteers, and partners about joining BGWYP, safety, and getting started.",
+    );
+    return {
+      ...head,
+      scripts: [{ type: "application/ld+json", children: JSON.stringify(faqJsonLd) }],
+    };
+  },
+  component: Faq,
+});
 
 function matches(group: Group, item: Item, query: string) {
   const haystack = `${group.title} ${group.intro} ${item.q} ${item.text}`.toLowerCase();
@@ -298,14 +348,7 @@ function Faq() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <PageHero
-        title="FAQ"
-        intro="Answers for families, business partners, community groups, and supporters."
-      />
+      <PageHero title="FAQ" intro="Answers for families, volunteers, partners, and supporters." />
       <Section>
         <div className="mx-auto max-w-3xl">
           <label htmlFor="faq-search" className="font-semibold text-gold-deep">
@@ -317,7 +360,7 @@ function Faq() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Try safety, sponsorship, or interest list"
-            className="mt-2 w-full rounded-lg border border-input bg-background px-3 py-2.5 text-foreground placeholder:text-muted-foreground focus-visible:outline-gold"
+            className="mt-2 w-full rounded-lg border border-input bg-background px-3 py-2.5 text-foreground placeholder:text-muted-foreground focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold"
           />
           {needle ? (
             <p className="mt-3 text-sm text-muted-foreground" aria-live="polite">
@@ -337,20 +380,8 @@ function Faq() {
               <p className="mt-2 text-base">{group.intro}</p>
               <div className="mt-4">
                 {group.items.map(({ q, answer }) => (
-                  <details
-                    key={q}
-                    className="group border-b border-border"
-                    onToggle={(event) => {
-                      const details = event.currentTarget;
-                      details
-                        .querySelector("summary")
-                        ?.setAttribute("aria-expanded", String(details.open));
-                    }}
-                  >
-                    <summary
-                      aria-expanded="false"
-                      className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-display text-lg focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold [&::-webkit-details-marker]:hidden"
-                    >
+                  <details key={q} className="group border-b border-border">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-display text-lg focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold [&::-webkit-details-marker]:hidden">
                       {q}
                       <ChevronDown
                         aria-hidden

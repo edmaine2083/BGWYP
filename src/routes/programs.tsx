@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import * as Accordion from "@radix-ui/react-accordion";
 import { CalendarDays, Award, ChevronDown } from "lucide-react";
 import { ENROLLMENT_OPEN } from "@/config";
@@ -7,11 +7,6 @@ import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
 import { InterestForm } from "@/components/site/site-forms";
 import { SummerAccelerator } from "@/components/programs/SummerAccelerator";
 import { PHOTOS } from "@/content/photos";
-
-export const Route = createFileRoute("/programs")({
-  head: () => seo("/programs", "Programs", "Four age-matched stages, a six-week Summer Accelerator, monthly school-year sessions, and Level-Up Mentors for Baltimore youth ages 11 to 24."),
-  component: Programs,
-});
 
 const STAGES: {
   name: string;
@@ -23,12 +18,14 @@ const STAGES: {
   readyLabel: string;
   ready: string;
   photo: (typeof PHOTOS)[keyof typeof PHOTOS];
+  ageRange: "11–13" | "14–15" | "16–17" | "18–24";
 }[] = [
   {
     name: "Foundations",
     who: "Grades 6–8",
     question: "How does money work, and where do I fit?",
-    summary: "Young people build healthy money habits early and discover the people and places in their own neighborhood that can help them grow.",
+    summary:
+      "Young people build healthy money habits early and discover the people and places in their own neighborhood that can help them grow.",
     learn: [
       "Needs vs. wants, and how to make a simple spending plan",
       "Saving for a goal and why starting early matters",
@@ -43,12 +40,14 @@ const STAGES: {
     readyLabel: "Ready for next:",
     ready: "Confident with the basics, and connected to adults who have their back.",
     photo: PHOTOS.foundations,
+    ageRange: "11–13",
   },
   {
     name: "Exploration",
     who: "Grades 9–10",
     question: "What could my future look like, and what will it pay?",
-    summary: "Teens explore careers, meet professionals, and learn how a paycheck really works before their first job.",
+    summary:
+      "Teens explore careers, meet professionals, and learn how a paycheck really works before their first job.",
     learn: [
       "Career pathways, and the education and income each one leads to",
       "Reading a paystub: taxes, deductions, and take-home pay",
@@ -64,12 +63,14 @@ const STAGES: {
     readyLabel: "Ready for next:",
     ready: "A resume in hand, a mentor in their corner, and a direction to explore.",
     photo: PHOTOS.exploration,
+    ageRange: "14–15",
   },
   {
     name: "Mastery",
     who: "Grades 11–12",
     question: "What’s my plan after high school, and is it worth the cost?",
-    summary: "Juniors and seniors turn exploration into a real plan and compare college, careers, and training by what each will truly cost and return.",
+    summary:
+      "Juniors and seniors turn exploration into a real plan and compare college, careers, and training by what each will truly cost and return.",
     learn: [
       "Comparing college, trade, and career options by cost and long-term return",
       "Scholarships, financial aid, and avoiding unnecessary debt",
@@ -85,12 +86,14 @@ const STAGES: {
     readyLabel: "Ready for next:",
     ready: "Graduating with a plan, not just a diploma.",
     photo: PHOTOS.mastery,
+    ageRange: "16–17",
   },
   {
     name: "Transition-Age",
     who: "Ages 18–24",
     question: "How do I stand on my own and help others rise?",
-    summary: "Young adults put their plans into action as they move toward independence, with support that doesn’t end at graduation.",
+    summary:
+      "Young adults put their plans into action as they move toward independence, with support that doesn’t end at graduation.",
     learn: [
       "Living independently: rent, bills, and emergency savings",
       "Building and repairing credit",
@@ -105,9 +108,28 @@ const STAGES: {
     readyLabel: "The goal:",
     ready: "Financial independence, and a legacy to pass on.",
     photo: PHOTOS.transition,
+    ageRange: "18–24",
   },
 ];
+
+const AGE_RANGES = ["11–13", "14–15", "16–17", "18–24"] as const;
+
+export const Route = createFileRoute("/programs")({
+  validateSearch: (search: Record<string, unknown>) => {
+    const age = typeof search.age === "string" ? search.age : "";
+    return { age: AGE_RANGES.includes(age as (typeof AGE_RANGES)[number]) ? age : "" };
+  },
+  head: () =>
+    seo(
+      "/programs",
+      "Programs",
+      "Four age-matched stages, a six-week Summer Accelerator, monthly school-year sessions, and Level-Up Mentors for Baltimore youth ages 11 to 24.",
+    ),
+  component: Programs,
+});
+
 function Programs() {
+  const { age } = Route.useSearch();
   return (
     <>
       <PageHero title="Programs" intro="What young people do and when." />
@@ -147,43 +169,86 @@ function Programs() {
           </div>
         </dl>
         <p className="mt-6 max-w-3xl text-lg">
-          Join the <a href="#enroll" className="font-semibold text-gold-deep underline">interest list</a> and we'll contact you when dates and location are set.
+          Join the{" "}
+          <a href="#enroll" className="font-semibold text-gold-deep underline">
+            interest list
+          </a>{" "}
+          and we'll contact you when dates and location are set.
         </p>
       </Section>
       <Section labelledBy="stages">
         <H2 id="stages">Four stages. One path to ownership.</H2>
-        <p className="mt-4 max-w-3xl text-lg">Every young person enters at the stage that fits their grade or age and grows with us from there.</p>
+        <p className="mt-4 max-w-3xl text-lg">
+          Every young person enters at the stage that fits their grade or age and grows with us from
+          there.
+        </p>
         <Accordion.Root type="single" collapsible className="mt-10 space-y-8">
           {STAGES.map((stage, index) => (
             <Accordion.Item key={stage.name} value={stage.name} className="relative md:pl-20">
               {index < STAGES.length - 1 && (
-                <span aria-hidden className="absolute top-14 left-7 hidden h-[calc(100%+2rem)] w-px -translate-x-1/2 bg-gold md:block" />
+                <span
+                  aria-hidden
+                  className="absolute top-14 left-7 hidden h-[calc(100%+2rem)] w-px -translate-x-1/2 bg-gold md:block"
+                />
               )}
-              <span aria-hidden className="absolute top-0 left-0 z-10 hidden h-14 w-14 place-items-center rounded-full border-2 border-gold bg-gold font-display text-xl text-ink md:grid">{index + 1}</span>
+              <span
+                aria-hidden
+                className="absolute top-0 left-0 z-10 hidden h-14 w-14 place-items-center rounded-full border-2 border-gold bg-gold font-display text-xl text-ink md:grid"
+              >
+                {index + 1}
+              </span>
               <Card>
-                <Photo src={stage.photo.src} alt={stage.photo.alt} width={stage.photo.width} height={stage.photo.height} className="mb-5" />
+                <Photo
+                  src={stage.photo.src}
+                  alt={stage.photo.alt}
+                  width={stage.photo.width}
+                  height={stage.photo.height}
+                  className="mb-5"
+                />
                 <div className="flex flex-wrap items-center gap-3">
-                  <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-gold bg-gold font-display text-lg text-ink md:hidden">{index + 1}</span>
+                  <span
+                    aria-hidden
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-gold bg-gold font-display text-lg text-ink md:hidden"
+                  >
+                    {index + 1}
+                  </span>
                   <h3 className="text-xl text-gold-deep">
                     <span className="sr-only">Stage {index + 1}. </span>
                     {stage.name}
                   </h3>
-                  <p className="rounded-full border border-gold bg-paper px-3 py-1 text-sm font-semibold">{stage.who}</p>
+                  <p className="rounded-full border border-gold bg-paper px-3 py-1 text-sm font-semibold">
+                    {stage.who}
+                  </p>
                 </div>
-                <p className="mt-4 font-[Georgia,serif] text-lg italic text-gold-deep">“{stage.question}”</p>
+                <p className="mt-4 font-[Georgia,serif] text-lg italic text-gold-deep">
+                  “{stage.question}”
+                </p>
                 <p className="mt-3">{stage.summary}</p>
+                <Link
+                  to="/programs"
+                  search={{ age: stage.ageRange }}
+                  hash="enroll"
+                  className="btn btn-outline-deep mt-5"
+                >
+                  Join the interest list for ages {stage.ageRange}
+                </Link>
                 <Accordion.Header asChild>
                   <div className="mt-5">
                     <Accordion.Trigger className="btn btn-outline-deep group">
                       See what they learn and build
-                      <ChevronDown aria-hidden className="transition-transform group-data-[state=open]:rotate-180" />
+                      <ChevronDown
+                        aria-hidden
+                        className="transition-transform group-data-[state=open]:rotate-180"
+                      />
                     </Accordion.Trigger>
                   </div>
                 </Accordion.Header>
                 <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
                   <div className="mt-6 grid gap-6 md:grid-cols-2">
                     <div>
-                      <h4 className="text-lg normal-case tracking-normal text-gold-deep">What they learn</h4>
+                      <h4 className="text-lg normal-case tracking-normal text-gold-deep">
+                        What they learn
+                      </h4>
                       <ul className="mt-3 space-y-2">
                         {stage.learn.map((item) => (
                           <li key={item} className="flex gap-3">
@@ -194,7 +259,9 @@ function Programs() {
                       </ul>
                     </div>
                     <div>
-                      <h4 className="text-lg normal-case tracking-normal text-gold-deep">What they build</h4>
+                      <h4 className="text-lg normal-case tracking-normal text-gold-deep">
+                        What they build
+                      </h4>
                       <ul className="mt-3 space-y-2">
                         {stage.build.map((item) => (
                           <li key={item} className="flex gap-3">
@@ -206,7 +273,8 @@ function Programs() {
                     </div>
                   </div>
                   <p className="mt-6 rounded-lg bg-gold/15 px-4 py-3">
-                    <span className="font-semibold text-gold-deep">{stage.readyLabel}</span> {stage.ready}
+                    <span className="font-semibold text-gold-deep">{stage.readyLabel}</span>{" "}
+                    {stage.ready}
                   </p>
                 </Accordion.Content>
               </Card>
@@ -218,19 +286,38 @@ function Programs() {
       <Section tone="paper">
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="overflow-hidden p-0">
-            <Photo src={PHOTOS.schoolYear.src} alt={PHOTOS.schoolYear.alt} width={PHOTOS.schoolYear.width} height={PHOTOS.schoolYear.height} />
+            <Photo
+              src={PHOTOS.schoolYear.src}
+              alt={PHOTOS.schoolYear.alt}
+              width={PHOTOS.schoolYear.width}
+              height={PHOTOS.schoolYear.height}
+            />
             <div className="p-6">
-              <span className="icon-ring"><CalendarDays aria-hidden /></span>
+              <span className="icon-ring">
+                <CalendarDays aria-hidden />
+              </span>
               <h2 className="mt-4 text-xl text-gold-deep">School-Year Continuation</h2>
-              <p className="mt-2">Monthly sessions from September through May. The start year is to be announced.</p>
+              <p className="mt-2">
+                Monthly sessions from September through May. The start year is to be announced.
+              </p>
             </div>
           </Card>
           <Card className="overflow-hidden p-0">
-            <Photo src={PHOTOS.mentors.src} alt={PHOTOS.mentors.alt} width={PHOTOS.mentors.width} height={PHOTOS.mentors.height} />
+            <Photo
+              src={PHOTOS.mentors.src}
+              alt={PHOTOS.mentors.alt}
+              width={PHOTOS.mentors.width}
+              height={PHOTOS.mentors.height}
+            />
             <div className="p-6">
-              <span className="icon-ring"><Award aria-hidden /></span>
+              <span className="icon-ring">
+                <Award aria-hidden />
+              </span>
               <h2 className="mt-4 text-xl text-gold-deep">Level-Up Mentors</h2>
-              <p className="mt-2">Older youth and alumni can earn Level-Up Mentor Certification and mentor younger participants, always with an adult present.</p>
+              <p className="mt-2">
+                Older youth and alumni can earn Level-Up Mentor Certification and mentor younger
+                participants, always with an adult present.
+              </p>
             </div>
           </Card>
         </div>
@@ -240,14 +327,21 @@ function Programs() {
           <div>
             <H2 id="enroll">{ENROLLMENT_OPEN ? "Enrollment is open" : "Join the interest list"}</H2>
             {ENROLLMENT_OPEN ? (
-              <p className="mt-4 text-lg">Enrollment is open. Space is limited to 60 and based on funded capacity. Join the interest list.</p>
+              <p className="mt-4 text-lg">
+                Enrollment is open. Space is limited to 60 and based on funded capacity. Join the
+                interest list.
+              </p>
             ) : (
-              <p className="mt-4 text-lg">Space is limited to 60 and based on funded capacity. Join the interest list.</p>
+              <p className="mt-4 text-lg">
+                Space is limited to 60 and based on funded capacity. Join the interest list.
+              </p>
             )}
           </div>
           <div>
-            <InterestForm />
-            <p className="mt-4 text-muted-foreground">We'll email you when enrollment details are announced.</p>
+            <InterestForm presetAge={age} />
+            <p className="mt-4 text-muted-foreground">
+              We'll email you when enrollment details are announced.
+            </p>
           </div>
         </div>
       </Section>

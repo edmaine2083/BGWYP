@@ -6,9 +6,23 @@ export const CHAT_ENABLED = true;
 export const DONATION_URL = "";
 export const LOGO_SRC = "/bgwyp-logo.jpg";
 export const CONTACT_EMAIL = "info@bgwyp.org";
-/** Public Web3Forms access key. Submissions are emailed to the inbox tied to this key. */
-export const WEB3FORMS_ACCESS_KEY = "91eb5252-5ae9-41eb-98c3-d87d642c86c9";
 export const CONTACT_PHONE = "(443) 592-0494";
+
+/** TODO(BGWYP): number — survey responses collected. Leave unset until counted. */
+export const SURVEY_RESPONSES_COLLECTED: number | null = null;
+/** TODO(BGWYP): number — partners signed on. Leave unset until counted. */
+export const PARTNERS_SIGNED_ON: number | null = null;
+export const FIRST_COHORT_SEATS = 60;
+
+export function launchProgressItems() {
+  return (
+    [
+      ["Survey responses collected", SURVEY_RESPONSES_COLLECTED],
+      ["Partners signed on", PARTNERS_SIGNED_ON],
+      ["Seats in our first cohort", FIRST_COHORT_SEATS],
+    ] as const
+  ).filter((item): item is readonly [string, number] => typeof item[1] === "number" && item[1] > 0);
+}
 
 /** Header and hero notify button. Giving is not open, so this opens the email list. */
 export const SUPPORT_HREF = DONATIONS_ENABLED ? "/donate" : "/donate#notify";

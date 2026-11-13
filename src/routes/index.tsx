@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BookOpen, Hammer, Users } from "lucide-react";
-import { SUPPORT_HREF } from "@/config";
+import { launchProgressItems, SUPPORT_HREF } from "@/config";
 import { seo } from "@/lib/seo";
 import { AnimatedLogo } from "@/components/site/AnimatedLogo";
 import { Card, H2, Photo, Reveal, Section } from "@/components/site/ui";
@@ -100,6 +100,20 @@ function Home() {
           ))}
         </div>
       </Section>
+
+      <section className="border-b border-gold/30 px-5 py-8" aria-labelledby="launch-h">
+        <div className="mx-auto max-w-6xl">
+          <h2 id="launch-h" className="text-center text-xl text-gold-deep">Launch progress</h2>
+          <ul className="mt-4 grid gap-4 text-center sm:grid-cols-3">
+            {launchProgressItems().map(([label, value]) => (
+              <li key={label} className="rounded-xl border bg-card p-4">
+                <p className="font-display text-3xl text-gold-deep">{value}</p>
+                <p className="mt-1">{label}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <section className="band-dark border-y border-gold/40 px-5 py-12" aria-label="At a glance">
         <ul className="mx-auto grid max-w-6xl gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">

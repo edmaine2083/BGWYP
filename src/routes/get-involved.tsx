@@ -1,9 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Gift, Armchair, Briefcase, HeartHandshake, Share2, Handshake, type LucideIcon } from "lucide-react";
+import {
+  Gift,
+  Armchair,
+  Briefcase,
+  HeartHandshake,
+  Share2,
+  Handshake,
+  type LucideIcon,
+} from "lucide-react";
 import { CONTACT_EMAIL, DONATIONS_ENABLED } from "@/config";
 import { sponsorshipFunds, sponsorshipIntro, sponsorshipLevels } from "@/content/sponsorshipLevels";
 import { seo } from "@/lib/seo";
 import { Card, GoldNotice, H2, PageHero, Photo, Section } from "@/components/site/ui";
+import { AudienceChoice } from "@/components/site/AudienceChoice";
 import { InterestForm, InvolvementForm, VolunteerForm } from "@/components/site/site-forms";
 import { PHOTOS } from "@/content/photos";
 import {
@@ -19,12 +28,24 @@ const actionBtn =
   "btn btn-gold mt-4 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-gold-deep";
 
 export const Route = createFileRoute("/get-involved")({
-  head: () => seo("/get-involved", "Get Involved", "Give, sponsor a seat, host a sector shadow, mentor, refer a family, or partner with BGWYP in Baltimore."),
+  head: () =>
+    seo(
+      "/get-involved",
+      "Get Involved",
+      "Give, sponsor a seat, host a sector shadow, mentor, refer a family, or partner with BGWYP in Baltimore.",
+    ),
   component: GetInvolved,
 });
 
 function GetInvolved() {
-  const cards: { i: LucideIcon; t: string; d: string; label: string; interest?: string; href?: "/donate" }[] = [
+  const cards: {
+    i: LucideIcon;
+    t: string;
+    d: string;
+    label: string;
+    interest?: string;
+    href?: "/donate";
+  }[] = [
     DONATIONS_ENABLED
       ? {
           i: Gift,
@@ -81,16 +102,23 @@ function GetInvolved() {
   return (
     <>
       <PageHero title="Get Involved" intro="Ways to help, with safe options clearly marked." />
+      <AudienceChoice />
       <Section>
         <p className="mb-8 flex flex-wrap gap-x-6 gap-y-2">
-          <Link to="/partner" className="font-semibold text-gold-deep underline">Partner</Link>
-          <Link to="/surveys" className="font-semibold text-gold-deep underline">Surveys</Link>
+          <Link to="/partner" className="font-semibold text-gold-deep underline">
+            Partner
+          </Link>
+          <Link to="/surveys" className="font-semibold text-gold-deep underline">
+            Surveys
+          </Link>
         </p>
         <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {cards.map(({ i: I, t, d, href, interest, label }) => (
             <li key={t}>
               <Card className="flex h-full flex-col">
-                <span className="icon-ring"><I aria-hidden /></span>
+                <span className="icon-ring">
+                  <I aria-hidden />
+                </span>
                 <h2 className="mt-4 text-xl normal-case tracking-normal text-gold-deep">{t}</h2>
                 <p className="mt-2">{d}</p>
                 <div className="mt-auto">
@@ -110,19 +138,34 @@ function GetInvolved() {
       {DONATIONS_ENABLED && <SponsorshipLevels />}
       <Section tone="paper" id="volunteer" labelledBy="vol-h">
         <div className="grid items-start gap-10 lg:grid-cols-2">
-          <Photo src={PHOTOS.writing.src} alt={PHOTOS.writing.alt} width={PHOTOS.writing.width} height={PHOTOS.writing.height} className="rounded-xl" />
+          <Photo
+            src={PHOTOS.writing.src}
+            alt={PHOTOS.writing.alt}
+            width={PHOTOS.writing.width}
+            height={PHOTOS.writing.height}
+            className="rounded-xl"
+          />
           <div>
             <H2 id="vol-h">Mentor or volunteer</H2>
-            <Card className="mt-6"><VolunteerForm /></Card>
-            <p className="mt-4 text-muted-foreground">Everyone who works with young people completes a background check, safeguarding training, and signs our Code of Conduct. Applying does not guarantee a role.</p>
+            <Card className="mt-6">
+              <VolunteerForm />
+            </Card>
+            <p className="mt-4 text-muted-foreground">
+              Everyone who works with young people completes a background check, safeguarding
+              training, and signs our Code of Conduct. Applying does not guarantee a role.
+            </p>
           </div>
         </div>
       </Section>
       <Section id="interest" labelledBy="int-h">
         <div className="mx-auto max-w-3xl">
           <H2 id="int-h">For families</H2>
-          <Card className="mt-6"><InterestForm /></Card>
-          <p className="mt-4 text-muted-foreground">We'll email you when enrollment details are announced.</p>
+          <Card className="mt-6">
+            <InterestForm />
+          </Card>
+          <p className="mt-4 text-muted-foreground">
+            We'll email you when enrollment details are announced.
+          </p>
         </div>
       </Section>
     </>
@@ -143,7 +186,8 @@ function InquireButton({ interest, label }: { interest: string; label: string })
             {interest}
           </DialogTitle>
           <DialogDescription className="text-left">
-            Share your name, email, phone, and organization. The type of interest is filled in from the option you chose.
+            Share your name, email, phone, and organization. The type of interest is filled in from
+            the option you chose.
           </DialogDescription>
         </DialogHeader>
         <InvolvementForm interest={interest} />
@@ -168,10 +212,17 @@ function SponsorshipLevels() {
       </ul>
       <ul className="mt-10 grid gap-6 lg:grid-cols-2">
         {sponsorshipLevels.map((level) => (
-          <li key={level.name} className={level.name === "Small Business / Community Vendor" ? "lg:col-span-2" : undefined}>
+          <li
+            key={level.name}
+            className={
+              level.name === "Small Business / Community Vendor" ? "lg:col-span-2" : undefined
+            }
+          >
             <Card className="h-full">
               <p className="font-display text-3xl text-gold-deep">{level.amount}</p>
-              <h3 className="mt-2 text-xl normal-case tracking-normal text-gold-deep">{level.name}</h3>
+              <h3 className="mt-2 text-xl normal-case tracking-normal text-gold-deep">
+                {level.name}
+              </h3>
               <ul className="mt-4 space-y-2">
                 {level.benefits.map((benefit) => (
                   <li key={benefit} className="flex gap-3">
@@ -180,7 +231,10 @@ function SponsorshipLevels() {
                   </li>
                 ))}
               </ul>
-              <InquireButton interest={`Partnership level: ${level.name}`} label="Inquire about this level" />
+              <InquireButton
+                interest={`Partnership level: ${level.name}`}
+                label="Inquire about this level"
+              />
             </Card>
           </li>
         ))}
@@ -190,13 +244,16 @@ function SponsorshipLevels() {
         <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-gold-deep underline">
           {CONTACT_EMAIL}
         </a>{" "}
-        or start on the <Link to="/partner" className="font-semibold text-gold-deep underline">Partner page.</Link>
+        or start on the{" "}
+        <Link to="/partner" className="font-semibold text-gold-deep underline">
+          Partner page.
+        </Link>
       </p>
       <GoldNotice className="mt-6 max-w-3xl text-sm">
         Building Generational Wealth Youth Program, Inc. is a Maryland nonprofit corporation. Its
-        application for federal 501(c)(3) tax-exempt status is pending. Deductibility of gifts depends
-        on IRS approval; please consult your tax advisor. Sponsorship benefits with a fair market value
-        may reduce the deductible portion of a contribution.
+        application for federal 501(c)(3) tax-exempt status is pending. Deductibility of gifts
+        depends on IRS approval; please consult your tax advisor. Sponsorship benefits with a fair
+        market value may reduce the deductible portion of a contribution.
       </GoldNotice>
     </Section>
   );

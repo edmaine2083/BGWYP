@@ -1,13 +1,47 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ClipboardList, ShieldCheck, Mail, BarChart3, School, Building2, Landmark, GraduationCap, Users } from "lucide-react";
+import { AudienceChoice } from "@/components/site/AudienceChoice";
+import {
+  ClipboardList,
+  ShieldCheck,
+  Mail,
+  BarChart3,
+  School,
+  Building2,
+  Landmark,
+  GraduationCap,
+  Users,
+} from "lucide-react";
 import { CONTACT_EMAIL } from "@/config";
 import { seo } from "@/lib/seo";
 import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
 import { PartnerForm } from "@/components/site/site-forms";
 import { PHOTOS } from "@/content/photos";
 
+const MATERIAL_FILES = [
+  ["BGWYP-Fact-Sheet.pdf", "Fact sheet"],
+  ["BGWYP-Case-for-Support.pdf", "Case for support"],
+] as const;
+
 export const Route = createFileRoute("/partner")({
-  head: () => seo("/partner", "Partner With Us", "Schools, employers, banks, colleges, and community groups: host a sector shadow, share space, or lead a guest session with BGWYP."),
+  loader: async () => {
+    const materials: { href: string; label: string }[] = [];
+    if (import.meta.env.SSR) {
+      const { existsSync } = await import("node:fs");
+      const { join } = await import("node:path");
+      for (const [file, label] of MATERIAL_FILES) {
+        if (existsSync(join(process.cwd(), "public", "files", file))) {
+          materials.push({ href: `/files/${file}`, label });
+        }
+      }
+    }
+    return { materials };
+  },
+  head: () =>
+    seo(
+      "/partner",
+      "Partner With Us",
+      "Schools, employers, banks, colleges, and community groups: host a sector shadow, share space, or lead a guest session with BGWYP.",
+    ),
   component: Partner,
 });
 
@@ -18,28 +52,48 @@ const OFFER = [
   { i: BarChart3, t: "Results you can share" },
 ];
 const TYPES = [
-  { i: School, t: "Schools" }, { i: Building2, t: "Employers" }, { i: Landmark, t: "Banks" },
-  { i: GraduationCap, t: "Colleges" }, { i: Users, t: "Community Groups" },
+  { i: School, t: "Schools" },
+  { i: Building2, t: "Employers" },
+  { i: Landmark, t: "Banks" },
+  { i: GraduationCap, t: "Colleges" },
+  { i: Users, t: "Community Groups" },
 ];
 
 function Partner() {
+  const { materials } = Route.useLoaderData();
   return (
     <>
-      <PageHero title="Partner With Us" intro="We build with schools, employers, banks, colleges, and community groups." />
+      <PageHero
+        title="Partner With Us"
+        intro="We build with schools, employers, banks, colleges, and community groups."
+      />
+      <AudienceChoice />
       <Section>
         <div className="grid items-center gap-8 lg:grid-cols-2">
           <p className="text-lg">
-            A specific commitment, like six sector shadows, a meeting room, or a guest session, helps most. If you can offer one, write to{" "}
-            <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-gold-deep underline">{CONTACT_EMAIL}</a>. We can send a template letter of commitment.
+            A specific commitment, like six sector shadows, a meeting room, or a guest session,
+            helps most. If you can offer one, write to{" "}
+            <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-gold-deep underline">
+              {CONTACT_EMAIL}
+            </a>
+            . We can send a template letter of commitment.
           </p>
-          <Photo src={PHOTOS.planning.src} alt={PHOTOS.planning.alt} width={PHOTOS.planning.width} height={PHOTOS.planning.height} className="rounded-xl" />
+          <Photo
+            src={PHOTOS.planning.src}
+            alt={PHOTOS.planning.alt}
+            width={PHOTOS.planning.width}
+            height={PHOTOS.planning.height}
+            className="rounded-xl"
+          />
         </div>
         <h2 className="mt-14 text-center text-2xl text-gold-deep">What we offer partners</h2>
         <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {OFFER.map(({ i: I, t }) => (
             <li key={t}>
               <Card className="h-full text-center">
-                <span className="icon-ring"><I aria-hidden /></span>
+                <span className="icon-ring">
+                  <I aria-hidden />
+                </span>
                 <p className="mt-3 font-semibold">{t}</p>
                 {t === "Results you can share" ? (
                   <>{/* TODO(BGWYP): list 2–3 specific outcomes to be tracked */}</>
@@ -51,13 +105,39 @@ function Partner() {
       </Section>
       <section className="band-dark px-5 py-12" aria-label="Partner types">
         <ul className="mx-auto flex max-w-5xl flex-wrap justify-center gap-8">
-          {TYPES.map(({ i: I, t }) => <li key={t} className="flex flex-col items-center gap-2"><span className="icon-ring text-gold"><I aria-hidden /></span><span>{t}</span></li>)}
+          {TYPES.map(({ i: I, t }) => (
+            <li key={t} className="flex flex-col items-center gap-2">
+              <span className="icon-ring text-gold">
+                <I aria-hidden />
+              </span>
+              <span>{t}</span>
+            </li>
+          ))}
         </ul>
       </section>
+      <Section labelledBy="materials">
+        <H2 id="materials">Download our materials</H2>
+        {/* TODO(BGWYP): add these PDFs to /public/files */}
+        {materials.length > 0 ? (
+          <ul className="mt-6 space-y-3">
+            {materials.map((file) => (
+              <li key={file.href}>
+                <a href={file.href} className="font-semibold text-gold-deep underline">
+                  {file.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4">To be announced.</p>
+        )}
+      </Section>
       <Section tone="paper" labelledBy="pi">
         <div className="mx-auto max-w-3xl">
           <H2 id="pi">Partner inquiry</H2>
-          <Card className="mt-6"><PartnerForm /></Card>
+          <Card className="mt-6">
+            <PartnerForm />
+          </Card>
         </div>
       </Section>
     </>
