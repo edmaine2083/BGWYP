@@ -9,22 +9,6 @@ export const CONTACT_EMAIL = "info@bgwyp.org";
 export const CONTACT_PHONE = "(443) 592-0494";
 export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61596519171305";
 
-/** TODO(BGWYP): number — survey responses collected. Leave unset until counted. */
-export const SURVEY_RESPONSES_COLLECTED: number | null = null;
-/** TODO(BGWYP): number — partners signed on. Leave unset until counted. */
-export const PARTNERS_SIGNED_ON: number | null = null;
-export const FIRST_COHORT_SEATS = 60;
-
-export function launchProgressItems() {
-  return (
-    [
-      ["Survey responses collected", SURVEY_RESPONSES_COLLECTED],
-      ["Partners signed on", PARTNERS_SIGNED_ON],
-      ["Seats in our first cohort", FIRST_COHORT_SEATS],
-    ] as const
-  ).filter((item): item is readonly [string, number] => typeof item[1] === "number" && item[1] > 0);
-}
-
 /** Header and hero notify button. Giving is not open, so this opens the email list. */
 export const SUPPORT_HREF = DONATIONS_ENABLED ? "/donate" : "/donate#notify";
 

@@ -1,14 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { launchProgressItems } from "@/config";
 import { allowSubmission, stripHtml } from "@/lib/form-guard";
 import { parsePublicForm } from "@/lib/public-form";
 import { applySecurityHeaders, redirectToCanonical } from "@/lib/security-headers";
-
-describe("launch progress", () => {
-  it("shows the first cohort seats and hides unset counts", () => {
-    expect(launchProgressItems()).toEqual([["Seats in our first cohort", 60]]);
-  });
-});
 
 describe("form guard", () => {
   it("strips html from text", () => {
