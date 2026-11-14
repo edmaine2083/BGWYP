@@ -7,6 +7,7 @@ export const DONATION_URL = "";
 export const LOGO_SRC = "/bgwyp-logo.jpg";
 export const CONTACT_EMAIL = "info@bgwyp.org";
 export const CONTACT_PHONE = "(443) 592-0494";
+export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61596519171305";
 
 /** TODO(BGWYP): number — survey responses collected. Leave unset until counted. */
 export const SURVEY_RESPONSES_COLLECTED: number | null = null;

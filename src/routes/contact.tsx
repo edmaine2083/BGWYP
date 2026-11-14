@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Mail } from "lucide-react";
-import { CONTACT_EMAIL, CONTACT_PHONE, telHref } from "@/config";
+import { MapPin, Phone, Mail, Facebook } from "lucide-react";
+import { CONTACT_EMAIL, CONTACT_PHONE, FACEBOOK_URL, telHref } from "@/config";
 import { seo } from "@/lib/seo";
 import { Card, PageHero, Photo, Section } from "@/components/site/ui";
 import { ContactForm } from "@/components/site/site-forms";
@@ -23,6 +23,7 @@ function Contact() {
             <p className="flex items-center gap-4"><span className="icon-ring"><MapPin aria-hidden /></span>Baltimore, Maryland</p>
             <p className="flex items-center gap-4"><span className="icon-ring"><Phone aria-hidden /></span><a href={telHref(CONTACT_PHONE)} className="font-semibold text-gold-deep underline">{CONTACT_PHONE}</a></p>
             <p className="flex items-center gap-4"><span className="icon-ring"><Mail aria-hidden /></span><a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-gold-deep underline">{CONTACT_EMAIL}</a></p>
+            <p className="flex items-center gap-4"><span className="icon-ring"><Facebook aria-hidden /></span><a href={FACEBOOK_URL} className="font-semibold text-gold-deep underline" target="_blank" rel="noopener noreferrer">Facebook</a></p>
             </address>
           </div>
           <Card><ContactForm /></Card>
