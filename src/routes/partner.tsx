@@ -11,23 +11,14 @@ import {
   GraduationCap,
   Users,
 } from "lucide-react";
-import { CONTACT_EMAIL } from "@/config";
+import { CONTACT_EMAIL, MATERIALS } from "@/config";
 import { seo } from "@/lib/seo";
 import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
 import { PartnershipLevels } from "@/components/site/PartnershipLevels";
 import { PartnerForm } from "@/components/site/site-forms";
 import { PHOTOS } from "@/content/photos";
 
-const MATERIAL_FILES = [
-  ["BGWYP-Fact-Sheet.pdf", "Fact sheet"],
-  ["BGWYP-Case-for-Support.pdf", "Case for support"],
-  ["BGWYP-Partnership-Pamphlet.pdf", "Partnership pamphlet"],
-] as const;
-
 export const Route = createFileRoute("/partner")({
-  loader: () => ({
-    materials: MATERIAL_FILES.map(([file, label]) => ({ href: `/files/${file}`, label })),
-  }),
   head: () =>
     seo(
       "/partner",
@@ -52,7 +43,6 @@ const TYPES = [
 ];
 
 function Partner() {
-  const { materials } = Route.useLoaderData();
   return (
     <>
       <PageHero
@@ -111,7 +101,7 @@ function Partner() {
       <Section labelledBy="materials">
         <H2 id="materials">Download our materials</H2>
         <ul className="mt-6 space-y-3">
-          {materials.map((file) => (
+          {MATERIALS.map((file) => (
             <li key={file.href}>
               <a
                 href={file.href}

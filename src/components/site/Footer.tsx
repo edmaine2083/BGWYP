@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { CONTACT_EMAIL, CONTACT_PHONE, LOGO_SRC, telHref } from "@/config";
+import { CONTACT_EMAIL, CONTACT_PHONE, LOGO_SRC, MATERIALS, telHref } from "@/config";
 import { MORE_LINKS, NAV } from "./Header";
 export function Footer() {
   return (
     <footer className="band-dark border-t border-gold/30 px-5 pt-14 pb-8">
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-2 xl:grid-cols-4">
         <div>
           <img src={LOGO_SRC} alt="BGWYP logo" width={160} height={160} loading="lazy" className="h-40 w-40" />
           <p className="mt-4 font-display text-gold">Educate. Empower. Elevate. Build Legacies.</p>
@@ -16,6 +16,23 @@ export function Footer() {
             {[...NAV, ...MORE_LINKS].map((n) => (
               <li key={n.to}>
                 <Link to={n.to} className="hover:text-gold-light">{n.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <nav aria-label="Download our materials">
+          <h2 className="text-base text-gold">Download our materials</h2>
+          <ul className="mt-4 space-y-2 text-ink-muted">
+            {MATERIALS.map((file) => (
+              <li key={file.href}>
+                <a
+                  href={file.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-gold-light"
+                >
+                  {file.label}
+                </a>
               </li>
             ))}
           </ul>

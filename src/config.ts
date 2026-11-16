@@ -12,6 +12,13 @@ export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61596519171
 /** Header and hero notify button. Giving is not open, so this opens the email list. */
 export const SUPPORT_HREF = DONATIONS_ENABLED ? "/donate" : "/donate#notify";
 
+/** Public PDFs linked from the header, footer, and Partner page. */
+export const MATERIALS = [
+  { href: "/files/BGWYP-Fact-Sheet.pdf", label: "Fact sheet" },
+  { href: "/files/BGWYP-Case-for-Support.pdf", label: "Case for support" },
+  { href: "/files/BGWYP-Partnership-Pamphlet.pdf", label: "Partnership pamphlet" },
+] as const;
+
 export function telHref(p: string) {
   const digits = p.replace(/\D/g, "");
   if (digits.length === 10) return `tel:+1${digits}`;

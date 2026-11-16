@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { LOGO_SRC, SUPPORT_HREF } from "@/config";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { LOGO_SRC, MATERIALS, SUPPORT_HREF } from "@/config";
 
 export const NAV = [
   { to: "/", label: "Home" },
@@ -16,6 +16,87 @@ export const NAV = [
 
 /** Kept in the footer. Partner is also linked from Get Involved. */
 export const MORE_LINKS = [{ to: "/partner", label: "Partner" }] as const;
+
+function MaterialsMenu({
+  layout,
+  onNavigate,
+}: {
+  layout: "bar" | "panel";
+  onNavigate?: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointer(event: PointerEvent) {
+      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+    }
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointer);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  function pick() {
+    setOpen(false);
+    onNavigate?.();
+  }
+
+  const bar = layout === "bar";
+
+  return (
+    <div ref={rootRef} className={bar ? "relative" : undefined}>
+      <button
+        type="button"
+        className={
+          bar
+            ? "inline-flex items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 text-sm text-ink-foreground hover:text-gold-light"
+            : "flex w-full items-center justify-between py-3 text-left text-lg text-ink-foreground hover:text-gold-light"
+        }
+        aria-expanded={open}
+        aria-controls={menuId}
+        onClick={() => setOpen((value) => !value)}
+      >
+        Download our materials
+        <ChevronDown aria-hidden className={open ? "size-4 rotate-180" : "size-4"} />
+      </button>
+      <ul
+        id={menuId}
+        hidden={!open}
+        className={
+          bar
+            ? "absolute top-full right-0 z-50 mt-1 min-w-56 rounded-md border border-gold/30 bg-ink py-2 shadow-card"
+            : "pb-2 pl-3"
+        }
+      >
+        {MATERIALS.map((file) => (
+          <li key={file.href}>
+            <a
+              href={file.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={pick}
+              className={
+                bar
+                  ? "block px-4 py-2 text-sm text-ink-foreground hover:text-gold-light"
+                  : "block py-2 text-base text-ink-muted hover:text-gold-light"
+              }
+            >
+              {file.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -34,7 +115,9 @@ export function Header() {
     const items = () =>
       [toggle, ...(menu ? [...menu.querySelectorAll<HTMLElement>("a, button")] : [])].filter(
         (item): item is HTMLElement =>
-          item instanceof HTMLElement && !item.hasAttribute("disabled"),
+          item instanceof HTMLElement &&
+          !item.hasAttribute("disabled") &&
+          !item.closest("[hidden]"),
       );
     items()[1]?.focus();
     function onKey(event: KeyboardEvent) {
@@ -102,6 +185,7 @@ export function Header() {
               {n.label}
             </Link>
           ))}
+          <MaterialsMenu layout="bar" />
           <a href={SUPPORT_HREF} className="btn btn-gold ml-2 whitespace-nowrap text-sm">
             Get Notified
           </a>
@@ -123,7 +207,7 @@ export function Header() {
         id="mobile-nav"
         aria-label="Mobile"
         hidden={!open}
-        className="border-t border-gold/30 px-5 pb-6 xl:hidden"
+        className="max-h-[calc(100dvh-7rem)] overflow-y-auto border-t border-gold/30 px-5 pb-6 xl:hidden"
       >
         <ul className="flex flex-col py-2">
           {NAV.map((n) => (
@@ -139,6 +223,9 @@ export function Header() {
               </Link>
             </li>
           ))}
+          <li>
+            <MaterialsMenu layout="panel" onNavigate={() => setOpen(false)} />
+          </li>
         </ul>
         <a href={SUPPORT_HREF} className="btn btn-gold w-full" onClick={() => setOpen(false)}>
           Get Notified
