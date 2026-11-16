@@ -115,7 +115,8 @@ function Partner() {
             <li key={file.href}>
               <a
                 href={file.href}
-                download
+                target="_blank"
+                rel="noopener noreferrer"
                 className="font-semibold text-gold-deep underline"
               >
                 {file.label}
