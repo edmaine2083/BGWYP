@@ -16,6 +16,16 @@ export function cleanValue(value: unknown): unknown {
   return value;
 }
 
+/** Drop a column PostgREST says is missing so an unapplied migration does not reject the row. */
+export function omitMissingColumn(row: Record<string, unknown>, message: string) {
+  const missing = /Could not find the '([^']+)' column/.exec(message);
+  const column = missing?.[1];
+  if (!column || !Object.prototype.hasOwnProperty.call(row, column)) return null;
+  const next = { ...row };
+  delete next[column];
+  return next;
+}
+
 /** Allows the request when this IP is under 5 submissions in 10 minutes. */
 export function allowSubmission(ip: string, now = Date.now()) {
   const recent = (hits.get(ip) ?? []).filter((time) => now - time < WINDOW_MS);

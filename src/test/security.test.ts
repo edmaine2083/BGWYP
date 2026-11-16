@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { allowSubmission, stripHtml } from "@/lib/form-guard";
+import { allowSubmission, omitMissingColumn, stripHtml } from "@/lib/form-guard";
 import { parsePublicForm } from "@/lib/public-form";
 import { applySecurityHeaders, redirectToCanonical } from "@/lib/security-headers";
 
@@ -8,6 +8,18 @@ describe("form guard", () => {
     expect(stripHtml("  Hello <b>there</b> <script>alert(1)</script>  ")).toBe(
       "Hello there alert(1)",
     );
+  });
+
+  it("drops a column the database has not added yet", () => {
+    const row = { email: "ada@example.com", sponsorship_level: "Not sure yet" };
+    const next = omitMissingColumn(
+      row,
+      "Could not find the 'sponsorship_level' column of 'partner_inquiries' in the schema cache",
+    );
+    expect(next).toEqual({ email: "ada@example.com" });
+    expect(
+      omitMissingColumn(row, "new row violates row-level security policy"),
+    ).toBeNull();
   });
 
   it("allows five submissions in ten minutes and blocks the sixth", () => {

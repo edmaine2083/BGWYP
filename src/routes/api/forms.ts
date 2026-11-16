@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { allowSubmission, clientIp } from "@/lib/form-guard";
+import { allowSubmission, clientIp, omitMissingColumn } from "@/lib/form-guard";
 import { parsePublicForm, type FormTable } from "@/lib/public-form";
 
 export const Route = createFileRoute("/api/forms")({
@@ -98,39 +98,50 @@ async function submitPublicForm(request: Request) {
   };
   if (safety && safeguarding) mail.ccemail = safeguarding;
 
+  let emailed = false;
   try {
     const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(mail),
     });
-    const data = (await res.json()) as { success?: boolean };
-    if (!res.ok || !data.success) {
-      return Response.json(
-        { error: "Something went wrong. Please try again in a moment." },
-        { status: 502 },
-      );
+    const text = await res.text();
+    let data: { success?: boolean } = {};
+    try {
+      data = JSON.parse(text) as { success?: boolean };
+    } catch {
+      data = {};
     }
+    emailed = res.ok && data.success === true;
+    if (!emailed) console.error(`Web3Forms submission failed (${res.status})`);
   } catch (error) {
     console.error(error);
+  }
+
+  const stored = await storeRow(parsed.table, parsed.row);
+  if (!emailed && !stored) {
     return Response.json(
       { error: "Something went wrong. Please try again in a moment." },
       { status: 502 },
     );
   }
-
-  const stored = await storeRow(parsed.table, parsed.row);
   return Response.json({ ok: true, stored });
 }
 
 async function storeRow(table: FormTable, row: Record<string, unknown>) {
+  let payload = { ...row };
   try {
-    const { error } = await supabase.from(table).insert(row as never);
-    if (error) {
-      console.error(error.message);
-      return false;
+    for (let attempt = 0; attempt < 4; attempt += 1) {
+      const { error } = await supabase.from(table).insert(payload as never);
+      if (!error) return true;
+      const next = omitMissingColumn(payload, error.message);
+      if (!next) {
+        console.error(error.message);
+        return false;
+      }
+      payload = next;
     }
-    return true;
+    return false;
   } catch (error) {
     console.error(error);
     return false;
