@@ -63,69 +63,65 @@ async function submitPublicForm(request: Request) {
   const parsed = parsePublicForm(String(payload.table ?? ""), payload.row);
   if (!parsed.ok) return Response.json({ error: parsed.error }, { status: 400 });
 
-  const accessKey = process.env.WEB3FORMS_ACCESS_KEY?.trim();
-  if (!accessKey) {
-    console.error("WEB3FORMS_ACCESS_KEY is not set");
-    return Response.json(
-      { error: "Something went wrong. Please try again in a moment." },
-      { status: 500 },
-    );
-  }
-
-  const safety = parsed.table === "safety_reports";
-  const label =
-    typeof payload.title === "string" && payload.title.trim()
-      ? payload.title.trim()
-      : parsed.table.replaceAll("_", " ");
-  const fields = emailFields(parsed.row);
-  const fromName =
-    fields.full_name ||
-    fields.guardian_name ||
-    fields.contact_name ||
-    fields.name ||
-    "BGWYP website";
-  // TODO(BGWYP): safeguarding lead email — set SAFEGUARDING_EMAIL
-  const safeguarding = process.env.SAFEGUARDING_EMAIL?.trim() ?? "";
-  const mail: Record<string, string> = {
-    access_key: accessKey,
-    subject: safety
-      ? `[SAFETY – PRIORITY] New BGWYP Form Submission! (${label})`
-      : `New BGWYP Form Submission! (${label})`,
-    from_name: fromName,
-    botcheck: "",
-    form: label,
-    ...fields,
-  };
-  if (safety && safeguarding) mail.ccemail = safeguarding;
-
-  let emailed = false;
-  try {
-    const res = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(mail),
-    });
-    const text = await res.text();
-    let data: { success?: boolean } = {};
-    try {
-      data = JSON.parse(text) as { success?: boolean };
-    } catch {
-      data = {};
-    }
-    emailed = res.ok && data.success === true;
-    if (!emailed) console.error(`Web3Forms submission failed (${res.status})`);
-  } catch (error) {
-    console.error(error);
-  }
-
   const stored = await storeRow(parsed.table, parsed.row);
-  if (!emailed && !stored) {
+
+  const accessKey = process.env.WEB3FORMS_ACCESS_KEY?.trim();
+  if (!accessKey) console.error("WEB3FORMS_ACCESS_KEY is not set");
+  if (accessKey) {
+    const safety = parsed.table === "safety_reports";
+    const label =
+      typeof payload.title === "string" && payload.title.trim()
+        ? payload.title.trim()
+        : parsed.table.replaceAll("_", " ");
+    const fields = emailFields(parsed.row);
+    const fromName =
+      fields.full_name ||
+      fields.guardian_name ||
+      fields.contact_name ||
+      fields.name ||
+      "BGWYP website";
+    // TODO(BGWYP): safeguarding lead email — set SAFEGUARDING_EMAIL
+    const safeguarding = process.env.SAFEGUARDING_EMAIL?.trim() ?? "";
+    const mail: Record<string, string> = {
+      access_key: accessKey,
+      subject: safety
+        ? `[SAFETY – PRIORITY] New BGWYP Form Submission! (${label})`
+        : `New BGWYP Form Submission! (${label})`,
+      from_name: fromName,
+      botcheck: "",
+      form: label,
+      ...fields,
+    };
+    if (safety && safeguarding) mail.ccemail = safeguarding;
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(mail),
+      });
+      const text = await res.text();
+      let data: { success?: boolean } = {};
+      try {
+        data = JSON.parse(text) as { success?: boolean };
+      } catch {
+        data = {};
+      }
+      if (!(res.ok && data.success === true)) {
+        console.error(`Web3Forms submission failed (${res.status})`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  if (!stored) {
     return Response.json(
       { error: "Something went wrong. Please try again in a moment." },
       { status: 502 },
     );
   }
-  return Response.json({ ok: true, stored });
+  return Response.json({ ok: true, stored: true });
 }
 
 async function storeRow(table: FormTable, row: Record<string, unknown>) {

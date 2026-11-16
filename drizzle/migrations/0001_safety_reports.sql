@@ -1,6 +1,6 @@
 -- Safety concern reports. Public visitors may insert only.
 -- Authorized admins (app_metadata.role = admin) may read. Nobody else can.
-CREATE TABLE public.safety_reports (
+CREATE TABLE IF NOT EXISTS public.safety_reports (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   created_at timestamptz NOT NULL DEFAULT now(),
   name text NOT NULL,
@@ -15,17 +15,23 @@ GRANT ALL ON public.safety_reports TO service_role;
 
 ALTER TABLE public.safety_reports ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Public can submit safety reports"
-  ON public.safety_reports
-  FOR INSERT
-  TO anon, authenticated
-  WITH CHECK (true);
+DO $$ BEGIN
+  CREATE POLICY "Public can submit safety reports"
+    ON public.safety_reports
+    FOR INSERT
+    TO anon, authenticated
+    WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
-CREATE POLICY "Admins can read safety reports"
-  ON public.safety_reports
-  FOR SELECT
-  TO authenticated
-  USING ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
+DO $$ BEGIN
+  CREATE POLICY "Admins can read safety reports"
+    ON public.safety_reports
+    FOR SELECT
+    TO authenticated
+    USING ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Confirm the older form tables stay insert-only for the public key.
 DO $$ DECLARE t text; BEGIN
