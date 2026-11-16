@@ -1,11 +1,12 @@
 import { CONTACT_EMAIL } from "@/config";
+import { allowSubmission, clientIp } from "@/lib/form-guard";
 
 export const CHAT_ERROR_REPLY = `Sorry, I am having trouble connecting right now. Please email ${CONTACT_EMAIL} for immediate assistance.`;
 const CHAT_FALLBACK_REPLY = "I am here to help with BGWYP programs!";
 
 const MODEL_NAME = "gemini-3.5-flash-lite";
 const SYSTEM_CONTEXT =
-  "You are the website assistant for Building Generational Wealth Youth Program (BGWYP). Answer questions from youth ages 11-24, parents, and partners about programs, application guidelines, and community resources. Program timeline: BGWYP operates throughout the year. The Summer Accelerator is one 6-week part of the program. The program continues throughout the school year with a curriculum and deliverables. Do not describe BGWYP as a summer-only program. Do not invent start dates, months, or a session calendar. The first cohort is capped at 60 participants. Do not give a different cohort size. The chat window already showed a welcome. Never greet the visitor, introduce yourself, or restate this role. Answer only the latest question, using earlier messages only for context.";
+  "You are the website assistant for Building Generational Wealth Youth Program (BGWYP). Answer only from published site content. Answer questions from youth ages 11-24, parents, and partners about programs, application guidelines, and community resources. Program timeline: BGWYP operates throughout the year. The Summer Accelerator is Phase 1, a 6-week launch. The School-Year Program is Phase 2 and continues through the school year. Do not describe BGWYP as a summer-only program. Dates and location are not set and have not been announced. Say that, and point families to the interest list on /programs. The program is free for families. The first cohort is capped at 60 participants. No participants have been served yet. Do not invent dates, partners, sponsors, results, or a different cohort size. Giving is not open. Sponsorships are not open until Maryland charitable registration is complete. Direct giving questions to /donate#notify and sponsorship questions to /partner#sponsorship or info@bgwyp.org. The Year 1 goal is $437,608: a $397,808 operating budget for 60 young people plus a $39,800 operating reserve. You may describe the partnership levels and benefits listed on /partner: Presenting Partner $25,000, Impact Partner $15,000, Mentoring and Education Partner $10,000, Networking and Community Partner $7,500, Supporter Partner $5,000, Corporate Exhibitor $2,500, and Small Business / Community Vendor $125. Say each is opening soon. When asked about tax status, use this sentence exactly and do not call gifts tax-deductible: Building Generational Wealth Youth Program, Inc. is a Maryland nonprofit corporation. Its application for federal 501(c)(3) tax-exempt status is pending. The chat window already showed a welcome. Never greet the visitor, introduce yourself, or restate this role. Answer only the latest question, using earlier messages only for context.";
 
 type Turn = { role: "user" | "model"; text: string };
 
@@ -67,6 +68,12 @@ export async function handleChatPost(request: Request): Promise<Response> {
   }
 
   if (!message) return Response.json({ error: "Message is required" }, { status: 400 });
+  if (!allowSubmission(`chat:${clientIp(request)}`)) {
+    return Response.json(
+      { error: "Please wait a few minutes and try again." },
+      { status: 429 },
+    );
+  }
 
   const apiKey = process.env["GEMINI_API_KEY"]?.trim();
   if (!apiKey) {

@@ -146,16 +146,27 @@ function About() {
           ))}
         </ul>
       </Section>
+      <Section tone="dark" labelledBy="run">
+        <div className="flex flex-col gap-6 md:flex-row md:items-start">
+          <span className="icon-ring text-gold"><Landmark aria-hidden /></span>
+          <div>
+            <H2 id="run" onDark>How we are run</H2>
+            <p className="mt-4 max-w-3xl text-ink-muted">An independent Board with committees for finance, education, grants, governance, and risk and safeguarding. Written policies on conflicts of interest and related parties. Executive Director pay set by disinterested directors.</p>
+          </div>
+        </div>
+      </Section>
       <Section labelledBy="where">
         <H2 id="where">Where we are</H2>
-        {/* TODO(BGWYP): date */}
+        {/* TODO(BGWYP): confirm date July 9, 2026 */}
         <ol className="mx-auto mt-8 max-w-2xl border-l-2 border-gold">
           {[
             ["Incorporated as a Maryland nonprofit", "Done", "Date to be announced."],
             ["Board of Directors seated", "Done", ""],
+            ["Website and bgwyp.org email live", "Done", ""],
             ["Community surveys open", "Done", ""],
-            ["Federal 501(c)(3) application submitted", "In progress", ""],
-            ["Partners and sites confirmed", "In progress", ""],
+            ["Federal 501(c)(3) application", "Pending", ""],
+            ["Maryland charitable solicitation registration", "In progress", ""],
+            ["Partners and program sites", "In progress", ""],
             ["First cohort of 60 announced", "Coming", ""],
           ].map(([label, state, note]) => (
             <li key={label} className="relative py-4 pl-8">
@@ -168,15 +179,6 @@ function About() {
             </li>
           ))}
         </ol>
-      </Section>
-      <Section tone="dark" labelledBy="run">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start">
-          <span className="icon-ring text-gold"><Landmark aria-hidden /></span>
-          <div>
-            <H2 id="run" onDark>How we are run</H2>
-            <p className="mt-4 max-w-3xl text-ink-muted">An independent Board with committees for finance, education, grants, governance, and risk and safeguarding. Written policies on conflicts of interest and related parties. Executive Director pay set by disinterested directors.</p>
-          </div>
-        </div>
       </Section>
     </>
   );

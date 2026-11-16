@@ -22,9 +22,9 @@ export type Week = {
 
 export const summerAccelerator = {
   heading: "Summer Accelerator",
-  tagline: "The Immersive Summer · Six weeks. Four stages. One plan for life.",
+  tagline: "Phase 1 · Six weeks. Four stages. One plan for life.",
   intro:
-    "Six weeks of focused, hands-on learning. Every participant works through their own stage's curriculum, at the right depth for their grade or age, then all four stages come together to present at the Showcase. Choose a stage to see exactly what young people learn and build each week.",
+    "The Summer Accelerator launches every young person's journey. For six immersive weeks, each participant works through their own stage's curriculum, at the right depth for their grade or age, then all four stages come together to present at the Showcase. Choose a stage to see exactly what young people learn and build each week.",
   stats: [
     { value: "6", label: "Weeks" },
     { value: "24", label: "Days" },

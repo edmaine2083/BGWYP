@@ -66,7 +66,7 @@ export function SummerAccelerator() {
     <Section labelledBy="summer">
       <div className="rounded-2xl border-2 border-gold bg-black p-6 md:p-12">
         <p className="inline-flex rounded-full border border-gold px-3 py-1 text-xs font-semibold tracking-[0.2em] text-gold uppercase">
-          Intensive · Summer
+          Phase 1 · The Launchpad
         </p>
         <div className="mt-5">
           <H2 id="summer" onDark>
@@ -177,13 +177,19 @@ export function SummerAccelerator() {
             <p className="mt-3">{summerAccelerator.showcase.text}</p>
           </div>
         </div>
+        <p className="mt-8 text-gold">
+          <span className="font-semibold">Next:</span> the journey continues in{" "}
+          <a href="#school-year" className="underline">
+            Phase 2, the School-Year Program.
+          </a>
+        </p>
         <Link
           to="/programs"
-          search={{ program: "summer" }}
+          search={{ program: "pathway" }}
           hash="enroll"
           className="btn btn-gold mt-8"
         >
-          Join the interest list for the Summer Accelerator
+          Join the interest list for the full pathway
         </Link>
       </div>
     </Section>

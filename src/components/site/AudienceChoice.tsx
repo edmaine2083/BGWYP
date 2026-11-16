@@ -4,12 +4,12 @@ const CHOICES = [
   {
     to: "/get-involved",
     title: "Get Involved",
-    body: "For individuals: volunteers, mentors, guest speakers, and people who want updates.",
+    body: "For individuals: volunteers, mentors, guest speakers, families, and people who want updates.",
   },
   {
     to: "/partner",
     title: "Partner",
-    body: "For organizations: schools, churches, rec centers, libraries, businesses, and funders.",
+    body: "For organizations: schools, employers, banks, colleges, community groups, funders, and sponsors.",
   },
 ] as const;
 
@@ -17,7 +17,7 @@ export function AudienceChoice() {
   return (
     <section aria-labelledby="which-h" className="mx-auto max-w-6xl px-5 pt-10">
       <h2 id="which-h" className="text-xl normal-case tracking-normal text-gold-deep">
-        Which is right for you?
+        Which page is right for you?
       </h2>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         {CHOICES.map((choice) => (

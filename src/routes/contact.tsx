@@ -7,11 +7,14 @@ import { ContactForm } from "@/components/site/site-forms";
 import { PHOTOS } from "@/content/photos";
 
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>) =>
+    search["topic"] === "safety" ? { topic: "safety" as const } : {},
   head: () => seo("/contact", "Contact", `Contact Building Generational Wealth Youth Program, Inc. in Baltimore, Maryland: (443) 592-0494, ${CONTACT_EMAIL}.`),
   component: Contact,
 });
 
 function Contact() {
+  const { topic } = Route.useSearch();
   return (
     <>
       <PageHero title="Contact" intro="Building Generational Wealth Youth Program, Inc." />
@@ -26,7 +29,7 @@ function Contact() {
             <p className="flex items-center gap-4"><span className="icon-ring"><Facebook aria-hidden /></span><a href={FACEBOOK_URL} className="font-semibold text-gold-deep underline" target="_blank" rel="noopener noreferrer">Facebook</a></p>
             </address>
           </div>
-          <Card><ContactForm /></Card>
+          <Card><ContactForm presetTopic={topic === "safety" ? "Safety concern" : ""} /></Card>
         </div>
       </Section>
     </>

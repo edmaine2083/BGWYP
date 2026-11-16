@@ -1,8 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { CONTACT_EMAIL, CONTACT_PHONE, LOGO_SRC, telHref } from "@/config";
 import { MORE_LINKS, NAV } from "./Header";
-import { T } from "./ui";
-
 export function Footer() {
   return (
     <footer className="band-dark border-t border-gold/30 px-5 pt-14 pb-8">
@@ -33,7 +31,7 @@ export function Footer() {
       <div className="gold-rule mx-auto my-8 max-w-6xl" />
       <div className="mx-auto max-w-6xl space-y-4 text-sm text-ink-muted">
         <p>
-          <T>{"© 2026 Building Generational Wealth Youth Program, Inc. A Maryland nonprofit corporation. Our application for federal 501(c)(3) tax-exempt status is pending."}</T>{" "}
+          © 2026 Building Generational Wealth Youth Program, Inc. Building Generational Wealth Youth Program, Inc. is a Maryland nonprofit corporation. Its application for federal 501(c)(3) tax-exempt status is pending.{" "}
           <span className="font-display text-gold">EDUCATE. EMPOWER. ELEVATE. BUILD LEGACIES.</span>
         </p>
         <p className="flex flex-wrap gap-4">

@@ -44,29 +44,24 @@ function GetInvolved() {
     d: string;
     label: string;
     interest?: string;
-    href?: "/donate";
+    to?: "/donate" | "/partner";
+    hash?: "notify" | "sponsorship";
   }[] = [
-    DONATIONS_ENABLED
-      ? {
-          i: Gift,
-          t: "Give",
-          d: "Help launch the first full year for 60 Baltimore young people.",
-          href: "/donate",
-          label: "Give now",
-        }
-      : {
-          i: Gift,
-          t: "Give",
-          d: "Giving isn't open yet. Join the list and we'll let you know when it opens.",
-          interest: "Give",
-          label: "Notify me when giving opens",
-        },
+    {
+      i: Gift,
+      t: "Give",
+      d: "Giving isn't open yet. Join the list and we'll tell you when it opens.",
+      to: "/donate",
+      hash: "notify",
+      label: "Notify me when giving opens →",
+    },
     {
       i: Armchair,
       t: "Sponsor a seat or a facilitator",
-      d: "$6,630 funds a young person's full year; $3,600 funds a summer facilitator.",
-      interest: "Sponsor a seat or a facilitator",
-      label: "Get started",
+      d: "$6,630 funds a young person's full year; $3,600 funds a summer facilitator. Sponsorships open soon.",
+      to: "/partner",
+      hash: "sponsorship",
+      label: "See partnership levels →",
     },
     {
       i: Briefcase,
@@ -113,7 +108,7 @@ function GetInvolved() {
           </Link>
         </p>
         <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {cards.map(({ i: I, t, d, href, interest, label }) => (
+          {cards.map(({ i: I, t, d, to, hash, interest, label }) => (
             <li key={t}>
               <Card className="flex h-full flex-col">
                 <span className="icon-ring">
@@ -122,8 +117,8 @@ function GetInvolved() {
                 <h2 className="mt-4 text-xl normal-case tracking-normal text-gold-deep">{t}</h2>
                 <p className="mt-2">{d}</p>
                 <div className="mt-auto">
-                  {href === "/donate" ? (
-                    <Link to="/donate" className={actionBtn} aria-label={`${label}: ${t}`}>
+                  {to && hash ? (
+                    <Link to={to} hash={hash} className={actionBtn} aria-label={`${label}: ${t}`}>
                       {label}
                     </Link>
                   ) : (

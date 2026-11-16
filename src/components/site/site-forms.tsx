@@ -14,6 +14,7 @@ import {
   useForm,
   zip,
 } from "./forms";
+import { SPONSORSHIP_LEVEL_OPTIONS } from "./PartnershipLevels";
 
 const HELP = ["Mentor", "Guest speaker", "Shadow host", "Event volunteer", "Other"];
 export function VolunteerForm() {
@@ -43,7 +44,7 @@ export function VolunteerForm() {
       title="Volunteer Application"
       onValid={f.validate}
       submitLabel="Submit application"
-      success="Thank you for applying. We'll be in touch about next steps."
+      success="Thanks for applying. We'll contact you about next steps, including screening and training."
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <Field form={f} name="full_name" label="Full name" required autoComplete="name" />
@@ -70,7 +71,12 @@ export function VolunteerForm() {
   );
 }
 
-const PROGRAMS = ["Summer Accelerator", "School-Year Program", "Both", "Not sure yet"];
+const PROGRAMS = [
+  "Full pathway (Summer Accelerator + School-Year Program)",
+  "Summer Accelerator only",
+  "School-Year Program only",
+  "Not sure yet",
+];
 
 export function InterestForm({
   presetAge = "",
@@ -95,7 +101,7 @@ export function InterestForm({
     phone: "",
     zip: "",
     age_range: presetAge,
-    program_interest: presetProgram,
+    program_interest: presetProgram || PROGRAMS[0] || "",
     self_signup: false,
     heard_from: "",
   });
@@ -112,7 +118,7 @@ export function InterestForm({
       title="Interest List"
       onValid={f.validate}
       submitLabel="Join the interest list"
-      success="You're on the interest list. We'll share updates as enrollment opens."
+      success="Thanks. You're on the list. We'll email you when enrollment details are announced."
     >
       <p className="text-sm text-muted-foreground">
         For parents and guardians. We do not collect your young person's name or personal details.
@@ -140,10 +146,15 @@ export function InterestForm({
       <SelectField
         form={f}
         name="program_interest"
-        label="Which program are you interested in?"
+        label="Which phases can your young person join?"
         required
         options={PROGRAMS}
       />
+      <p className="text-sm text-muted-foreground">
+        The full pathway is recommended. The Summer Accelerator launches the journey, and the
+        School-Year Program carries it forward. If your family can only join one phase right now,
+        let us know.
+      </p>
       <Field form={f} name="heard_from" label="How did you hear about us?" />
     </FormShell>
   );
@@ -169,6 +180,7 @@ export function PartnerForm() {
     offers: z.array(z.string()),
     message: optional,
     wants_template: z.boolean(),
+    sponsorship_level: optional,
   });
   const f = useForm(schema, {
     organization: "",
@@ -180,6 +192,7 @@ export function PartnerForm() {
     offers: [],
     message: "",
     wants_template: false,
+    sponsorship_level: "",
   });
   return (
     <FormShell
@@ -187,7 +200,7 @@ export function PartnerForm() {
       title="Partner Inquiry"
       onValid={f.validate}
       submitLabel="Send inquiry"
-      success="Thank you. We'll follow up about partnering together."
+      success="Thanks. We'll be in touch soon."
       extraAboveSubmit={
         <button
           type="button"
@@ -221,6 +234,12 @@ export function PartnerForm() {
           options={["School", "Employer", "Bank", "College", "Community group", "Other"]}
         />
       </div>
+      <SelectField
+        form={f}
+        name="sponsorship_level"
+        label="Sponsorship level of interest (for planning only; sponsorships are not open yet)"
+        options={SPONSORSHIP_LEVEL_OPTIONS}
+      />
       <CheckGroup form={f} name="offers" legend="What could you offer?" options={OFFERS} />
       <Area form={f} name="message" label="Message" />
     </FormShell>
@@ -228,7 +247,7 @@ export function PartnerForm() {
 }
 
 const TOPICS = ["General", "Family", "Volunteer", "Partner", "Donation", "Safety concern"];
-export function ContactForm() {
+export function ContactForm({ presetTopic = "" }: { presetTopic?: string }) {
   const schema = z.object({
     name: req("Name"),
     email,
@@ -236,7 +255,10 @@ export function ContactForm() {
     topic: req("Topic"),
     message: req("Message"),
   });
-  const f = useForm(schema, { name: "", email: "", phone: "", topic: "", message: "" });
+  const f = useForm(schema, { name: "", email: "", phone: "", topic: presetTopic, message: "" });
+  useEffect(() => {
+    if (presetTopic) f.set("topic", presetTopic);
+  }, [presetTopic, f.set]);
   const safety = f.values["topic"] === "Safety concern";
   return (
     <FormShell
@@ -259,9 +281,13 @@ export function ContactForm() {
       doneTitle={
         safety
           ? "Thank you. A safeguarding lead will review this within 24 hours. If a young person is in danger, call 911."
-          : "Thanks — we'll be in touch."
+          : "Thanks. We'll reply soon."
       }
-      success={safety ? "" : "Thank you for reaching out. We'll reply soon."}
+      success={
+        safety
+          ? ""
+          : "Thanks. We'll reply soon." /* TODO(BGWYP): reply time */
+      }
       extraAboveSubmit={
         safety ? (
           <p
@@ -285,7 +311,10 @@ export function ContactForm() {
 }
 
 export function NotifyForm() {
-  const f = useForm(z.object({ email }), { email: "" });
+  const f = useForm(z.object({ email, sponsor_interest: z.boolean() }), {
+    email: "",
+    sponsor_interest: false,
+  });
   const [, force] = useState(0);
   return (
     <FormShell
@@ -295,9 +324,18 @@ export function NotifyForm() {
         return f.validate();
       }}
       submitLabel="Notify me"
-      success="Thank you. We'll email you when giving opens."
+      success="Thanks. We'll email you when giving opens."
     >
       <Field form={f} name="email" label="Email" type="email" required autoComplete="email" />
+      <label className="flex items-start gap-3 text-sm">
+        <input
+          type="checkbox"
+          className="mt-1"
+          checked={!!f.values["sponsor_interest"]}
+          onChange={(event) => f.set("sponsor_interest", event.target.checked)}
+        />
+        <span>I'm interested in sponsoring</span>
+      </label>
     </FormShell>
   );
 }

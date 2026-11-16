@@ -31,7 +31,7 @@ const GROUPS: Group[] = [
           <>
             Young people ages 11 to 24 in Baltimore. Our first cohort will have 60 seats. Join the
             interest list on our{" "}
-            <Link to="/programs" hash="enroll" className={linkCls}>
+            <Link to="/programs" hash="interest" className={linkCls}>
               Programs
             </Link>{" "}
             page to hear first.
@@ -50,6 +50,11 @@ const GROUPS: Group[] = [
             will hear first.
           </>
         ),
+      },
+      {
+        q: "Does it cost anything?",
+        text: "No. The program is free for families.",
+        answer: "No. The program is free for families.",
       },
       {
         q: "What do young people learn?",
@@ -136,7 +141,7 @@ const GROUPS: Group[] = [
               {CONTACT_PHONE}
             </a>{" "}
             or use the{" "}
-            <Link to="/contact" className={linkCls}>
+            <Link to="/contact" search={{ topic: "safety" }} className={linkCls}>
               Contact form
             </Link>{" "}
             and choose &quot;Safety concern.&quot;
@@ -152,10 +157,10 @@ const GROUPS: Group[] = [
     items: [
       {
         q: "How can I volunteer or mentor?",
-        text: "Start on our Get Involved page. Every volunteer who works with youth is screened and trained first.",
+        text: "Apply on our Get Involved page. Every volunteer who works with youth is screened and trained first.",
         answer: (
           <>
-            Start on our{" "}
+            Apply on our{" "}
             <Link to="/get-involved" className={linkCls}>
               Get Involved
             </Link>{" "}
@@ -172,17 +177,17 @@ const GROUPS: Group[] = [
     items: [
       {
         q: "Are you a 501(c)(3)?",
-        text: "BGWYP is a Maryland nonprofit corporation. Our federal 501(c)(3) application is pending.",
+        text: "Building Generational Wealth Youth Program, Inc. is a Maryland nonprofit corporation. Its application for federal 501(c)(3) tax-exempt status is pending.",
         answer:
-          "BGWYP is a Maryland nonprofit corporation. Our federal 501(c)(3) application is pending.",
+          "Building Generational Wealth Youth Program, Inc. is a Maryland nonprofit corporation. Its application for federal 501(c)(3) tax-exempt status is pending.",
       },
       {
         q: "Can I give a tax-deductible gift?",
-        text: "Not yet. We are not accepting donations while our 501(c)(3) application is pending. Leave your email to be notified when giving opens.",
+        text: "We are not accepting gifts yet. Whether gifts will be deductible depends on IRS approval of our application. Leave your email and we'll tell you when giving opens.",
         answer: (
           <>
-            Not yet. We are not accepting donations while our 501(c)(3) application is pending.
-            Leave your email to be notified when giving opens on the{" "}
+            We are not accepting gifts yet. Whether gifts will be deductible depends on IRS approval
+            of our application. Leave your email and we'll tell you when giving opens on the{" "}
             <Link to="/donate" hash="notify" className={linkCls}>
               notify list
             </Link>
@@ -192,14 +197,15 @@ const GROUPS: Group[] = [
       },
       {
         q: "How can my business or organization help?",
-        text: "Visit our Partner page to talk with us about job shadowing, guest speaking, space, and more.",
+        text: "Visit our Partner page to see our partnership levels and to talk with us about sector shadows, guest sessions, and meeting space.",
         answer: (
           <>
             Visit our{" "}
             <Link to="/partner" className={linkCls}>
               Partner
             </Link>{" "}
-            page to talk with us about job shadowing, guest speaking, space, and more.
+            page to see our partnership levels and to talk with us about sector shadows, guest
+            sessions, and meeting space.
           </>
         ),
       },
@@ -299,9 +305,6 @@ const GROUPS: Group[] = [
     ],
   },
 ];
-
-// TODO(BGWYP): confirm cost to families
-// "Does it cost anything to participate?" stays off this page until that answer is confirmed.
 
 const faqJsonLd = {
   "@context": "https://schema.org",

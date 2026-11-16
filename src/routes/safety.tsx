@@ -80,7 +80,7 @@ function Safety() {
                 {CONTACT_EMAIL}
               </a>
               , or the{" "}
-              <Link to="/contact" className="font-semibold text-gold-deep underline">
+              <Link to="/contact" search={{ topic: "safety" }} className="font-semibold text-gold-deep underline">
                 Contact form
               </Link>{" "}
               (&quot;Safety concern&quot;).

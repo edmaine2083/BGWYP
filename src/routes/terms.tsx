@@ -33,8 +33,9 @@ function Terms() {
           <h2 className={heading}>About BGWYP</h2>
           <p>
             BGWYP provides financial education, career readiness, and mentoring for Baltimore young
-            people ages 11 to 24. BGWYP is a Maryland nonprofit corporation. Its application for
-            federal 501(c)(3) tax-exempt status is pending.
+            people ages 11 to 24. Building Generational Wealth Youth Program, Inc. is a Maryland
+            nonprofit corporation. Its application for federal 501(c)(3) tax-exempt status is
+            pending.
           </p>
 
           <h2 className={heading}>Educational information only</h2>

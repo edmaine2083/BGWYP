@@ -27,10 +27,13 @@ describe("form guard", () => {
       age_range: "11–13",
       self_signup: false,
       heard_from: "",
-      program_interest: "School-Year Program",
+      program_interest: "Full pathway (Summer Accelerator + School-Year Program)",
     });
     expect(result.ok).toBe(true);
-    if (result.ok) expect(result.row["program_interest"]).toBe("School-Year Program");
+    if (result.ok)
+      expect(result.row["program_interest"]).toBe(
+        "Full pathway (Summer Accelerator + School-Year Program)",
+      );
   });
 
   it("rejects an interest list row without a program choice", () => {

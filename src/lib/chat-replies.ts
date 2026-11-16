@@ -112,7 +112,7 @@ export function answerChat(raw: string): string {
     const giving = DONATIONS_ENABLED
       ? `You can give on the ${DONATE} page.`
       : `Online giving is not open yet. Join the notification list on the ${DONATE} page.`;
-    return `${giving} The first-year goal is $437,580 for 60 Baltimore young people, $6,630 per young person, plus a 10% reserve. BGWYP is a Maryland nonprofit corporation, and the federal 501(c)(3) application is pending, so deductibility depends on IRS approval. More ways to help are on ${INVOLVED}.`;
+    return `${giving} The Year 1 goal is $437,608, a $397,808 operating budget for 60 young people plus a $39,800 operating reserve. Building Generational Wealth Youth Program, Inc. is a Maryland nonprofit corporation. Its application for federal 501(c)(3) tax-exempt status is pending. Gifts are not being accepted yet, and they are not described as tax-deductible. More ways to help are on ${INVOLVED}.`;
   }
 
   if (/partner|business|employer|shadow|school|host/.test(q)) {

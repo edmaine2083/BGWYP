@@ -45,7 +45,12 @@ const schemas: Record<FormTable, z.ZodTypeAny> = {
     phone: phoneOpt.optional().or(z.literal("")),
     zip,
     age_range: z.enum(["11–13", "14–15", "16–17", "18–24"]),
-    program_interest: z.enum(["Summer Accelerator", "School-Year Program", "Both", "Not sure yet"]),
+    program_interest: z.enum([
+      "Full pathway (Summer Accelerator + School-Year Program)",
+      "Summer Accelerator only",
+      "School-Year Program only",
+      "Not sure yet",
+    ]),
     self_signup: z.boolean(),
     heard_from: optional,
   }),
@@ -59,6 +64,7 @@ const schemas: Record<FormTable, z.ZodTypeAny> = {
     offers: z.array(z.string().trim().max(200)).max(20),
     message: optional,
     wants_template: z.boolean(),
+    sponsorship_level: z.string().trim().max(120).optional().or(z.literal("")),
   }),
   contact_messages: z.object({
     name: req("Name"),
@@ -67,7 +73,7 @@ const schemas: Record<FormTable, z.ZodTypeAny> = {
     topic: req("Topic"),
     message: req("Message"),
   }),
-  donation_notify_list: z.object({ email }),
+  donation_notify_list: z.object({ email, sponsor_interest: z.boolean().optional() }),
   safety_reports: z.object({
     name: req("Name"),
     email,

@@ -101,10 +101,10 @@ function Home() {
           <ul className="grid gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
             {WAITING_STATS.map(([title, body, note, label]) => (
               <li key={note}>
-                <Card className="h-full">
-                  {label ? <p className="text-sm font-semibold tracking-wide text-gold-deep">{label}</p> : null}
-                  <h3 className={`font-display text-2xl uppercase tracking-wide text-gold-deep md:text-3xl${label ? " mt-2" : ""}`}>{title}</h3>
-                  <p className="mt-3 text-base">
+                <Card className="flex h-full flex-col">
+                  <h3 className={`order-2 font-display text-2xl uppercase tracking-wide text-gold-deep md:text-3xl${label ? " mt-2" : ""}`}>{title}</h3>
+                  {label ? <p className="order-1 text-sm font-semibold tracking-wide text-gold-deep">{label}</p> : null}
+                  <p className="order-3 mt-3 text-base">
                     {body}
                     <sup>{note}</sup>
                   </p>

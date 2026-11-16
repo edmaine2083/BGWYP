@@ -1,6 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import * as Accordion from "@radix-ui/react-accordion";
-import { Award, CalendarDays, ChevronDown, Compass, Video } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowRight,
+  Award,
+  CalendarDays,
+  ChevronDown,
+  Compass,
+  Video,
+} from "lucide-react";
 import { ENROLLMENT_OPEN } from "@/config";
 import { seo } from "@/lib/seo";
 import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
@@ -113,26 +121,32 @@ const STAGES: {
 ];
 
 const AGE_RANGES = ["11–13", "14–15", "16–17", "18–24"] as const;
-const PROGRAM_KEYS = ["summer", "school-year", "both"] as const;
+const PROGRAM_KEYS = ["pathway", "summer", "school-year", "both"] as const;
 const PROGRAM_LABELS = {
-  summer: "Summer Accelerator",
-  "school-year": "School-Year Program",
-  both: "Both",
+  pathway: "Full pathway (Summer Accelerator + School-Year Program)",
+  both: "Full pathway (Summer Accelerator + School-Year Program)",
+  summer: "Summer Accelerator only",
+  "school-year": "School-Year Program only",
 } as const;
 
 const COMPARE = [
+  [
+    "Role in the pathway",
+    "Launch: the immersive start of the journey",
+    "Continue: the year-long momentum that follows",
+  ],
+  ["When", "Phase 1 · 6 weeks in the summer", "Phase 2 · September through May"],
   ["Pace", "Intensive and immersive", "Steady and ongoing"],
-  ["When", "6 weeks in the summer", "September through May"],
   ["Time", "24 days · 96 hours", "3 touchpoints a month"],
   [
     "What happens",
-    "Your stage's full curriculum, week by week, ending in a Showcase",
+    "Each participant's stage curriculum, week by week, ending in a Showcase",
     "Saturday workshops, hands-on labs and exposure visits, and monthly virtual check-ins with mentors",
   ],
   [
-    "Best for",
-    "Building skills fast and finishing with a real plan",
-    "Keeping momentum, deepening skills, and staying connected all year",
+    "What it builds",
+    "Skills, confidence, and a personal plan",
+    "Practice, deeper skills, and lasting relationships with mentors and peers",
   ],
 ] as const;
 
@@ -176,14 +190,14 @@ export const Route = createFileRoute("/programs")({
     seo(
       "/programs",
       "Programs",
-      "Four age-matched stages, a six-week Summer Accelerator, monthly school-year sessions, and Level-Up Mentors for Baltimore youth ages 11 to 24.",
+      "One connected pathway for Baltimore youth ages 11 to 24: a six-week Summer Accelerator launch, followed by year-long School-Year Program sessions, across four age-matched stages.",
     ),
   component: Programs,
 });
 
 function Programs() {
   const { age, program } = Route.useSearch();
-  const presetProgram = program ? PROGRAM_LABELS[program] : "";
+  const presetProgram = program ? PROGRAM_LABELS[program] : PROGRAM_LABELS.pathway;
   return (
     <>
       <PageHero title="Programs" intro="What young people do and when." />
@@ -199,12 +213,14 @@ function Programs() {
             <dd className="mt-2">60 seats (first cohort)</dd>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-card">
-            <dt className="font-display text-gold-deep">Summer Accelerator</dt>
+            <dt className="font-display text-gold-deep">Phase 1: Summer Accelerator</dt>
             <dd className="mt-2">6 weeks — dates to be announced</dd>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-card">
-            <dt className="font-display text-gold-deep">School year</dt>
-            <dd className="mt-2">Monthly sessions, September–May — start year to be announced</dd>
+            <dt className="font-display text-gold-deep">Phase 2: School-Year Program</dt>
+            <dd className="mt-2">
+              3 touchpoints a month, September–May. Start year to be announced.
+            </dd>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-card">
             <dt className="font-display text-gold-deep">Location</dt>
@@ -337,26 +353,62 @@ function Programs() {
         </Accordion.Root>
       </Section>
       <Section tone="paper" labelledBy="two-ways">
-        <H2 id="two-ways">Two ways to grow. One connected path.</H2>
+        <H2 id="two-ways">One connected path. Two phases.</H2>
         <p className="mt-4 max-w-3xl text-lg">
-          The Summer Accelerator is where young people dive in. The School-Year Program is where
-          they keep going. Most participants do both.
+          Every young person’s journey includes both phases. It begins with the six-week Summer
+          Accelerator, an immersive launchpad where they build skills fast and set a plan. It
+          continues through the School-Year Program, with three touchpoints a month from September
+          through May, so their growth doesn’t stop when summer ends.
         </p>
+        <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center" role="list">
+          <div role="listitem" className="flex items-center gap-4">
+            <span
+              aria-hidden
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-gold bg-gold font-display text-lg text-ink"
+            >
+              1
+            </span>
+            <p>
+              <span className="font-semibold">Launch</span> · Summer Accelerator · 6 weeks
+            </p>
+          </div>
+          <span className="sr-only">then</span>
+          <ArrowDown aria-hidden className="mx-auto text-gold-deep md:hidden" />
+          <ArrowRight aria-hidden className="hidden shrink-0 text-gold-deep md:block" />
+          <div role="listitem" className="flex items-center gap-4">
+            <span
+              aria-hidden
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-gold bg-gold font-display text-lg text-ink"
+            >
+              2
+            </span>
+            <p>
+              <span className="font-semibold">Continue</span> · School-Year Program · September–May
+            </p>
+          </div>
+        </div>
         <div className="mt-10 hidden md:block">
           <table className="w-full border-collapse text-left">
             <caption className="sr-only">
-              Summer Accelerator compared with the School-Year Program
+              The two phases of the BGWYP pathway: the Summer Accelerator and the School-Year
+              Program.
             </caption>
             <thead>
               <tr>
                 <th scope="col" className="p-4">
                   <span className="sr-only">Feature</span>
                 </th>
-                <th scope="col" className="bg-black p-4 font-semibold text-gold">
-                  Summer Accelerator
+                <th scope="col" className="bg-black p-4 text-gold">
+                  <span className="block text-xs font-semibold tracking-[0.14em]">
+                    Phase 1 · The Launchpad
+                  </span>
+                  <span className="mt-1 block font-semibold">Summer Accelerator</span>
                 </th>
-                <th scope="col" className="bg-gold/15 p-4 font-semibold text-[oklch(0.50_0.12_82)]">
-                  School-Year Program
+                <th scope="col" className="bg-gold/15 p-4 text-[oklch(0.50_0.12_82)]">
+                  <span className="block text-xs font-semibold tracking-[0.14em]">
+                    Phase 2 · Year-Long Momentum
+                  </span>
+                  <span className="mt-1 block font-semibold">School-Year Program</span>
                 </th>
               </tr>
             </thead>
@@ -375,7 +427,10 @@ function Programs() {
         </div>
         <div className="mt-10 grid gap-6 md:hidden">
           <article className="rounded-xl border-2 border-gold bg-black p-6 text-ink-foreground">
-            <h3 className="text-xl text-gold">Summer Accelerator</h3>
+            <p className="text-xs font-semibold tracking-[0.14em] text-gold uppercase">
+              Phase 1 · The Launchpad
+            </p>
+            <h3 className="mt-1 text-xl text-gold">Summer Accelerator</h3>
             <dl className="mt-4 space-y-4">
               {COMPARE.map(([feature, summer]) => (
                 <div key={feature}>
@@ -386,7 +441,10 @@ function Programs() {
             </dl>
           </article>
           <article className="rounded-xl border border-gold/40 bg-gold/15 p-6">
-            <h3 className="text-xl text-[oklch(0.50_0.12_82)]">School-Year Program</h3>
+            <p className="text-xs font-semibold tracking-[0.14em] text-[oklch(0.50_0.12_82)] uppercase">
+              Phase 2 · Year-Long Momentum
+            </p>
+            <h3 className="mt-1 text-xl text-[oklch(0.50_0.12_82)]">School-Year Program</h3>
             <dl className="mt-4 space-y-4">
               {COMPARE.map(([feature, , school]) => (
                 <div key={feature}>
@@ -398,15 +456,16 @@ function Programs() {
           </article>
         </div>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <a href="#summer" className="btn btn-gold">
-            Explore the Summer Accelerator
-          </a>
-          <a
-            href="#school-year"
-            className="btn btn-outline-deep"
-            style={{ backgroundColor: "#fff" }}
+          <Link
+            to="/programs"
+            search={{ program: "pathway" }}
+            hash="enroll"
+            className="btn btn-gold"
           >
-            Explore the School-Year Program
+            Join the interest list for the full pathway
+          </Link>
+          <a href="#summer" className="btn btn-outline-deep" style={{ backgroundColor: "#fff" }}>
+            See how each phase works
           </a>
         </div>
       </Section>
@@ -421,17 +480,18 @@ function Programs() {
           />
           <div>
             <p className="inline-flex rounded-full border border-gold-deep px-3 py-1 text-xs font-semibold tracking-[0.2em] text-gold-deep uppercase">
-              Ongoing · September–May
+              Phase 2 · Year-Long Momentum
             </p>
             <div className="mt-5">
               <H2 id="school-year">School-Year Program</H2>
             </div>
             <p className="mt-4 font-[Georgia,serif] text-xl italic text-gold-deep">
-              Sustained growth, all year long.
+              The journey continues, all year long.
             </p>
             <p className="mt-4 text-lg">
-              Learning doesn’t stop when summer ends. From September through May, young people keep
-              building skills, relationships, and momentum with three touchpoints every month.
+              After the Summer Accelerator, the journey continues. From September through May, young
+              people put their plans into practice, deepen their skills, and stay connected to
+              mentors and peers with three touchpoints every month.
             </p>
           </div>
         </div>
@@ -450,18 +510,23 @@ function Programs() {
         </ul>
         <p className="mt-8 rounded-lg bg-gold/15 px-4 py-3">
           <span className="font-semibold">Start year:</span> to be announced.{" "}
-          <a href="#enroll" className="font-semibold text-[oklch(0.50_0.12_82)] underline">
-            Join the interest list
-          </a>{" "}
+          <Link
+            to="/programs"
+            search={{ program: "pathway" }}
+            hash="enroll"
+            className="font-semibold text-[oklch(0.50_0.12_82)] underline"
+          >
+            Join the interest list for the full pathway
+          </Link>{" "}
           and we’ll share dates as soon as they’re set.
         </p>
         <Link
           to="/programs"
-          search={{ program: "school-year" }}
+          search={{ program: "pathway" }}
           hash="enroll"
           className="btn btn-outline-deep mt-6"
         >
-          Join the interest list for the School-Year Program
+          Join the interest list for the full pathway
         </Link>
       </Section>
       <Section tone="paper" labelledBy="mentors">
@@ -486,15 +551,15 @@ function Programs() {
           </div>
         </Card>
       </Section>
-      <Section labelledBy="enroll">
+      <Section id="interest" labelledBy="enroll">
         <div className="grid gap-10 rounded-xl border-2 border-gold p-6 md:grid-cols-2 md:p-10">
           <div>
             <H2 id="enroll">{ENROLLMENT_OPEN ? "Enrollment is open" : "Join the interest list"}</H2>
             <p className="mt-4 text-lg">
-              {ENROLLMENT_OPEN ? "Enrollment is open. " : null}
-              Space is limited to 60 and based on funded capacity. Tell us which program interests
-              you, and we’ll share dates, times, and attendance expectations before enrollment
-              opens.
+              Space is limited to 60 and based on funded capacity. BGWYP is one connected journey:
+              the Summer Accelerator launches it, and the School-Year Program carries it forward.
+              Join the interest list and we’ll share dates, times, and attendance expectations for
+              both phases before enrollment opens.
             </p>
           </div>
           <div>

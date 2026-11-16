@@ -49,16 +49,19 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          sponsor_interest: boolean
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          sponsor_interest?: boolean
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          sponsor_interest?: boolean
         }
         Relationships: []
       }
@@ -112,6 +115,7 @@ export type Database = {
           organization: string
           partner_type: string
           phone: string | null
+          sponsorship_level: string | null
           title: string | null
           wants_template: boolean
         }
@@ -125,6 +129,7 @@ export type Database = {
           organization: string
           partner_type: string
           phone?: string | null
+          sponsorship_level?: string | null
           title?: string | null
           wants_template?: boolean
         }
@@ -138,6 +143,7 @@ export type Database = {
           organization?: string
           partner_type?: string
           phone?: string | null
+          sponsorship_level?: string | null
           title?: string | null
           wants_template?: boolean
         }

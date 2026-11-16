@@ -70,8 +70,10 @@ function Surveys() {
           <div className="mx-auto max-w-3xl text-center">
             <H2 id={`${survey.id}-h`}>{survey.title}</H2>
             <p className="mt-4 text-lg">{survey.body}</p>
-            {/* TODO(BGWYP): minutes per survey */}
-            <p className="mt-3 text-sm text-muted-foreground">Time: To be announced.</p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              {/* TODO(BGWYP): N */}
+              About To be announced minutes
+            </p>
             <a
               href={survey.href}
               target="_blank"

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { DONATIONS_ENABLED, DONATION_URL, isPlaceholder } from "@/config";
 import { seo } from "@/lib/seo";
@@ -27,13 +27,13 @@ function Donate() {
         title="Help us launch."
         intro={
           DONATIONS_ENABLED
-            ? "We are raising $437,580 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve."
+            ? "Our Year 1 goal of $437,608 covers a $397,808 operating budget for 60 young people plus a $39,800 operating reserve (10%)."
             : "Giving is not open yet. No payment is collected on this page."
         }
       />
       <Section>
         <p className="mx-auto max-w-xl text-lg">
-          We are raising $437,580 to run our first full year for 60 Baltimore young people. That is $6,630 per young person, plus a 10% reserve.
+          Our Year 1 goal of $437,608 covers a $397,808 operating budget for 60 young people plus a $39,800 operating reserve (10%).
         </p>
         {!DONATIONS_ENABLED ? (
           <div id="notify" className="mx-auto mt-8 max-w-xl scroll-mt-32">
@@ -42,6 +42,11 @@ function Donate() {
               <p className="mt-2">No payment is collected on this page.</p>
               <div className="mt-5"><NotifyForm /></div>
             </GoldNotice>
+            <p className="mt-4">
+              <Link to="/partner" hash="sponsorship" className="font-semibold text-gold-deep underline">
+                Interested in sponsoring? See partnership levels →
+              </Link>
+            </p>
           </div>
         ) : (
           <div className="mx-auto max-w-4xl">

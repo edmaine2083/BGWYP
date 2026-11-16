@@ -14,12 +14,14 @@ import {
 import { CONTACT_EMAIL } from "@/config";
 import { seo } from "@/lib/seo";
 import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
+import { PartnershipLevels } from "@/components/site/PartnershipLevels";
 import { PartnerForm } from "@/components/site/site-forms";
 import { PHOTOS } from "@/content/photos";
 
 const MATERIAL_FILES = [
   ["BGWYP-Fact-Sheet.pdf", "Fact sheet"],
   ["BGWYP-Case-for-Support.pdf", "Case for support"],
+  ["BGWYP-Partnership-Pamphlet.pdf", "Partnership pamphlet"],
 ] as const;
 
 export const Route = createFileRoute("/partner")({
@@ -115,6 +117,7 @@ function Partner() {
           ))}
         </ul>
       </section>
+      <PartnershipLevels />
       <Section labelledBy="materials">
         <H2 id="materials">Download our materials</H2>
         {/* TODO(BGWYP): add these PDFs to /public/files */}
