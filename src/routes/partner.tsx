@@ -25,19 +25,9 @@ const MATERIAL_FILES = [
 ] as const;
 
 export const Route = createFileRoute("/partner")({
-  loader: async () => {
-    const materials: { href: string; label: string }[] = [];
-    if (import.meta.env.SSR) {
-      const { existsSync } = await import("node:fs");
-      const { join } = await import("node:path");
-      for (const [file, label] of MATERIAL_FILES) {
-        if (existsSync(join(process.cwd(), "public", "files", file))) {
-          materials.push({ href: `/files/${file}`, label });
-        }
-      }
-    }
-    return { materials };
-  },
+  loader: () => ({
+    materials: MATERIAL_FILES.map(([file, label]) => ({ href: `/files/${file}`, label })),
+  }),
   head: () =>
     seo(
       "/partner",
@@ -120,20 +110,19 @@ function Partner() {
       <PartnershipLevels />
       <Section labelledBy="materials">
         <H2 id="materials">Download our materials</H2>
-        {/* TODO(BGWYP): add these PDFs to /public/files */}
-        {materials.length > 0 ? (
-          <ul className="mt-6 space-y-3">
-            {materials.map((file) => (
-              <li key={file.href}>
-                <a href={file.href} className="font-semibold text-gold-deep underline">
-                  {file.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-4">To be announced.</p>
-        )}
+        <ul className="mt-6 space-y-3">
+          {materials.map((file) => (
+            <li key={file.href}>
+              <a
+                href={file.href}
+                download
+                className="font-semibold text-gold-deep underline"
+              >
+                {file.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </Section>
       <Section tone="paper" labelledBy="pi">
         <div className="mx-auto max-w-3xl">
