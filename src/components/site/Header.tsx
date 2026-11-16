@@ -27,10 +27,13 @@ function MaterialsMenu({
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
+  const openedAt = useRef(0);
+  const bar = layout === "bar";
 
   useEffect(() => {
     if (!open) return;
     function onPointer(event: PointerEvent) {
+      if (Date.now() - openedAt.current < 500) return;
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     }
     function onKey(event: KeyboardEvent) {
@@ -44,15 +47,39 @@ function MaterialsMenu({
     };
   }, [open]);
 
+  function show() {
+    openedAt.current = Date.now();
+    setOpen(true);
+  }
+
+  function toggle() {
+    setOpen((value) => {
+      const next = !value;
+      if (next) openedAt.current = Date.now();
+      return next;
+    });
+  }
+
   function pick() {
     setOpen(false);
     onNavigate?.();
   }
 
-  const bar = layout === "bar";
-
   return (
-    <div ref={rootRef} className={bar ? "relative" : undefined}>
+    <div
+      ref={rootRef}
+      className={bar ? "group relative" : undefined}
+      onMouseEnter={bar ? show : undefined}
+      onMouseLeave={bar ? () => setOpen(false) : undefined}
+      onBlur={
+        bar
+          ? (event) => {
+              const next = event.relatedTarget;
+              if (!(next instanceof Node) || !rootRef.current?.contains(next)) setOpen(false);
+            }
+          : undefined
+      }
+    >
       <button
         type="button"
         className={
@@ -61,39 +88,44 @@ function MaterialsMenu({
             : "flex w-full items-center justify-between py-3 text-left text-lg text-ink-foreground hover:text-gold-light"
         }
         aria-expanded={open}
+        aria-haspopup="true"
         aria-controls={menuId}
-        onClick={() => setOpen((value) => !value)}
+        onClick={bar ? show : toggle}
       >
         Download our materials
         <ChevronDown aria-hidden className={open ? "size-4 rotate-180" : "size-4"} />
       </button>
-      <ul
-        id={menuId}
-        hidden={!open}
-        className={
-          bar
-            ? "absolute top-full right-0 z-50 mt-1 min-w-56 rounded-md border border-gold/30 bg-ink py-2 shadow-card"
-            : "pb-2 pl-3"
-        }
-      >
-        {MATERIALS.map((file) => (
-          <li key={file.href}>
-            <a
-              href={file.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={pick}
-              className={
-                bar
-                  ? "block px-4 py-2 text-sm text-ink-foreground hover:text-gold-light"
-                  : "block py-2 text-base text-ink-muted hover:text-gold-light"
-              }
-            >
-              {file.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className={bar ? "absolute top-full right-0 z-50 min-w-56 pt-1" : undefined}>
+        <ul
+          id={menuId}
+          hidden={bar ? undefined : !open}
+          className={
+            bar
+              ? `rounded-md border border-gold/30 bg-ink py-2 shadow-card ${
+                  open ? "block" : "hidden group-hover:block group-focus-within:block"
+                }`
+              : "pb-2 pl-3"
+          }
+        >
+          {MATERIALS.map((file) => (
+            <li key={file.href}>
+              <a
+                href={file.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={pick}
+                className={
+                  bar
+                    ? "block px-4 py-2 text-sm text-ink-foreground hover:text-gold-light"
+                    : "block py-2 text-base text-ink-muted hover:text-gold-light"
+                }
+              >
+                {file.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
