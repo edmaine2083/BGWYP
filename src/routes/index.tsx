@@ -49,13 +49,6 @@ const WAITING_STATS: [string, string, string, string?][] = [
     "4",
   ],
 ];
-const PROOF = [
-  ["60", "young people we are preparing a place for"],
-  ["6 weeks", "of summer, spent together"],
-  ["Every month", "we stay close through the school year"],
-  ["Caring adults", "screened, trained, and standing with them"],
-] as [string, string, ...string[]][];
-
 function Home() {
   return (
     <>
@@ -100,17 +93,6 @@ function Home() {
           ))}
         </div>
       </Section>
-
-      <section className="band-dark border-y border-gold/40 px-5 py-12" aria-label="At a glance">
-        <ul className="mx-auto grid max-w-6xl gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
-          {PROOF.map(([a, b]) => (
-            <li key={b}>
-              <p className="font-display text-3xl text-white">{a}</p>
-              <p className="mt-1 text-white">{b}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
 
       <Section tone="paper" labelledBy="why">
         <Reveal className="mx-auto max-w-5xl text-center">
