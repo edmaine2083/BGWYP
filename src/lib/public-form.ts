@@ -45,6 +45,7 @@ const schemas: Record<FormTable, z.ZodTypeAny> = {
     phone: phoneOpt.optional().or(z.literal("")),
     zip,
     age_range: z.enum(["11–13", "14–15", "16–17", "18–24"]),
+    program_interest: z.enum(["Summer Accelerator", "School-Year Program", "Both", "Not sure yet"]),
     self_signup: z.boolean(),
     heard_from: optional,
   }),

@@ -71,6 +71,7 @@ export type Database = {
           heard_from: string | null
           id: string
           phone: string | null
+          program_interest: string | null
           self_signup: boolean
           zip: string
         }
@@ -82,6 +83,7 @@ export type Database = {
           heard_from?: string | null
           id?: string
           phone?: string | null
+          program_interest?: string | null
           self_signup?: boolean
           zip: string
         }
@@ -93,6 +95,7 @@ export type Database = {
           heard_from?: string | null
           id?: string
           phone?: string | null
+          program_interest?: string | null
           self_signup?: boolean
           zip?: string
         }

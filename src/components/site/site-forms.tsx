@@ -70,13 +70,22 @@ export function VolunteerForm() {
   );
 }
 
-export function InterestForm({ presetAge = "" }: { presetAge?: string }) {
+const PROGRAMS = ["Summer Accelerator", "School-Year Program", "Both", "Not sure yet"];
+
+export function InterestForm({
+  presetAge = "",
+  presetProgram = "",
+}: {
+  presetAge?: string;
+  presetProgram?: string;
+}) {
   const schema = z.object({
     guardian_name: req("Name"),
     email,
     phone: optional,
     zip,
     age_range: req("Age range"),
+    program_interest: req("Program"),
     self_signup: z.boolean(),
     heard_from: optional,
   });
@@ -86,12 +95,16 @@ export function InterestForm({ presetAge = "" }: { presetAge?: string }) {
     phone: "",
     zip: "",
     age_range: presetAge,
+    program_interest: presetProgram,
     self_signup: false,
     heard_from: "",
   });
   useEffect(() => {
     if (presetAge) f.set("age_range", presetAge);
   }, [presetAge, f.set]);
+  useEffect(() => {
+    if (presetProgram) f.set("program_interest", presetProgram);
+  }, [presetProgram, f.set]);
   const self = !!f.values["self_signup"];
   return (
     <FormShell
@@ -123,6 +136,13 @@ export function InterestForm({ presetAge = "" }: { presetAge?: string }) {
         label={self ? "Your age range" : "Young person's age range"}
         required
         options={["11–13", "14–15", "16–17", "18–24"]}
+      />
+      <SelectField
+        form={f}
+        name="program_interest"
+        label="Which program are you interested in?"
+        required
+        options={PROGRAMS}
       />
       <Field form={f} name="heard_from" label="How did you hear about us?" />
     </FormShell>

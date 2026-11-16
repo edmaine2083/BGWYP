@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import * as Accordion from "@radix-ui/react-accordion";
-import { CalendarDays, Award, ChevronDown } from "lucide-react";
+import { Award, CalendarDays, ChevronDown, Compass, Video } from "lucide-react";
 import { ENROLLMENT_OPEN } from "@/config";
 import { seo } from "@/lib/seo";
 import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
@@ -113,11 +113,64 @@ const STAGES: {
 ];
 
 const AGE_RANGES = ["11–13", "14–15", "16–17", "18–24"] as const;
+const PROGRAM_KEYS = ["summer", "school-year", "both"] as const;
+const PROGRAM_LABELS = {
+  summer: "Summer Accelerator",
+  "school-year": "School-Year Program",
+  both: "Both",
+} as const;
+
+const COMPARE = [
+  ["Pace", "Intensive and immersive", "Steady and ongoing"],
+  ["When", "6 weeks in the summer", "September through May"],
+  ["Time", "24 days · 96 hours", "3 touchpoints a month"],
+  [
+    "What happens",
+    "Your stage's full curriculum, week by week, ending in a Showcase",
+    "Saturday workshops, hands-on labs and exposure visits, and monthly virtual check-ins with mentors",
+  ],
+  [
+    "Best for",
+    "Building skills fast and finishing with a real plan",
+    "Keeping momentum, deepening skills, and staying connected all year",
+  ],
+] as const;
+
+const SCHOOL_YEAR = [
+  {
+    icon: CalendarDays,
+    title: "First Saturday Workshop",
+    text: "A monthly hands-on session that builds on the curriculum.",
+  },
+  {
+    icon: Compass,
+    title: "Second Saturday Lab or Exposure Visit",
+    text: "Practice skills in a lab, or visit a workplace, bank, or college to see opportunity up close.",
+  },
+  {
+    icon: Video,
+    title: "Monthly Virtual Check-In",
+    text: "A short online checkpoint with mentors to track goals and keep momentum.",
+  },
+];
 
 export const Route = createFileRoute("/programs")({
-  validateSearch: (search: Record<string, unknown>) => {
-    const age = typeof search.age === "string" ? search.age : "";
-    return { age: AGE_RANGES.includes(age as (typeof AGE_RANGES)[number]) ? age : "" };
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): {
+    age?: (typeof AGE_RANGES)[number];
+    program?: (typeof PROGRAM_KEYS)[number];
+  } => {
+    const age = typeof search["age"] === "string" ? search["age"] : "";
+    const program = typeof search["program"] === "string" ? search["program"] : "";
+    return {
+      ...(AGE_RANGES.includes(age as (typeof AGE_RANGES)[number])
+        ? { age: age as (typeof AGE_RANGES)[number] }
+        : {}),
+      ...(PROGRAM_KEYS.includes(program as (typeof PROGRAM_KEYS)[number])
+        ? { program: program as (typeof PROGRAM_KEYS)[number] }
+        : {}),
+    };
   },
   head: () =>
     seo(
@@ -129,7 +182,8 @@ export const Route = createFileRoute("/programs")({
 });
 
 function Programs() {
-  const { age } = Route.useSearch();
+  const { age, program } = Route.useSearch();
+  const presetProgram = program ? PROGRAM_LABELS[program] : "";
   return (
     <>
       <PageHero title="Programs" intro="What young people do and when." />
@@ -282,63 +336,169 @@ function Programs() {
           ))}
         </Accordion.Root>
       </Section>
-      <SummerAccelerator />
-      <Section tone="paper">
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card className="overflow-hidden p-0">
-            <Photo
-              src={PHOTOS.schoolYear.src}
-              alt={PHOTOS.schoolYear.alt}
-              width={PHOTOS.schoolYear.width}
-              height={PHOTOS.schoolYear.height}
-            />
-            <div className="p-6">
-              <span className="icon-ring">
-                <CalendarDays aria-hidden />
-              </span>
-              <h2 className="mt-4 text-xl text-gold-deep">School-Year Continuation</h2>
-              <p className="mt-2">
-                Monthly sessions from September through May. The start year is to be announced.
-              </p>
-            </div>
-          </Card>
-          <Card className="overflow-hidden p-0">
-            <Photo
-              src={PHOTOS.mentors.src}
-              alt={PHOTOS.mentors.alt}
-              width={PHOTOS.mentors.width}
-              height={PHOTOS.mentors.height}
-            />
-            <div className="p-6">
-              <span className="icon-ring">
-                <Award aria-hidden />
-              </span>
-              <h2 className="mt-4 text-xl text-gold-deep">Level-Up Mentors</h2>
-              <p className="mt-2">
-                Older youth and alumni can earn Level-Up Mentor Certification and mentor younger
-                participants, always with an adult present.
-              </p>
-            </div>
-          </Card>
+      <Section tone="paper" labelledBy="two-ways">
+        <H2 id="two-ways">Two ways to grow. One connected path.</H2>
+        <p className="mt-4 max-w-3xl text-lg">
+          The Summer Accelerator is where young people dive in. The School-Year Program is where
+          they keep going. Most participants do both.
+        </p>
+        <div className="mt-10 hidden md:block">
+          <table className="w-full border-collapse text-left">
+            <caption className="sr-only">
+              Summer Accelerator compared with the School-Year Program
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col" className="p-4">
+                  <span className="sr-only">Feature</span>
+                </th>
+                <th scope="col" className="bg-black p-4 font-semibold text-gold">
+                  Summer Accelerator
+                </th>
+                <th scope="col" className="bg-gold/15 p-4 font-semibold text-[oklch(0.50_0.12_82)]">
+                  School-Year Program
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {COMPARE.map(([feature, summer, school]) => (
+                <tr key={feature} className="border-t border-border">
+                  <th scope="row" className="p-4 align-top font-semibold">
+                    {feature}
+                  </th>
+                  <td className="bg-black p-4 align-top text-ink-foreground">{summer}</td>
+                  <td className="bg-gold/15 p-4 align-top">{school}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+        <div className="mt-10 grid gap-6 md:hidden">
+          <article className="rounded-xl border-2 border-gold bg-black p-6 text-ink-foreground">
+            <h3 className="text-xl text-gold">Summer Accelerator</h3>
+            <dl className="mt-4 space-y-4">
+              {COMPARE.map(([feature, summer]) => (
+                <div key={feature}>
+                  <dt className="font-semibold text-gold">{feature}</dt>
+                  <dd className="text-ink-muted">{summer}</dd>
+                </div>
+              ))}
+            </dl>
+          </article>
+          <article className="rounded-xl border border-gold/40 bg-gold/15 p-6">
+            <h3 className="text-xl text-[oklch(0.50_0.12_82)]">School-Year Program</h3>
+            <dl className="mt-4 space-y-4">
+              {COMPARE.map(([feature, , school]) => (
+                <div key={feature}>
+                  <dt className="font-semibold text-[oklch(0.50_0.12_82)]">{feature}</dt>
+                  <dd>{school}</dd>
+                </div>
+              ))}
+            </dl>
+          </article>
+        </div>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="#summer" className="btn btn-gold">
+            Explore the Summer Accelerator
+          </a>
+          <a
+            href="#school-year"
+            className="btn btn-outline-deep"
+            style={{ backgroundColor: "#fff" }}
+          >
+            Explore the School-Year Program
+          </a>
+        </div>
+      </Section>
+      <SummerAccelerator />
+      <Section labelledBy="school-year">
+        <div className="grid items-center gap-8 md:grid-cols-2">
+          <Photo
+            src={PHOTOS.schoolYear.src}
+            alt={PHOTOS.schoolYear.alt}
+            width={PHOTOS.schoolYear.width}
+            height={PHOTOS.schoolYear.height}
+          />
+          <div>
+            <p className="inline-flex rounded-full border border-gold-deep px-3 py-1 text-xs font-semibold tracking-[0.2em] text-gold-deep uppercase">
+              Ongoing · September–May
+            </p>
+            <div className="mt-5">
+              <H2 id="school-year">School-Year Program</H2>
+            </div>
+            <p className="mt-4 font-[Georgia,serif] text-xl italic text-gold-deep">
+              Sustained growth, all year long.
+            </p>
+            <p className="mt-4 text-lg">
+              Learning doesn’t stop when summer ends. From September through May, young people keep
+              building skills, relationships, and momentum with three touchpoints every month.
+            </p>
+          </div>
+        </div>
+        <ul className="mt-10 grid gap-6 md:grid-cols-3">
+          {SCHOOL_YEAR.map(({ icon: Icon, title, text }) => (
+            <li key={title}>
+              <Card className="h-full">
+                <span className="icon-ring">
+                  <Icon aria-hidden />
+                </span>
+                <h3 className="mt-4 text-xl text-gold-deep">{title}</h3>
+                <p className="mt-2">{text}</p>
+              </Card>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-8 rounded-lg bg-gold/15 px-4 py-3">
+          <span className="font-semibold">Start year:</span> to be announced.{" "}
+          <a href="#enroll" className="font-semibold text-[oklch(0.50_0.12_82)] underline">
+            Join the interest list
+          </a>{" "}
+          and we’ll share dates as soon as they’re set.
+        </p>
+        <Link
+          to="/programs"
+          search={{ program: "school-year" }}
+          hash="enroll"
+          className="btn btn-outline-deep mt-6"
+        >
+          Join the interest list for the School-Year Program
+        </Link>
+      </Section>
+      <Section tone="paper" labelledBy="mentors">
+        <Card className="mx-auto max-w-3xl overflow-hidden p-0">
+          <Photo
+            src={PHOTOS.mentors.src}
+            alt={PHOTOS.mentors.alt}
+            width={PHOTOS.mentors.width}
+            height={PHOTOS.mentors.height}
+          />
+          <div className="p-6">
+            <span className="icon-ring">
+              <Award aria-hidden />
+            </span>
+            <h2 id="mentors" className="mt-4 text-xl text-gold-deep">
+              Level-Up Mentors
+            </h2>
+            <p className="mt-2">
+              Older youth and alumni can earn Level-Up Mentor Certification and mentor younger
+              participants, always with an adult present.
+            </p>
+          </div>
+        </Card>
       </Section>
       <Section labelledBy="enroll">
         <div className="grid gap-10 rounded-xl border-2 border-gold p-6 md:grid-cols-2 md:p-10">
           <div>
             <H2 id="enroll">{ENROLLMENT_OPEN ? "Enrollment is open" : "Join the interest list"}</H2>
-            {ENROLLMENT_OPEN ? (
-              <p className="mt-4 text-lg">
-                Enrollment is open. Space is limited to 60 and based on funded capacity. Join the
-                interest list.
-              </p>
-            ) : (
-              <p className="mt-4 text-lg">
-                Space is limited to 60 and based on funded capacity. Join the interest list.
-              </p>
-            )}
+            <p className="mt-4 text-lg">
+              {ENROLLMENT_OPEN ? "Enrollment is open. " : null}
+              Space is limited to 60 and based on funded capacity. Tell us which program interests
+              you, and we’ll share dates, times, and attendance expectations before enrollment
+              opens.
+            </p>
           </div>
           <div>
-            <InterestForm presetAge={age} />
+            <InterestForm presetAge={age ?? ""} presetProgram={presetProgram} />
             <p className="mt-4 text-muted-foreground">
               We'll email you when enrollment details are announced.
             </p>

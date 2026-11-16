@@ -18,6 +18,34 @@ describe("form guard", () => {
     expect(allowSubmission(ip, start + 10 * 60 * 1000 + 7)).toBe(true);
   });
 
+  it("keeps the program choice on an interest list row", () => {
+    const result = parsePublicForm("interest_list", {
+      guardian_name: "Ada",
+      email: "ada@example.com",
+      phone: "",
+      zip: "21201",
+      age_range: "11–13",
+      self_signup: false,
+      heard_from: "",
+      program_interest: "School-Year Program",
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.row["program_interest"]).toBe("School-Year Program");
+  });
+
+  it("rejects an interest list row without a program choice", () => {
+    const result = parsePublicForm("interest_list", {
+      guardian_name: "Ada",
+      email: "ada@example.com",
+      phone: "",
+      zip: "21201",
+      age_range: "14–15",
+      self_signup: false,
+      heard_from: "",
+    });
+    expect(result.ok).toBe(false);
+  });
+
   it("rejects a safety report that is missing a message", () => {
     const result = parsePublicForm("safety_reports", {
       name: "Ada",

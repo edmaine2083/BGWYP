@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import * as Accordion from "@radix-ui/react-accordion";
 import { BookOpen, Bus, ChevronDown, Users, Utensils, type LucideIcon } from "lucide-react";
 import {
@@ -63,17 +64,24 @@ export function SummerAccelerator() {
 
   return (
     <Section labelledBy="summer">
-      <H2 id="summer">{summerAccelerator.heading}</H2>
-      <p className="mt-4 font-[Georgia,serif] text-xl italic text-gold-deep md:text-2xl">
-        {summerAccelerator.tagline}
-      </p>
-      <p className="mt-4 max-w-3xl text-lg">{summerAccelerator.intro}</p>
+      <div className="rounded-2xl border-2 border-gold bg-black p-6 md:p-12">
+        <p className="inline-flex rounded-full border border-gold px-3 py-1 text-xs font-semibold tracking-[0.2em] text-gold uppercase">
+          Intensive · Summer
+        </p>
+        <div className="mt-5">
+          <H2 id="summer" onDark>
+            {summerAccelerator.heading}
+          </H2>
+        </div>
+        <p className="mt-4 font-[Georgia,serif] text-xl italic text-gold md:text-2xl">
+          {summerAccelerator.tagline}
+        </p>
+        <p className="mt-4 max-w-3xl text-lg text-ink-muted">{summerAccelerator.intro}</p>
 
-      <div className="band-dark mt-10 rounded-xl px-5 py-8">
-        <ul className="grid grid-cols-3 gap-4 text-center">
+        <ul className="mt-10 grid grid-cols-3 gap-4 text-center">
           {summerAccelerator.stats.map((stat) => (
             <li key={stat.label}>
-              <p className="font-display text-3xl text-gold md:text-4xl">{stat.value}</p>
+              <p className="font-display text-4xl text-gold md:text-5xl">{stat.value}</p>
               <p className="mt-1 text-sm text-gold">{stat.label}</p>
             </li>
           ))}
@@ -84,87 +92,99 @@ export function SummerAccelerator() {
         {summerAccelerator.location ? (
           <p className="mt-1 text-center text-sm text-ink-muted">{summerAccelerator.location}</p>
         ) : null}
-      </div>
+        <div className="mt-10 rounded-xl bg-card p-6 text-card-foreground">
+          <div className="max-w-md">
+            <label htmlFor="summer-stage" className="mb-2 block font-semibold">
+              {summerAccelerator.selectorLabel}
+            </label>
+            <Select
+              value={stageId}
+              onValueChange={(value) => {
+                setStageId(value as StageId);
+                setOpenWeek("");
+              }}
+            >
+              <SelectTrigger
+                id="summer-stage"
+                className="h-12 border-2 border-gold bg-card text-base"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {summerStages.map((item) => (
+                  <SelectItem key={item.id} value={item.id} className="text-base">
+                    {item.name}: {item.audience}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-      <div className="mt-10 max-w-md">
-        <label htmlFor="summer-stage" className="mb-2 block font-semibold">
-          {summerAccelerator.selectorLabel}
-        </label>
-        <Select
-          value={stageId}
-          onValueChange={(value) => {
-            setStageId(value as StageId);
-            setOpenWeek("");
-          }}
-        >
-          <SelectTrigger id="summer-stage" className="h-12 border-2 border-gold bg-card text-base">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {summerStages.map((item) => (
-              <SelectItem key={item.id} value={item.id} className="text-base">
-                {item.name}: {item.audience}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <Accordion.Root
-        type="single"
-        collapsible
-        value={openWeek}
-        onValueChange={setOpenWeek}
-        className="mt-6 space-y-4"
-      >
-        {summerAccelerator.weeks.map((week) => (
-          <Accordion.Item
-            key={week.number}
-            value={String(week.number)}
-            className="overflow-hidden rounded-xl border bg-card text-card-foreground shadow-card"
+          <Accordion.Root
+            type="single"
+            collapsible
+            value={openWeek}
+            onValueChange={setOpenWeek}
+            className="mt-6 space-y-4"
           >
-            <Accordion.Header>
-              <Accordion.Trigger className="group flex w-full items-center gap-4 p-5 text-left">
-                <span
-                  aria-hidden
-                  className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-gold bg-gold font-display text-lg text-ink"
-                >
-                  {week.number}
-                </span>
-                <span className="font-display text-lg text-gold-deep">{week.title}</span>
-                <ChevronDown
-                  aria-hidden
-                  className="ml-auto shrink-0 text-gold-deep transition-transform group-data-[state=open]:rotate-180"
-                />
-              </Accordion.Trigger>
-            </Accordion.Header>
-            <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-              <WeekPanel week={week} stageId={stage.id} />
-            </Accordion.Content>
-          </Accordion.Item>
-        ))}
-      </Accordion.Root>
+            {summerAccelerator.weeks.map((week) => (
+              <Accordion.Item
+                key={week.number}
+                value={String(week.number)}
+                className="overflow-hidden rounded-xl border bg-card text-card-foreground shadow-card"
+              >
+                <Accordion.Header>
+                  <Accordion.Trigger className="group flex w-full items-center gap-4 p-5 text-left">
+                    <span
+                      aria-hidden
+                      className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-gold bg-gold font-display text-lg text-ink"
+                    >
+                      {week.number}
+                    </span>
+                    <span className="font-display text-lg text-gold-deep">{week.title}</span>
+                    <ChevronDown
+                      aria-hidden
+                      className="ml-auto shrink-0 text-gold-deep transition-transform group-data-[state=open]:rotate-180"
+                    />
+                  </Accordion.Trigger>
+                </Accordion.Header>
+                <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                  <WeekPanel week={week} stageId={stage.id} />
+                </Accordion.Content>
+              </Accordion.Item>
+            ))}
+          </Accordion.Root>
 
-      <h3 className="mt-12 text-xl text-gold-deep">{summerAccelerator.included.heading}</h3>
-      <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {summerAccelerator.included.items.map((item) => {
-          const Icon = includedIcons[item];
-          if (!Icon) return null;
-          return (
-            <li key={item} className="rounded-xl border-2 border-gold px-3 py-5 text-center">
-              <span className="icon-ring">
-                <Icon aria-hidden />
-              </span>
-              <p className="mt-3 font-semibold">{item}</p>
-            </li>
-          );
-        })}
-      </ul>
-      <p className="mt-4">{summerAccelerator.included.text}</p>
+          <h3 className="mt-12 text-xl text-gold-deep">{summerAccelerator.included.heading}</h3>
+          <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {summerAccelerator.included.items.map((item) => {
+              const Icon = includedIcons[item];
+              if (!Icon) return null;
+              return (
+                <li key={item} className="rounded-xl border-2 border-gold px-3 py-5 text-center">
+                  <span className="icon-ring">
+                    <Icon aria-hidden />
+                  </span>
+                  <p className="mt-3 font-semibold">{item}</p>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-4">{summerAccelerator.included.text}</p>
 
-      <div className="mt-10 rounded-xl border-2 border-gold p-6 md:p-8">
-        <h3 className="text-xl text-gold-deep">{summerAccelerator.showcase.heading}</h3>
-        <p className="mt-3">{summerAccelerator.showcase.text}</p>
+          <div className="mt-10 rounded-xl border-2 border-gold p-6 md:p-8">
+            <h3 className="text-xl text-gold-deep">{summerAccelerator.showcase.heading}</h3>
+            <p className="mt-3">{summerAccelerator.showcase.text}</p>
+          </div>
+        </div>
+        <Link
+          to="/programs"
+          search={{ program: "summer" }}
+          hash="enroll"
+          className="btn btn-gold mt-8"
+        >
+          Join the interest list for the Summer Accelerator
+        </Link>
       </div>
     </Section>
   );
