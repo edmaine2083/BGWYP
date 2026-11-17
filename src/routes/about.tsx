@@ -23,8 +23,10 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
     photo: "/edward-shepard.jpg",
     focus: "object-[center_8%]",
     bio: [
-      "Edward J. Shepard, MBA, is a strategist and community leader with more than two decades of experience across municipal government, corporate enterprise and the entertainment industry. In government, he directed human resources and organizational strategy for a Maryland municipality, modernizing its personnel systems and aligning its workforce with public service. In the corporate sector, he spent more than a decade advising national brands and franchise organizations on operations, sales strategy and profitability. He began his career in entertainment and continues to work as an author, producer and speaker who connects strategy with storytelling.",
-      "As owner of EJS Consultation Agency LLC, Edward guides businesses, nonprofits and municipal partners in executive operations, human resources, sales and marketing, with a focus on expanding opportunity for minority-, women- and locally owned enterprises. He also serves on the Board of Directors of the Community Law Center. Edward holds an MBA from the University of Maryland Global Campus and a B.A. from Johnson C. Smith University. Through BGWYP, he puts that expertise to work giving Baltimore’s youth the financial knowledge, career strategy and mentorship they need to build lasting economic legacies.",
+      "Edward J. Shepard learned business the hard way: going door to door. Early in his career he sold across multiple states, often moving to a new market every week, where rejection was routine and the weather was rarely kind. Those years taught him what he still believes: results come from showing up, staying consistent and building trust one conversation at a time.",
+      "That lesson has carried him through more than two decades of work across corporate enterprise, municipal government and the entertainment industry. For more than a decade he advised national brands and franchise organizations on operations, sales strategy and profitability. As Director of Human Resources and Organizational Strategy for a Maryland town, he worked alongside leadership and staff to raise staffing levels from 73% to 95%, bring contracts in under budget and open new paths to promotion. He is also an author, producer and speaker, and he wrote Entrepreneurial Edge: Mastering Tips and Tricks for Success, a practical guide for new business owners.",
+      "Today, as owner of EJS Consulting Agency, L.L.C., Edward has worked with more than 100 organizations, helping leaders put clear systems in place so their businesses can grow without depending on one person. He serves on the Board of Directors of the Community Law Center and holds an MBA from the University of Maryland Global Campus and a B.A. from Johnson C. Smith University.",
+      "Edward founded Building Generational Wealth Youth Program because he believes it is irresponsible to ask young people to do better without helping them be better. No one handed him a roadmap, and he does not think Baltimore’s young people should have to find theirs alone. Through BGWYP, he is committed to giving them the financial knowledge, career strategy and mentorship to build lasting economic legacies. He remains, in his words, a student of the work.",
     ],
   },
   {
@@ -39,18 +41,18 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
   },
   {
     name: "Dr. Stacy Shepard",
-    role: "Secretary and Education Chair",
+    role: "Education Chair and Secretary",
     photo: "/stacy-shepard.jpg",
     bio: [
       "Dr. Stacy Shepard is an award-winning educational leader, Executive Director-Superintendent, speaker, bestselling author, pastor and founder of AriseNOW, LLC. With nearly two decades of experience in education, she is passionate about developing leaders, empowering others, and creating learning environments where every child and adult can thrive. As Executive Director-Superintendent, she leads her school’s strategic vision, academic direction and operations.",
       "Dr. Shepard’s leadership has produced real results for students. As a school principal in North Carolina, she led her school to student growth in the top 10% of the state, reduced suspensions by 70% through restorative practices, cut student attrition from 36% to 17%, and lowered chronic absenteeism from 43% to 30%. Earlier in her career she was a dean of students, a district academic coach and a middle-grades language arts teacher, and she was named Teacher of the Year. Her honors include the 2026 Best Principal Award.",
       "Beyond the classroom, she founded AriseNOW, a women’s empowerment and life-coaching organization, and SheLeads Educational Consulting. She also hosts the podcast A Note From the Principal’s Desk. Dr. Shepard holds a Ph.D. in Educational Leadership and Administration from Capella University, an M.A. in Administration from Central Michigan University, and a B.A. in English from North Carolina Central University.",
-      "As Secretary and Chair of BGWYP’s Education Committee, she guides the curriculum and makes sure every stage of the program meets young people where they are. Outside of work, Stacy enjoys writing, traveling, trying new experiences, and spending quality time with family and friends. She believes that faith, service and lifelong learning are the foundation of a meaningful life.",
+      "As Education Chair and Secretary, she guides the curriculum and makes sure every stage of the program meets young people where they are. Outside of work, Stacy enjoys writing, traveling, trying new experiences, and spending quality time with family and friends. She believes that faith, service and lifelong learning are the foundation of a meaningful life.",
     ],
   },
   {
     name: "Dr. Frederick V. Engram Jr.",
-    role: "Director, Education Committee",
+    role: "Member, Education Committee",
     photo: "/frederick-engram.jpg",
     focus: "object-[center_18%]",
     frame: { transform: "scale(1.28)", transformOrigin: "center 34%" },
