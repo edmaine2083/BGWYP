@@ -67,13 +67,21 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
     name: "Ja-Mel Johnson",
     role: "Chair, Governance Committee",
     photo: "/ja-mel-johnson.jpg",
-    bio: "Ja-Mel Johnson is Chief Operating Officer of the Baltimore Office of Promotion & The Arts, where he has also led human resources since 2021. He brings more than a decade of experience building strong systems and strong teams across Baltimore and New York. As Chair of the Governance Committee, he helps keep BGWYP's policies and Board practices strong.",
+    bio: [
+      "Ja-Mel Johnson is an operations and human resources leader who has built his career on strong systems and strong teams. He is Chief Operating Officer of Create Baltimore (formerly the Baltimore Office of Promotion & The Arts), the city’s arts council and events agency, where he has also served as Human Resources Director since 2021. In that work he helps one of Baltimore’s best-known cultural institutions run smoothly behind the scenes, from staffing and workforce strategy to day-to-day operations.",
+      "Before coming to Baltimore, Ja-Mel spent nearly a decade with human services organizations in New York. He rose from senior recruiter to recruiting supervisor, senior talent acquisition specialist and human resources manager, and built deep expertise in hiring, retention and creating workplaces where people can do their best work. He also holds a certification in Diversity, Equity, and Inclusion.",
+      "As Chair of BGWYP’s Governance Committee, Ja-Mel makes sure the organization’s policies, Board practices and operations meet the standards that families, partners and funders expect. He brings both structure and care to the Board’s work, so BGWYP grows on a foundation built to last.",
+    ],
   },
   {
     name: "Daniel M. Wilkins",
     role: "Chair, Risk & Safeguarding Committee",
     photo: "/daniel-wilkins.jpg",
-    bio: "Daniel M. Wilkins has served with the Federal Aviation Administration since 2013 as an Implementation Lead for deployment and logistics. His career includes leading security and access control for major national events and serving on Capitol Hill with the House Committee on Homeland Security. He holds a B.A. in Political Science from UNC Chapel Hill. As Chair of the Risk & Safeguarding Committee, he leads the Board's oversight of youth safety.",
+    bio: [
+      "Daniel M. Wilkins brings more than 15 years of experience in federal service, security planning and large-scale operations. Since 2013 he has served with the Federal Aviation Administration as an Implementation Lead for the deployment and logistics of the Standard Terminal Automation Replacement System (STARS), the technology air traffic controllers use to keep the nation’s airspace safe.",
+      "Daniel has led security for some of the country’s most visible events. As Deputy Director of Access Control for the 2013 Presidential Inaugural Committee, he built the credentialing and clearance process for more than 3,000 officials and VIPs and directed a team of 13 coordinators. As Security Manager for the 2012 Democratic National Convention, he oversaw safety and security planning at Bank of America Stadium and Charlotte Douglas International Airport and recruited and supervised 1,500 volunteers. On Capitol Hill, he served as Special Assistant and Legislative Correspondent for Congressman G.K. Butterfield and as Subcommittee Clerk for the House Committee on Homeland Security.",
+      "Daniel holds a B.A. in Political Science from the University of North Carolina at Chapel Hill. As Chair of BGWYP’s Risk & Safeguarding Committee, he leads the Board’s oversight of youth safety and risk management. He brings a planner’s discipline and a protector’s instinct to making sure every young person in the program is safe, supported and set up to succeed.",
+    ],
   },
 ];
 const initials = (n: string) => n.replace(/^Dr\.\s/, "").split(/\s+/).filter((w) => /^[A-Z]/.test(w) && !w.endsWith(".") && w !== "MBA").map((w) => w.charAt(0)).slice(0, 2).join("");
