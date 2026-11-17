@@ -41,7 +41,12 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
     name: "Dr. Stacy Shepard",
     role: "Secretary and Education Chair",
     photo: "/stacy-shepard.jpg",
-    bio: "Dr. Stacy Shepard is an award-winning educational leader, Executive Director-Superintendent, speaker, author, pastor, and founder of AriseNOW, LLC. With nearly two decades of experience in education, she is passionate about developing leaders, empowering others, and creating learning environments where every child and adult can thrive. Outside of work, Stacy enjoys writing, traveling, trying new experiences, and spending quality time with family and friends. She believes that faith, service, and lifelong learning are the foundation of a meaningful life.",
+    bio: [
+      "Dr. Stacy Shepard is an award-winning educational leader, Executive Director-Superintendent, speaker, bestselling author, pastor and founder of AriseNOW, LLC. With nearly two decades of experience in education, she is passionate about developing leaders, empowering others, and creating learning environments where every child and adult can thrive. As Executive Director-Superintendent, she leads her school’s strategic vision, academic direction and operations.",
+      "Dr. Shepard’s leadership has produced real results for students. As a school principal in North Carolina, she led her school to student growth in the top 10% of the state, reduced suspensions by 70% through restorative practices, cut student attrition from 36% to 17%, and lowered chronic absenteeism from 43% to 30%. Earlier in her career she was a dean of students, a district academic coach and a middle-grades language arts teacher, and she was named Teacher of the Year. Her honors include the 2026 Best Principal Award.",
+      "Beyond the classroom, she founded AriseNOW, a women’s empowerment and life-coaching organization, and SheLeads Educational Consulting. She also hosts the podcast A Note From the Principal’s Desk. Dr. Shepard holds a Ph.D. in Educational Leadership and Administration from Capella University, an M.A. in Administration from Central Michigan University, and a B.A. in English from North Carolina Central University.",
+      "As Secretary and Chair of BGWYP’s Education Committee, she guides the curriculum and makes sure every stage of the program meets young people where they are. Outside of work, Stacy enjoys writing, traveling, trying new experiences, and spending quality time with family and friends. She believes that faith, service and lifelong learning are the foundation of a meaningful life.",
+    ],
   },
   {
     name: "Dr. Frederick V. Engram Jr.",
