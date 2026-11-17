@@ -29,12 +29,12 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
   },
   {
     name: "Tamara Robinson",
-    role: "Interim Chair of the Board",
+    role: "Treasurer, Chair of the Finance Committee, and Interim Chair of the Board",
     photo: "/tamara-robinson.jpg",
     bio: [
-      "Tamara Robinson serves as Interim Chair of the Board of Building Generational Wealth Youth Program, Inc., where she leads the Board through the organization’s founding stage. A nonprofit finance leader, she brings hands-on experience in financial oversight, governance, compliance, and administration, the disciplines that keep a young organization accountable to the families, partners, and funders who trust it.",
-      "As Interim Chair, Tamara guides the Board’s work to put strong systems in place before BGWYP welcomes its first cohort. That work includes sound financial controls, clear policies, and careful stewardship of every dollar. She believes that the habits BGWYP teaches young people, such as budgeting with intention, planning ahead, and making informed financial decisions, should also guide how the organization itself is run.",
-      "Tamara is committed to helping BGWYP build a lasting foundation and to giving Baltimore’s young people the knowledge and confidence to manage money wisely, create opportunity, and build generational wealth for their families and communities.",
+      "Tamara Robinson is Director of Financial Operations at Create Baltimore (formerly the Baltimore Office of Promotion & The Arts), the city’s arts council and events agency. She is a nonprofit finance leader with hands-on experience in financial oversight, governance, compliance and administration.",
+      "At BGWYP, Tamara holds three roles. As Treasurer, she co-signs the organization’s financial transactions with the Executive Director. As Chair of the Finance Committee, she oversees the budget, cash, financial controls, insurance and monthly reporting, so the Board has accurate numbers before every decision. As Interim Chair of the Board, she leads the Board through BGWYP’s founding stage.",
+      "Her priority is putting strong systems in place before BGWYP welcomes its first cohort: sound financial controls, clear policies and careful stewardship of every dollar. She believes the habits BGWYP teaches young people, such as budgeting with intention, planning ahead and making informed financial decisions, should also guide how the organization itself is run.",
     ],
   },
   {
