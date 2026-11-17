@@ -58,10 +58,14 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
   },
   {
     name: "Gerald Green",
-    role: "Procurement & Grants Chair",
+    role: "Chair, Procurement & Grants Committee",
     photo: "/gerald-green.jpg",
     focus: "object-[center_22%]",
-    bio: "Gerald Green is Deputy Director at Events DC, where he has led contracts and procurement work since 2022. He rose from Senior Contracts and Procurement Analyst to Manager of Contracts and Procurement before stepping into his current role. Earlier in his career he worked at Doctors Community Hospital and Prince George's Community College, building expertise in purchasing, supply chain and materials management, budgets, and contract negotiation. He holds a Bachelor of Business Administration from Strayer University and an associate degree from Prince George's Community College. As Procurement & Grants Chair, he guides BGWYP's grant strategy and makes sure every dollar is spent responsibly.",
+    bio: [
+      "Gerald Green is a contracts and procurement leader with a career built on making sure organizations get full value from every dollar they spend. He is Deputy Director of Contracts and Procurement at Events DC, the official convention and sports authority for the District of Columbia, where he has worked since 2022. He joined Events DC as a Senior Contracts and Procurement Analyst, was promoted to Manager of Contracts and Procurement, and then stepped into his current leadership role.",
+      "Earlier in his career, Gerald worked at Doctors Community Hospital and Prince George's Community College. There he built deep expertise in purchasing, supply chain and materials management, budgets and contract negotiation, the everyday disciplines that keep hospitals, colleges and public agencies running. He holds a Bachelor of Business Administration from Strayer University and a certificate in Government Contracting from Prince George's Community College.",
+      "As Chair of BGWYP's Procurement & Grants Committee, Gerald guides the organization's grant strategy and oversees how it buys goods and services. He makes sure every dollar is spent responsibly and transparently, so funders, partners and families can trust that their investment goes straight to Baltimore's young people.",
+    ],
   },
   {
     name: "Ja-Mel Johnson",
