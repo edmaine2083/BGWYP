@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Scale, TrendingUp, ShieldCheck, Home, Sprout, Landmark } from "lucide-react";
 import { seo } from "@/lib/seo";
-import { Card, H2, PageHero, Photo, Reveal, Section } from "@/components/site/ui";
+import { Card, H2, PageHero, Photo, Section } from "@/components/site/ui";
 import { PHOTOS } from "@/content/photos";
 
 export const Route = createFileRoute("/about")({
@@ -82,12 +82,12 @@ function About() {
     <>
       <PageHero title="About" intro="Who we are and what we believe." />
       <Section labelledBy="mission">
-        <Reveal className="max-w-3xl">
+        <div className="max-w-3xl">
           <H2 id="mission">Our mission</H2>
           <p className="mt-4">To equip Baltimore youth and young adults ages 11 through 24 with financial knowledge, career strategy, mentorship, professional exposure, negotiation skills, and asset-building discipline to increase economic mobility in historically underserved communities.</p>
-        </Reveal>
+        </div>
         <div className="mt-14 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_18rem]">
-          <Reveal>
+          <div>
             <H2>Our story</H2>
           <blockquote className="mt-6 border-l-2 border-gold pl-5">
             <p className="text-lg text-gold-deep md:text-xl">“We believe it is irresponsible to pressure young people to be better without providing the tools and infrastructure to become better.”</p>
@@ -105,7 +105,7 @@ function About() {
               <span className="block sm:inline">Build Legacies.</span>
             </p>
           </div>
-          </Reveal>
+          </div>
           <Photo src={PHOTOS.conversation.src} alt={PHOTOS.conversation.alt} width={PHOTOS.conversation.width} height={PHOTOS.conversation.height} className="rounded-xl" />
         </div>
       </Section>
