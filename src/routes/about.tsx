@@ -72,6 +72,7 @@ const PEOPLE: { name: string; role: string; bio: string | string[]; photo?: stri
   {
     name: "Daniel M. Wilkins",
     role: "Chair, Risk & Safeguarding Committee",
+    photo: "/daniel-wilkins.jpg",
     bio: "Daniel M. Wilkins has served with the Federal Aviation Administration since 2013 as an Implementation Lead for deployment and logistics. His career includes leading security and access control for major national events and serving on Capitol Hill with the House Committee on Homeland Security. He holds a B.A. in Political Science from UNC Chapel Hill. As Chair of the Risk & Safeguarding Committee, he leads the Board's oversight of youth safety.",
   },
 ];
